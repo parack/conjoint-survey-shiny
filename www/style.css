@@ -1,0 +1,466 @@
+/* ── Base layout ────────────────────────────────────────────────────────── */
+body {
+  background: #f8f9fa;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #2d3748;
+}
+
+.survey-page {
+  min-height: 80vh;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.survey-container {
+  max-width: 860px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+}
+
+/* ── Progress bar ─────────────────────────────────────────────────────────── */
+.progress-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  height: 5px;
+  background: #e9ecef;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1DB954, #17a84a);
+  transition: width 0.4s ease;
+}
+
+/* ── Survey header ────────────────────────────────────────────────────────── */
+.survey-header {
+  margin-bottom: 1.5rem;
+}
+
+.page-badge {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+}
+
+/* ── Navigation buttons ───────────────────────────────────────────────────── */
+.nav-buttons {
+  margin-top: 2rem;
+  text-align: right;
+}
+
+/* ── Consent box ──────────────────────────────────────────────────────────── */
+.consent-box {
+  background: #f8f9fa;
+  border-left: 4px solid #1DB954;
+  border-radius: 6px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+/* ── Audio clips ──────────────────────────────────────────────────────────── */
+.audio-clip-card {
+  background: #f8f9fa;
+  border: 2px solid #dee2e6;
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.2rem;
+  transition: border-color 0.25s;
+}
+
+.audio-clip-card.clip-rated {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.clip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.clip-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #495057;
+}
+
+.clip-rated-badge {
+  display: none;
+  background: #2563eb;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 20px;
+}
+
+.clip-rated .clip-rated-badge {
+  display: inline-block;
+}
+
+/* ── Audio rating: segmented button group via CSS on Shiny radioButtons ───── */
+.audio-rating-wrap .shiny-options-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  margin-top: 0.5rem;
+}
+
+.audio-rating-wrap .form-check-inline {
+  margin: 0;
+  padding: 0;
+}
+
+/* Hide radio circle, keep it in DOM for Shiny binding */
+.audio-rating-wrap .form-check-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+
+/* Labels look like buttons */
+.audio-rating-wrap .form-check-label {
+  display: block;
+  cursor: pointer;
+  padding: 0.42rem 0.9rem;
+  font-size: 0.85rem;
+  border: 1.5px solid #2563eb;
+  border-radius: 0;
+  color: #2563eb;
+  background: #fff;
+  margin: 0;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.audio-rating-wrap .form-check-label:hover {
+  background: #eff6ff;
+}
+
+/* First of the 4 main options: round left corners */
+.audio-rating-wrap .form-check-inline:first-child .form-check-label {
+  border-radius: 6px 0 0 6px;
+}
+
+/* Options 2-4: remove left border to avoid double line */
+.audio-rating-wrap .form-check-inline:nth-child(n+2):nth-child(-n+4) .form-check-label {
+  border-left: none;
+}
+
+/* 4th option: round right corners */
+.audio-rating-wrap .form-check-inline:nth-child(4) .form-check-label {
+  border-radius: 0 6px 6px 0;
+}
+
+/* Selected: blue fill */
+.audio-rating-wrap .form-check-input:checked + .form-check-label {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+
+/* "Non so" (5th/last): visually separated, grey */
+.audio-rating-wrap .form-check-inline:last-child {
+  margin-left: 1rem;
+}
+
+.audio-rating-wrap .form-check-inline:last-child .form-check-label {
+  border-radius: 6px;
+  border-color: #adb5bd;
+  border-width: 1.5px;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.audio-rating-wrap .form-check-inline:last-child .form-check-label:hover {
+  background: #f8f9fa;
+}
+
+.audio-rating-wrap .form-check-inline:last-child .form-check-input:checked + .form-check-label {
+  background: #6c757d;
+  color: #fff;
+  border-color: #6c757d;
+}
+
+/* ── GAAIS list ───────────────────────────────────────────────────────────── */
+.scale-anchor-header {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6c757d;
+  padding-right: 0.25rem;
+  margin-bottom: 0.4rem;
+}
+
+.scale-anchor-header span {
+  width: 70px;
+  text-align: center;
+}
+
+.gaais-list {
+  border-top: 1px solid #dee2e6;
+}
+
+.gaais-item {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 0.9rem 0;
+}
+
+.gaais-item .item-text {
+  margin-bottom: 0.4rem;
+  font-size: 0.93rem;
+  line-height: 1.55;
+}
+
+/* Force inline radio buttons to be compact */
+.likert-radios .shiny-input-container {
+  margin-bottom: 0 !important;
+}
+
+.likert-radios .radio-inline {
+  margin-right: 8px !important;
+}
+
+/* ── Framing page ─────────────────────────────────────────────────────────── */
+.framing-box {
+  background: #f0f7ff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.status-quo-card {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+}
+
+.status-quo-card h6 {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.framing-task {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+}
+
+.attr-list {
+  margin: 0.75rem 0;
+}
+
+.attr-row-framing {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.attr-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  width: 1.5rem;
+}
+
+/* ── CBC cards ────────────────────────────────────────────────────────────── */
+.cbc-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem 0 1.25rem;
+}
+
+.cbc-card {
+  flex: 1 1 200px;
+  border: 2px solid #dee2e6;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cbc-card:hover {
+  border-color: #1DB954;
+  box-shadow: 0 3px 12px rgba(29,185,84,0.15);
+}
+
+.cbc-card-selected {
+  border-color: #2563eb !important;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.22) !important;
+  background: #eff6ff !important;
+}
+
+/* ── CBC task progress dots ───────────────────────────────────────────────── */
+.task-dots-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.task-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: default;
+}
+
+.dot-done    { background: #1DB954; }
+.dot-current { background: #0d6efd; box-shadow: 0 0 0 3px rgba(13,110,253,0.25); }
+.dot-pending { background: #dee2e6; }
+
+.cbc-card-header {
+  background: #1DB954;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.6rem 1rem;
+  letter-spacing: 0.02em;
+}
+
+.attr-row-cbc {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.attr-label-cbc {
+  font-size: 0.73rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6c757d;
+  margin-bottom: 0.15rem;
+}
+
+.attr-value-cbc {
+  font-size: 0.87rem;
+  line-height: 1.45;
+  color: #343a40;
+}
+
+.price-display {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #1DB954;
+  text-align: center;
+  padding: 0.85rem 0.5rem;
+}
+
+.cbc-choice-section {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+
+.cbc-choice-section .radio-inline {
+  margin-right: 1.5rem !important;
+  font-weight: 600;
+}
+
+/* ── Proxy / Likert 7 ─────────────────────────────────────────────────────── */
+.proxy-list .proxy-item {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 0.9rem 0;
+}
+
+.proxy-item .item-text {
+  margin-bottom: 0.4rem;
+  font-size: 0.93rem;
+  line-height: 1.55;
+}
+
+.likert7-row {
+  margin-bottom: 0.25rem;
+}
+
+.scale-anchors-7 {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  color: #6c757d;
+  padding: 0 0.25rem;
+}
+
+.churn-section {
+  background: #fff8e1;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  margin-top: 1.25rem;
+}
+
+.churn-section h5 {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Demographics / Submit ────────────────────────────────────────────────── */
+.submit-section {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+/* ── Thank you page ───────────────────────────────────────────────────────── */
+.thankyou-container {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.thankyou-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+/* ── Mobile responsive ────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .survey-container {
+    padding: 1.25rem 1rem;
+  }
+
+  .cbc-card {
+    flex: 1 1 100%;  /* stack vertically on small screens */
+  }
+
+  .scale-anchor-header {
+    display: none;  /* hide header column labels on mobile */
+  }
+
+  .likert-radios .radio-inline {
+    display: block !important;
+    margin-bottom: 4px !important;
+  }
+
+  .cbc-choice-section .radio-inline {
+    display: block !important;
+    margin-bottom: 6px !important;
+  }
+
+  .scale-anchors-7 {
+    font-size: 0.7rem;
+  }
+}
