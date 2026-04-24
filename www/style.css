@@ -72,16 +72,64 @@ body {
 /* ── Audio clips ──────────────────────────────────────────────────────────── */
 .audio-clip-card {
   background: #f8f9fa;
-  border: 1px solid #dee2e6;
+  border: 2px solid #dee2e6;
   border-radius: 10px;
   padding: 1.2rem 1.5rem;
   margin-bottom: 1.2rem;
+  transition: border-color 0.25s;
 }
 
-.audio-clip-card h6 {
+.audio-clip-card.clip-rated {
+  border-color: #1DB954;
+  background: #f0fdf4;
+}
+
+.clip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.clip-title {
   font-weight: 700;
+  font-size: 0.95rem;
   color: #495057;
-  margin-bottom: 0.75rem;
+}
+
+.clip-rated-badge {
+  display: none;
+  background: #1DB954;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 20px;
+}
+
+.clip-rated .clip-rated-badge {
+  display: inline-block;
+}
+
+/* Scale anchors above audio radio buttons */
+.scale-anchors-audio {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6c757d;
+  /* Exclude the Non so section width (approx 100px) */
+  max-width: calc(75% - 8px);
+  margin-bottom: 0.15rem;
+}
+
+/* Separate "Non so" (last radio-inline) from the 4 main options */
+.audio-rating-wrap .radio-inline:last-child {
+  margin-left: 1.5rem !important;
+  padding-left: 1.25rem;
+  border-left: 2px dashed #ced4da;
+  color: #6c757d;
+  font-style: italic;
 }
 
 /* ── GAAIS list ───────────────────────────────────────────────────────────── */
@@ -193,6 +241,32 @@ body {
   border-color: #1DB954;
   box-shadow: 0 3px 12px rgba(29,185,84,0.15);
 }
+
+.cbc-card-selected {
+  border-color: #1DB954 !important;
+  box-shadow: 0 4px 16px rgba(29,185,84,0.25) !important;
+  background: #f0fdf4 !important;
+}
+
+/* ── CBC task progress dots ───────────────────────────────────────────────── */
+.task-dots-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.task-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: default;
+}
+
+.dot-done    { background: #1DB954; }
+.dot-current { background: #0d6efd; box-shadow: 0 0 0 3px rgba(13,110,253,0.25); }
+.dot-pending { background: #dee2e6; }
 
 .cbc-card-header {
   background: #1DB954;

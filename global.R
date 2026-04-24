@@ -115,8 +115,9 @@ LIKERT5_CHOICES <- setNames(as.character(1:5),
 LIKERT7_CHOICES <- setNames(as.character(1:7),
   c("1","2","3","4","5","6","7"))
 
-AUDIO_CHOICES <- setNames(as.character(1:5),
-  c("Sicuramente umana","Probabilmente umana","Probabilmente AI","Sicuramente AI","Non so"))
+# Scale presented AI→human (values unchanged: 4=AI, 1=umana, 5=Non so)
+AUDIO_CHOICES <- setNames(as.character(c(4, 3, 2, 1, 5)),
+  c("Sicuramente AI","Probabilmente AI","Probabilmente umana","Sicuramente umana","Non so"))
 
 # ── Scoring functions ─────────────────────────────────────────────────────────
 

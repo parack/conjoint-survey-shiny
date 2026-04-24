@@ -14,6 +14,26 @@ ui <- page_fluid(
       window.addEventListener('popstate', function() {
         history.pushState(null, null, location.href);
       });
+
+      // Auto-stop all other audio players when one starts playing
+      document.addEventListener('play', function(e) {
+        document.querySelectorAll('audio').forEach(function(a) {
+          if (a !== e.target) { a.pause(); a.currentTime = 0; }
+        });
+      }, true);
+
+      // Highlight selected CBC card when a choice radio is clicked
+      $(document).on('change', '.cbc-choice-section input[type=radio]', function() {
+        var val = parseInt($(this).val()) - 1;
+        var cards = $(this).closest('.survey-container').find('.cbc-card');
+        cards.removeClass('cbc-card-selected');
+        if (val >= 0 && val < cards.length) cards.eq(val).addClass('cbc-card-selected');
+      });
+
+      // Mark audio clip card as rated when a rating is selected
+      $(document).on('change', '.audio-clip-card input[type=radio]', function() {
+        $(this).closest('.audio-clip-card').addClass('clip-rated');
+      });
     "))
   ),
 

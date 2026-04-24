@@ -43,20 +43,30 @@ server <- function(input, output, session) {
     clips <- AUDIO_CLIPS[rv$audio_order, ]
     lapply(seq_len(nrow(clips)), function(i) {
       div(class = "audio-clip-card",
-        h6(paste("Clip", i)),
+        div(class = "clip-header",
+          div(class = "clip-title", paste("Clip", i)),
+          div(class = "clip-rated-badge", "Valutata")  # shown via CSS only when .clip-rated
+        ),
         tags$audio(
+          id       = paste0("audio_player_", i),
           controls = NA,
-          preload  = "auto",
-          style    = "width:100%; margin-bottom:0.75rem;",
+          preload  = "metadata",
+          style    = "width:100%; margin: 0.5rem 0 1rem;",
           tags$source(src = clips$file[i], type = "audio/mpeg"),
           "Il tuo browser non supporta la riproduzione audio."
         ),
-        radioButtons(
-          inputId  = paste0("audio_rating_", i),
-          label    = NULL,
-          choices  = AUDIO_CHOICES,
-          selected = character(0),
-          inline   = TRUE
+        div(class = "scale-anchors-audio",
+          span(class = "anchor-left",  "Sicuramente AI"),
+          span(class = "anchor-right", "Sicuramente umana")
+        ),
+        div(class = "audio-rating-wrap",
+          radioButtons(
+            inputId  = paste0("audio_rating_", i),
+            label    = NULL,
+            choices  = AUDIO_CHOICES,
+            selected = character(0),
+            inline   = TRUE
+          )
         )
       )
     })
@@ -89,11 +99,18 @@ server <- function(input, output, session) {
 
     prev_choice <- rv$cbc_choices[t]
 
+    # Task progress dots
+    dots <- lapply(seq_len(N_TASKS), function(j) {
+      cls <- if (j < t) "task-dot dot-done" else if (j == t) "task-dot dot-current" else "task-dot dot-pending"
+      tags$span(class = cls, title = paste("Task", j))
+    })
+
     tagList(
       div(class = "survey-header",
         div(class = "page-badge",
           paste0("Sezione 3 di 5 — Scelta ", t, " di ", N_TASKS)
         ),
+        div(class = "task-dots-row", dots),
         h4("Quale di queste configurazioni di abbonamento preferiresti?"),
         p(class = "text-muted",
           "Le 3 alternative differiscono per policy AI e prezzo. ",
