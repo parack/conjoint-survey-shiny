@@ -1,0 +1,325 @@
+/* ── Base layout ────────────────────────────────────────────────────────── */
+body {
+  background: #f8f9fa;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #2d3748;
+}
+
+.survey-page {
+  min-height: 80vh;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.survey-container {
+  max-width: 860px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+}
+
+/* ── Progress bar ─────────────────────────────────────────────────────────── */
+.progress-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  height: 5px;
+  background: #e9ecef;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1DB954, #17a84a);
+  transition: width 0.4s ease;
+}
+
+/* ── Survey header ────────────────────────────────────────────────────────── */
+.survey-header {
+  margin-bottom: 1.5rem;
+}
+
+.page-badge {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+}
+
+/* ── Navigation buttons ───────────────────────────────────────────────────── */
+.nav-buttons {
+  margin-top: 2rem;
+  text-align: right;
+}
+
+/* ── Consent box ──────────────────────────────────────────────────────────── */
+.consent-box {
+  background: #f8f9fa;
+  border-left: 4px solid #1DB954;
+  border-radius: 6px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+/* ── Audio clips ──────────────────────────────────────────────────────────── */
+.audio-clip-card {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.audio-clip-card h6 {
+  font-weight: 700;
+  color: #495057;
+  margin-bottom: 0.75rem;
+}
+
+/* ── GAAIS list ───────────────────────────────────────────────────────────── */
+.scale-anchor-header {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6c757d;
+  padding-right: 0.25rem;
+  margin-bottom: 0.4rem;
+}
+
+.scale-anchor-header span {
+  width: 70px;
+  text-align: center;
+}
+
+.gaais-list {
+  border-top: 1px solid #dee2e6;
+}
+
+.gaais-item {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 0.9rem 0;
+}
+
+.gaais-item .item-text {
+  margin-bottom: 0.4rem;
+  font-size: 0.93rem;
+  line-height: 1.55;
+}
+
+/* Force inline radio buttons to be compact */
+.likert-radios .shiny-input-container {
+  margin-bottom: 0 !important;
+}
+
+.likert-radios .radio-inline {
+  margin-right: 8px !important;
+}
+
+/* ── Framing page ─────────────────────────────────────────────────────────── */
+.framing-box {
+  background: #f0f7ff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.status-quo-card {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+}
+
+.status-quo-card h6 {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.framing-task {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+}
+
+.attr-list {
+  margin: 0.75rem 0;
+}
+
+.attr-row-framing {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.attr-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  width: 1.5rem;
+}
+
+/* ── CBC cards ────────────────────────────────────────────────────────────── */
+.cbc-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem 0 1.25rem;
+}
+
+.cbc-card {
+  flex: 1 1 200px;
+  border: 2px solid #dee2e6;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cbc-card:hover {
+  border-color: #1DB954;
+  box-shadow: 0 3px 12px rgba(29,185,84,0.15);
+}
+
+.cbc-card-header {
+  background: #1DB954;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.6rem 1rem;
+  letter-spacing: 0.02em;
+}
+
+.attr-row-cbc {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.attr-label-cbc {
+  font-size: 0.73rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6c757d;
+  margin-bottom: 0.15rem;
+}
+
+.attr-value-cbc {
+  font-size: 0.87rem;
+  line-height: 1.45;
+  color: #343a40;
+}
+
+.price-display {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #1DB954;
+  text-align: center;
+  padding: 0.85rem 0.5rem;
+}
+
+.cbc-choice-section {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+
+.cbc-choice-section .radio-inline {
+  margin-right: 1.5rem !important;
+  font-weight: 600;
+}
+
+/* ── Proxy / Likert 7 ─────────────────────────────────────────────────────── */
+.proxy-list .proxy-item {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 0.9rem 0;
+}
+
+.proxy-item .item-text {
+  margin-bottom: 0.4rem;
+  font-size: 0.93rem;
+  line-height: 1.55;
+}
+
+.likert7-row {
+  margin-bottom: 0.25rem;
+}
+
+.scale-anchors-7 {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  color: #6c757d;
+  padding: 0 0.25rem;
+}
+
+.churn-section {
+  background: #fff8e1;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  margin-top: 1.25rem;
+}
+
+.churn-section h5 {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Demographics / Submit ────────────────────────────────────────────────── */
+.submit-section {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+/* ── Thank you page ───────────────────────────────────────────────────────── */
+.thankyou-container {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.thankyou-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+/* ── Mobile responsive ────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .survey-container {
+    padding: 1.25rem 1rem;
+  }
+
+  .cbc-card {
+    flex: 1 1 100%;  /* stack vertically on small screens */
+  }
+
+  .scale-anchor-header {
+    display: none;  /* hide header column labels on mobile */
+  }
+
+  .likert-radios .radio-inline {
+    display: block !important;
+    margin-bottom: 4px !important;
+  }
+
+  .cbc-choice-section .radio-inline {
+    display: block !important;
+    margin-bottom: 6px !important;
+  }
+
+  .scale-anchors-7 {
+    font-size: 0.7rem;
+  }
+}
