@@ -32,7 +32,9 @@ ui <- page_fluid(
 
       // Mark audio clip card as rated when a rating is selected
       $(document).on('change', '.audio-clip-card input[type=radio]', function() {
-        $(this).closest('.audio-clip-card').addClass('clip-rated');
+        var card = $(this).closest('.audio-clip-card');
+        card.addClass('clip-rated');
+        card.find('.clip-rated-badge').show();
       });
     "))
   ),

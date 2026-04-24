@@ -111,20 +111,8 @@ body {
   display: inline-block;
 }
 
-/* Scale anchors above audio radio buttons */
-.scale-anchors-audio {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #6c757d;
-  /* Exclude the Non so section width (approx 100px) */
-  max-width: calc(75% - 8px);
-  margin-bottom: 0.15rem;
-}
-
-/* Separate "Non so" (last radio-inline) from the 4 main options */
-.audio-rating-wrap .radio-inline:last-child {
+/* Separate "Non so" (last option) from the 4 main options — Bootstrap 5 class */
+.audio-rating-wrap .form-check-inline:last-child {
   margin-left: 1.5rem !important;
   padding-left: 1.25rem;
   border-left: 2px dashed #ced4da;

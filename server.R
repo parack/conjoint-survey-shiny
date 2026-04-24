@@ -45,7 +45,7 @@ server <- function(input, output, session) {
       div(class = "audio-clip-card",
         div(class = "clip-header",
           div(class = "clip-title", paste("Clip", i)),
-          div(class = "clip-rated-badge", "Valutata")  # shown via CSS only when .clip-rated
+          div(class = "clip-rated-badge", style = "display:none;", "Valutata")
         ),
         tags$audio(
           id       = paste0("audio_player_", i),
@@ -54,10 +54,6 @@ server <- function(input, output, session) {
           style    = "width:100%; margin: 0.5rem 0 1rem;",
           tags$source(src = clips$file[i], type = "audio/mpeg"),
           "Il tuo browser non supporta la riproduzione audio."
-        ),
-        div(class = "scale-anchors-audio",
-          span(class = "anchor-left",  "Sicuramente AI"),
-          span(class = "anchor-right", "Sicuramente umana")
         ),
         div(class = "audio-rating-wrap",
           radioButtons(
