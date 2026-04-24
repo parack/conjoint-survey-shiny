@@ -80,8 +80,8 @@ body {
 }
 
 .audio-clip-card.clip-rated {
-  border-color: #1DB954;
-  background: #f0fdf4;
+  border-color: #2563eb;
+  background: #eff6ff;
 }
 
 .clip-header {
@@ -99,7 +99,7 @@ body {
 
 .clip-rated-badge {
   display: none;
-  background: #1DB954;
+  background: #2563eb;
   color: #fff;
   font-size: 0.72rem;
   font-weight: 700;
@@ -111,13 +111,92 @@ body {
   display: inline-block;
 }
 
-/* Separate "Non so" (last option) from the 4 main options — Bootstrap 5 class */
+/* ── Audio rating: segmented button group via CSS on Shiny radioButtons ───── */
+.audio-rating-wrap .shiny-options-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  margin-top: 0.5rem;
+}
+
+.audio-rating-wrap .form-check-inline {
+  margin: 0;
+  padding: 0;
+}
+
+/* Hide radio circle, keep it in DOM for Shiny binding */
+.audio-rating-wrap .form-check-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+
+/* Labels look like buttons */
+.audio-rating-wrap .form-check-label {
+  display: block;
+  cursor: pointer;
+  padding: 0.42rem 0.9rem;
+  font-size: 0.85rem;
+  border: 1.5px solid #2563eb;
+  border-radius: 0;
+  color: #2563eb;
+  background: #fff;
+  margin: 0;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.audio-rating-wrap .form-check-label:hover {
+  background: #eff6ff;
+}
+
+/* First of the 4 main options: round left corners */
+.audio-rating-wrap .form-check-inline:first-child .form-check-label {
+  border-radius: 6px 0 0 6px;
+}
+
+/* Options 2-4: remove left border to avoid double line */
+.audio-rating-wrap .form-check-inline:nth-child(n+2):nth-child(-n+4) .form-check-label {
+  border-left: none;
+}
+
+/* 4th option: round right corners */
+.audio-rating-wrap .form-check-inline:nth-child(4) .form-check-label {
+  border-radius: 0 6px 6px 0;
+}
+
+/* Selected: blue fill */
+.audio-rating-wrap .form-check-input:checked + .form-check-label {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+
+/* "Non so" (5th/last): visually separated, grey */
 .audio-rating-wrap .form-check-inline:last-child {
-  margin-left: 1.5rem !important;
-  padding-left: 1.25rem;
-  border-left: 2px dashed #ced4da;
+  margin-left: 1rem;
+}
+
+.audio-rating-wrap .form-check-inline:last-child .form-check-label {
+  border-radius: 6px;
+  border-color: #adb5bd;
+  border-width: 1.5px;
   color: #6c757d;
   font-style: italic;
+}
+
+.audio-rating-wrap .form-check-inline:last-child .form-check-label:hover {
+  background: #f8f9fa;
+}
+
+.audio-rating-wrap .form-check-inline:last-child .form-check-input:checked + .form-check-label {
+  background: #6c757d;
+  color: #fff;
+  border-color: #6c757d;
 }
 
 /* ── GAAIS list ───────────────────────────────────────────────────────────── */
@@ -231,9 +310,9 @@ body {
 }
 
 .cbc-card-selected {
-  border-color: #1DB954 !important;
-  box-shadow: 0 4px 16px rgba(29,185,84,0.25) !important;
-  background: #f0fdf4 !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.22) !important;
+  background: #eff6ff !important;
 }
 
 /* ── CBC task progress dots ───────────────────────────────────────────────── */
