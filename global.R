@@ -2,35 +2,15 @@ library(shiny)
 library(shinyjs)
 library(bslib)
 library(googlesheets4)
+source("translations.R")   # TR list: IT / EN / FR
 
-# Locate .secrets whether running from project root or a git worktree subfolder
-.secrets_path <- Reduce(
-  function(p, i) if (dir.exists(file.path(p, ".secrets"))) file.path(p, ".secrets") else dirname(p),
-  seq_len(5), init = getwd()
-)
-if (!dir.exists(.secrets_path)) .secrets_path <- ".secrets"
-gs4_auth(cache = .secrets_path, email = "lorenzo.paravano@gmail.com")
+gs4_auth(path = "service_account.json")
 
 SHEET_ID <- "1yAQKJ9NlYTkS5zoA4hjEa8NgmH3oHzErHHnT3Upt-Yg"
 N_TASKS  <- 12L
 N_ALTS   <- 3L
 
-# ── Attribute level descriptions ──────────────────────────────────────────────
-A1_LEVELS <- c(
-  L1 = "Nessuna label AI visibile (solo metadata interni, non accessibili agli utenti)",
-  L2 = "Label AI volontaria (visibile solo se dichiarata dal distributore all'upload)",
-  L3 = "Label AI obbligatoria (garantita dalla piattaforma, indipendente dall'artista)"
-)
-A2_LEVELS <- c(
-  L1 = "Musica AI non inclusa nelle playlist raccomandate",
-  L2 = "Musica AI nelle playlist raccomandate e generaliste",
-  L3 = "Musica AI nelle playlist raccomandate + spazio dedicato AI aggiuntivo"
-)
-A3_LEVELS <- c(
-  L1 = "Nessun controllo utente sulla musica AI",
-  L2 = "Filtro parziale: esclusione musica AI dalle playlist personalizzate",
-  L3 = "Filtro completo: blocco totale della musica AI dalla piattaforma"
-)
+# ── Attribute prices (levels text are now in TR[[lang]]$A1 / A2 / A3) ─────────
 A4_PRICES <- c(9.99, 11.99, 13.99)
 
 # ── CBC design generator ──────────────────────────────────────────────────────
@@ -53,43 +33,22 @@ generate_cbc_design <- function(n_tasks = N_TASKS, n_alts = N_ALTS) {
   tasks
 }
 
-# ── GAAIS-10 Short version (Italian translation) ──────────────────────────────
+# ── GAAIS-10 Short version ─────────────────────────────────────────────────────
 # Schepman & Rodway (2025); Italian validation: Cicero et al. (2025)
-# Positive items scored 1-5; Negative items reverse-scored (6 - raw)
+# Item texts are in TR[[lang]]$gaais; direction used only for scoring.
 GAAIS_ITEMS <- data.frame(
-  code = c(
-    "ShortPos01","ShortNeg06","ShortNeg07","ShortNeg08",
-    "ShortPos02","ShortPos03","ShortPos04","ShortPos05",
-    "ShortNeg09","ShortNeg10"
-  ),
-  text = c(
-    "Sono interessato/a a utilizzare sistemi di intelligenza artificiale nella mia vita quotidiana.",
-    "Trovo l'intelligenza artificiale inquietante.",
-    "L'intelligenza artificiale potrebbe prendere il controllo delle persone.",
-    "Penso che l'intelligenza artificiale sia pericolosa.",
-    "L'intelligenza artificiale può avere un impatto positivo sul benessere delle persone.",
-    "L'intelligenza artificiale è entusiasmante.",
-    "Gran parte della società beneficerà di un futuro ricco di intelligenza artificiale.",
-    "Vorrei utilizzare l'intelligenza artificiale nel mio lavoro.",
-    "Rabbrividisco di disagio quando penso ai futuri utilizzi dell'intelligenza artificiale.",
-    "Persone come me soffriranno se l'intelligenza artificiale verrà utilizzata sempre di più."
-  ),
+  code      = c("ShortPos01","ShortNeg06","ShortNeg07","ShortNeg08",
+                "ShortPos02","ShortPos03","ShortPos04","ShortPos05",
+                "ShortNeg09","ShortNeg10"),
   direction = c("pos","neg","neg","neg","pos","pos","pos","pos","neg","neg"),
   stringsAsFactors = FALSE
 )
 
-# ── Proxy DSP-actionable items (6 items Likert 1-7) ──────────────────────────
+# ── Proxy items ────────────────────────────────────────────────────────────────
 # 3 proxy-D (sonic discrimination) + 3 proxy-GAAIS_neg (semantic resistance)
+# Item texts are in TR[[lang]]$proxy.
 PROXY_ITEMS <- data.frame(
-  code = c("proxy_d1","proxy_d2","proxy_d3","proxy_gneg1","proxy_gneg2","proxy_gneg3"),
-  text = c(
-    "Riesco a distinguere la musica creata dall'intelligenza artificiale da quella suonata da musicisti umani.",
-    "Percepisco differenze nella qualità emotiva tra musica AI e musica umana.",
-    "Mi accorgo quando una canzone è stata generata artificialmente.",
-    "Sono preoccupato/a per l'impatto dell'intelligenza artificiale sull'industria musicale.",
-    "Preferisco ascoltare musica creata esclusivamente da musicisti umani.",
-    "Ritengo che la musica generata dall'AI non possa eguagliare quella umana sul piano emotivo."
-  ),
+  code     = c("proxy_d1","proxy_d2","proxy_d3","proxy_gneg1","proxy_gneg2","proxy_gneg3"),
   subscale = c("d","d","d","gaais_neg","gaais_neg","gaais_neg"),
   stringsAsFactors = FALSE
 )
@@ -108,16 +67,8 @@ AUDIO_CLIPS <- data.frame(
   stringsAsFactors = FALSE
 )
 
-# ── Likert choice vectors ─────────────────────────────────────────────────────
-LIKERT5_CHOICES <- setNames(as.character(1:5),
-  c("Fortemente in disaccordo","In disaccordo","Neutrale","D'accordo","Fortemente d'accordo"))
-
-LIKERT7_CHOICES <- setNames(as.character(1:7),
-  c("1","2","3","4","5","6","7"))
-
-# Scale presented AI→human (values unchanged: 4=AI, 1=umana, 5=Non so)
-AUDIO_CHOICES <- setNames(as.character(c(4, 3, 2, 1, 5)),
-  c("Sicuramente AI","Probabilmente AI","Probabilmente umana","Sicuramente umana","Non so"))
+# Choice label vectors are now per-language in TR[[lang]]:
+#   lik5, lik5p, freq_opts, bg_opts, fam_opts, aware_opts, audio_ch
 
 # ── Scoring functions ─────────────────────────────────────────────────────────
 
