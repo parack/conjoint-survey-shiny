@@ -9,9 +9,10 @@ headers <- list(
 
   Respondents = data.frame(
     respondent_id      = character(),
+    lang               = character(),
     timestamp_start    = character(),
     timestamp_complete = character(),
-    completed          = logical(),
+    completed          = character(),
     stringsAsFactors   = FALSE
   ),
 
@@ -36,9 +37,11 @@ headers <- list(
                             rep(c("_rating","_type"), each=4))
     gaais_cols    <- paste0("gaais_", GAAIS_ITEMS$code)
     proxy_cols    <- PROXY_ITEMS$code
-    other_cols    <- c("churn_intent","dsp_user","dsp_current","dsp_tier",
-                       "age","gender","education")
-    all_cols      <- c("respondent_id", audio_cols, "d_index",
+    other_cols    <- c("churn_intent","music_freq","music_background",
+                       "ai_familiarity","ai_awareness",
+                       "dsp_user","dsp_current","dsp_tier",
+                       "age","gender","education","country")
+    all_cols      <- c("respondent_id", "lang", audio_cols, "d_index",
                        gaais_cols, "gaais_pos","gaais_neg",
                        proxy_cols, other_cols)
     setNames(as.data.frame(matrix(character(0), ncol = length(all_cols))), all_cols)

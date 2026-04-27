@@ -1,0 +1,5 @@
+.secrets/
+service_account.json
+*.Renviron
+.Rhistory
+.RData

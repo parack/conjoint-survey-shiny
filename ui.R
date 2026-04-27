@@ -1,355 +1,429 @@
-ui <- page_fluid(
-  theme = bs_theme(
-    version   = 5,
-    bootswatch = "flatly",
-    primary   = "#1DB954",
-    font_scale = 1.05
-  ),
-  useShinyjs(),
-  tags$head(
-    tags$link(rel = "stylesheet", href = "style.css"),
-    tags$script(HTML("
-      // Disable browser back button between survey pages
-      history.pushState(null, null, location.href);
-      window.addEventListener('popstate', function() {
-        history.pushState(null, null, location.href);
-      });
+ui <- function(request) {
 
-      // Auto-stop all other audio players when one starts playing
-      document.addEventListener('play', function(e) {
-        document.querySelectorAll('audio').forEach(function(a) {
-          if (a !== e.target) { a.pause(); a.currentTime = 0; }
+  # ── Language detection ─────────────────────────────────────────────────────
+  lang_q   <- parseQueryString(request$QUERY_STRING)$lang
+  has_lang <- !is.null(lang_q) && lang_q %in% c("it","en","fr")
+  lang     <- if (has_lang) lang_q else "it"
+  tr       <- TR[[lang]]
+
+  # ── Helper: build a segmented btn-check group ──────────────────────────────
+  btn_check_group <- function(opts, name, id_prefix, extra_lbl_class = "") {
+    lapply(seq_along(opts), function(v) tagList(
+      tags$input(type = "radio", class = "btn-check",
+                 name = name, id = paste0(id_prefix, "_", v),
+                 value = opts[[v]], autocomplete = "off"),
+      tags$label(
+        class = paste("btn btn-audio btn-sm", extra_lbl_class),
+        `for` = paste0(id_prefix, "_", v),
+        names(opts)[v]
+      )
+    ))
+  }
+
+  # ── selectInput helper with leading placeholder ────────────────────────────
+  sel <- function(inputId, label, opts, selected = "") {
+    selectInput(inputId, label,
+      choices  = c(setNames("", tr$sel_placeholder), opts),
+      selected = selected)
+  }
+
+  # ── Pre-compute conditional pages (avoids if/else inside page_fluid args) ──
+  page_lang_div <- if (!has_lang)
+    div(id = "page_lang", class = "survey-page",
+      div(class = "survey-container text-center",
+        div(class = "survey-header",
+          h3("AI Governance in Music Streaming", style = "margin-bottom:0.25rem;"),
+          p(class = "text-muted",
+            "Tesi magistrale / Master’s thesis / Mémoire de master",
+            tags$br(),
+            "Università degli Studi di Trento")
+        ),
+        hr(),
+        p(class = "lang-prompt mb-4",
+          "Seleziona la lingua · Select your language · Choisissez la langue"),
+        div(class = "d-flex justify-content-center gap-3 flex-wrap",
+          tags$a(class = "btn btn-outline-primary btn-lg px-4",
+                 href = "?lang=it", "\U0001F1EE\U0001F1F9  Italiano"),
+          tags$a(class = "btn btn-outline-primary btn-lg px-4",
+                 href = "?lang=en", "\U0001F1EC\U0001F1E7  English"),
+          tags$a(class = "btn btn-outline-primary btn-lg px-4",
+                 href = "?lang=fr", "\U0001F1EB\U0001F1F7  Français")
+        )
+      )
+    )
+  else
+    hidden(div(id = "page_lang"))
+
+  page_intro_div <- if (has_lang)
+    div(id = "page_intro", class = "survey-page",
+      div(class = "survey-container",
+        div(class = "survey-header text-center",
+          h2(tr$intro_title, br(), tr$intro_title2),
+          p(class = "lead text-muted", tr$intro_subtitle)
+        ),
+        hr(),
+        h5(tr$privacy_head),
+        div(class = "consent-box",
+          p(tags$strong(tr$c_obj_lbl),  tr$c_obj),
+          p(tags$strong(tr$c_who_lbl),  tr$c_who),
+          p(tags$strong(tr$c_part_lbl), tr$c_part),
+          p(tags$strong(tr$c_data_lbl), tr$c_data),
+          p(tags$strong(tr$c_time_lbl), tr$c_time),
+          p(tags$strong(tr$c_gdpr_lbl), tr$c_gdpr)
+        ),
+        div(class = "consent-check-row mt-3",
+          checkboxInput("consent_check", label = tr$consent_chk, value = FALSE)
+        ),
+        div(class = "nav-buttons",
+          actionButton("btn_intro_next", tr$btn_start,
+                       class = "btn btn-primary btn-lg"))
+      )
+    )
+  else
+    hidden(div(id = "page_intro", class = "survey-page",
+      div(class = "survey-container")
+    ))
+
+  # ── UI ─────────────────────────────────────────────────────────────────────
+  page_fluid(
+    theme = bs_theme(
+      version    = 5,
+      bootswatch = "flatly",
+      primary    = "#1DB954",
+      font_scale = 1.05
+    ),
+    useShinyjs(),
+    tags$head(
+      tags$link(rel = "stylesheet", href = "style.css"),
+      tags$script(HTML(
+        "history.pushState(null, null, location.href);
+        window.addEventListener('popstate', function() {
+          history.pushState(null, null, location.href);
         });
-      }, true);
 
-      // Highlight selected CBC card when a choice radio is clicked
-      $(document).on('change', '.cbc-choice-section input[type=radio]', function() {
-        var val = parseInt($(this).val()) - 1;
-        var cards = $(this).closest('.survey-container').find('.cbc-card');
-        cards.removeClass('cbc-card-selected');
-        if (val >= 0 && val < cards.length) cards.eq(val).addClass('cbc-card-selected');
-      });
+        document.addEventListener('play', function(e) {
+          document.querySelectorAll('audio').forEach(function(a) {
+            if (a !== e.target) { a.pause(); a.currentTime = 0; }
+          });
+        }, true);
 
-      // Mark audio clip card as rated when a rating is selected
-      $(document).on('change', '.audio-clip-card input[type=radio]', function() {
-        var card = $(this).closest('.audio-clip-card');
-        card.addClass('clip-rated');
-        card.find('.clip-rated-badge').show();
-      });
-    "))
-  ),
+        $(document).on('click', '.cbc-card', function() {
+          var choice = $(this).data('choice');
+          var task   = $(this).data('task');
+          $(this).closest('.cbc-cards').find('.cbc-card').removeClass('cbc-card-selected');
+          $(this).addClass('cbc-card-selected');
+          Shiny.setInputValue('cbc_choice_' + task, String(choice), {priority: 'event'});
+        });
 
-  # ── Global progress bar ───────────────────────────────────────────────────
-  div(class = "progress-wrapper",
-    div(id = "progress-bar-inner", class = "progress-bar-fill", style = "width:0%")
-  ),
+        // Consent state tracker — updated via click (not change) for iOS Safari
+        var _consentOK = false;
+        $(document).on('click', '#consent_check', function() {
+          _consentOK = this.checked;
+          Shiny.setInputValue('consent_check', this.checked, {priority: 'event'});
+        });
 
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PAGE 1 — Intro + Consenso informato
-  # ═══════════════════════════════════════════════════════════════════════════
-  div(id = "page_intro", class = "survey-page",
-    div(class = "survey-container",
-      div(class = "survey-header text-center",
-        h2("Preferenze dei consumatori per la governance dell'AI",
-           br(), "nei servizi musicali in streaming"),
-        p(class = "lead text-muted",
-          "Sondaggio per tesi magistrale | Università degli Studi di Trento")
-      ),
-      hr(),
-      h5("Informativa sulla privacy e consenso informato"),
-      div(class = "consent-box",
-        p(strong("Oggetto della ricerca:"),
-          " Preferenze dei consumatori rispetto a diverse configurazioni di governance del contenuto musicale generato dall'intelligenza artificiale nei servizi di streaming digitale."),
-        p(strong("Chi conduce la ricerca:"),
-          " Lorenzo Paravano, tesi magistrale, Università degli Studi di Trento."),
-        p(strong("Partecipazione:"),
-          " Volontaria e anonima. Nessun dato identificativo personale è raccolto."),
-        p(strong("Dati raccolti:"),
-          " Risposte alle domande del sondaggio (preferenze, atteggiamenti, dati demografici aggregati). I dati saranno presentati esclusivamente in forma aggregata."),
-        p(strong("Durata stimata:"), " 10–15 minuti."),
-        p(strong("Trattamento dei dati:"),
-          " I dati sono trattati in conformità al GDPR (Reg. UE 2016/679) esclusivamente per finalità di ricerca accademica.")
-      ),
-      div(class = "mt-3",
-        checkboxInput("consent_check",
-          label = tags$span(
-            "Ho letto l'informativa e acconsento volontariamente a partecipare al sondaggio."
-          ),
-          value = FALSE
-        )
-      ),
-      div(class = "nav-buttons",
-        actionButton("btn_intro_next", "Inizia →",
-                     class = "btn btn-primary btn-lg")
+        function flashInvalid(el) {
+          if (!el) return;
+          el.style.outline = '2px solid #dc3545';
+          el.style.borderRadius = '4px';
+          setTimeout(function() { el.style.outline = ''; el.style.borderRadius = ''; }, 1500);
+        }
+
+        function validatePage(btnId) {
+          var ok = true;
+          if (btnId === 'btn_audio_next') {
+            [1,2,3,4].forEach(function(i) {
+              if (!document.querySelector('input[name=\"audio_rating_' + i + '\"]:checked')) {
+                flashInvalid(document.querySelectorAll('.audio-clip-card')[i-1]);
+                ok = false;
+              }
+            });
+          } else if (btnId === 'btn_gaais_next') {
+            document.querySelectorAll('#page_gaais .gaais-item').forEach(function(item) {
+              if (!item.querySelector('input.btn-check:checked')) { flashInvalid(item); ok = false; }
+            });
+          } else if (btnId === 'btn_cbc_next') {
+            if (!document.querySelector('.cbc-card-selected')) {
+              flashInvalid(document.querySelector('.cbc-cards'));
+              ok = false;
+            }
+          } else if (btnId === 'btn_proxy_next') {
+            document.querySelectorAll('#page_proxy .gaais-item').forEach(function(item) {
+              if (!item.querySelector('input.btn-check:checked')) { flashInvalid(item); ok = false; }
+            });
+            var churn = document.querySelector('#page_proxy .churn-section');
+            if (churn && !churn.querySelector('input.btn-check:checked')) { flashInvalid(churn); ok = false; }
+          }
+          return ok;
+        }
+
+        $(document).on('click', 'button[id^=\"btn_\"]', function() {
+          var btn = $(this);
+          if (btn.prop('disabled')) return false;
+          // Gate: intro button requires consent (checked via _consentOK, Safari-safe)
+          if (this.id === 'btn_intro_next') {
+            var cb = document.getElementById('consent_check');
+            if (!_consentOK && !(cb && cb.checked)) {
+              flashInvalid(document.querySelector('.consent-check-row'));
+              return false;
+            }
+            Shiny.setInputValue('consent_check', true, {priority: 'event'});
+          }
+          // Gate: validate required page inputs before showing spinner
+          if (!validatePage(this.id)) return false;
+          btn.prop('disabled', true);
+          var orig = btn.html();
+          btn.attr('data-orig-html', orig);
+          btn.empty().append(
+            $('<span>').addClass('spinner-border spinner-border-sm me-1').attr('role','status')
+          );
+          setTimeout(function() {
+            btn.prop('disabled', false).html(btn.attr('data-orig-html') || orig);
+          }, 10000);
+        });
+
+        $(document).on('change', 'input.btn-check', function() {
+          Shiny.setInputValue($(this).attr('name'), $(this).val());
+          var card = $(this).closest('.audio-clip-card');
+          if (card.length) {
+            card.addClass('clip-rated');
+            card.find('.clip-rated-badge').show();
+          }
+          var item = $(this).closest('.gaais-item');
+          if (item.length) item.addClass('item-answered');
+        });"
+      ))
+    ),
+
+    # ── Progress bar ──────────────────────────────────────────────────────────
+    div(class = "progress-wrapper",
+      div(id = "progress-bar-inner", class = "progress-bar-fill", style = "width:0%")
+    ),
+
+    # PAGE 0 — Language picker  /  PAGE 1 — Intro  (pre-computed above)
+    page_lang_div,
+    page_intro_div,
+
+    # ── PAGE 2 — Audio discrimination ─────────────────────────────────────────
+    hidden(div(id = "page_audio", class = "survey-page",
+      div(class = "survey-container",
+        div(class = "survey-header",
+          div(class = "page-badge", tr$badge1),
+          h3(tr$audio_h3),
+          p(tr$audio_instr)
+        ),
+        uiOutput("audio_clips_ui"),
+        div(class = "nav-buttons",
+          actionButton("btn_audio_next", tr$btn_next, class = "btn btn-primary"))
       )
-    )
-  ),
+    )),
 
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PAGE 2 — Discriminazione audio
-  # ═══════════════════════════════════════════════════════════════════════════
-  hidden(div(id = "page_audio", class = "survey-page",
-    div(class = "survey-container",
-      div(class = "survey-header",
-        div(class = "page-badge", "Sezione 1 di 5"),
-        h3("Task di Discriminazione Audio"),
-        p("Ascolta ciascuna delle ", strong("4 clip musicali"), " qui sotto e indica, per ognuna, ",
-          "quanto pensi che sia stata prodotta dall'intelligenza artificiale o da un musicista umano. ",
-          "Usa la scala a 4 punti, da ", em("Sicuramente umana"), " a ", em("Sicuramente AI"), ". ",
-          "Se non sei sicuro/a, seleziona ", em('"Non so"'), ".")
-      ),
-      uiOutput("audio_clips_ui"),
-      div(class = "nav-buttons",
-        actionButton("btn_audio_next", "Avanti →", class = "btn btn-primary")
-      )
-    )
-  )),
-
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PAGE 3 — GAAIS-10
-  # ═══════════════════════════════════════════════════════════════════════════
-  hidden(div(id = "page_gaais", class = "survey-page",
-    div(class = "survey-container",
-      div(class = "survey-header",
-        div(class = "page-badge", "Sezione 2 di 5"),
-        h3("Atteggiamenti verso l'Intelligenza Artificiale"),
-        p("Per ciascuna affermazione, indica il tuo grado di accordo su una scala da ",
-          strong("1 (Fortemente in disaccordo)"), " a ", strong("5 (Fortemente d'accordo)"), ".")
-      ),
-      div(class = "scale-anchor-header",
-        span("1"), span("2"), span("3"), span("4"), span("5")
-      ),
-      div(class = "gaais-list",
-        lapply(seq_len(nrow(GAAIS_ITEMS)), function(i) {
-          div(class = "gaais-item",
-            p(class = "item-text", paste0(i, ". ", GAAIS_ITEMS$text[i])),
-            div(class = "likert-radios",
-              radioButtons(
-                inputId  = paste0("gaais_", GAAIS_ITEMS$code[i]),
-                label    = NULL,
-                choices  = LIKERT5_CHOICES,
-                selected = character(0),
-                inline   = TRUE
+    # ── PAGE 3 — GAAIS-10 ─────────────────────────────────────────────────────
+    hidden(div(id = "page_gaais", class = "survey-page",
+      div(class = "survey-container",
+        div(class = "survey-header",
+          div(class = "page-badge", tr$badge2),
+          h3(tr$gaais_h3),
+          p(tr$gaais_instr)
+        ),
+        div(class = "gaais-list",
+          lapply(seq_len(nrow(GAAIS_ITEMS)), function(i) {
+            nm <- paste0("gaais_", GAAIS_ITEMS$code[i])
+            div(class = "gaais-item",
+              p(class = "item-text", paste0(i, ". ", tr$gaais[i])),
+              div(class = "gaais-btn-group",
+                btn_check_group(
+                  setNames(as.character(1:5), tr$lik5),
+                  name = nm, id_prefix = nm, extra_lbl_class = "gaais-btn"
+                )
               )
             )
-          )
-        })
-      ),
-      div(class = "nav-buttons",
-        actionButton("btn_gaais_next", "Avanti →", class = "btn btn-primary")
-      )
-    )
-  )),
-
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PAGE 4 — Framing pre-CBC
-  # ═══════════════════════════════════════════════════════════════════════════
-  hidden(div(id = "page_framing", class = "survey-page",
-    div(class = "survey-container",
-      div(class = "survey-header",
-        div(class = "page-badge", "Sezione 3 di 5"),
-        h3("Politiche AI nei servizi di streaming musicale")
-      ),
-      div(class = "framing-box",
-        h5("Contesto attuale"),
-        p("I servizi di streaming musicale (Spotify, Apple Music, Amazon Music, ecc.) ospitano ",
-          "una quantità crescente di tracce generate interamente o parzialmente dall'intelligenza ",
-          "artificiale. Nella maggior parte delle piattaforme oggi:"),
-        tags$ul(
-          tags$li(strong("Non esiste alcuna label"), " consumer-facing che identifichi le tracce AI."),
-          tags$li("Le tracce AI vengono ", strong("incluse nelle playlist raccomandate"),
-                  " accanto alla musica umana."),
-          tags$li(strong("Non è disponibile alcun filtro"), " per escludere le tracce AI.")
+          })
         ),
-        div(class = "status-quo-card",
-          h6("Configurazione attuale (status quo — punto di riferimento)"),
+        div(class = "nav-buttons",
+          actionButton("btn_gaais_next", tr$btn_next, class = "btn btn-primary"))
+      )
+    )),
+
+    # ── PAGE 4 — Framing pre-CBC ──────────────────────────────────────────────
+    hidden(div(id = "page_framing", class = "survey-page",
+      div(class = "survey-container",
+        div(class = "survey-header",
+          div(class = "page-badge", tr$badge3),
+          h3(tr$framing_h3)
+        ),
+        div(class = "framing-box",
+          h5(tr$framing_ctx),
+          p(tr$framing_p1),
           tags$ul(
-            tags$li("Policy labeling AI: ", em("Nessuna label consumer-facing")),
-            tags$li("Struttura promozionale: ", em("Musica AI nelle playlist raccomandate")),
-            tags$li("Controllo utente: ", em("Nessun filtro disponibile")),
-            tags$li("Prezzo abbonamento: ", em("€11,99/mese"))
-          )
-        )
-      ),
-      hr(),
-      div(class = "framing-task",
-        h5("Come leggere le scelte"),
-        p("Nelle pagine successive vedrai ", strong("12 situazioni ipotetiche"), ". ",
-          "In ciascuna sono presentate ", strong("3 alternative di abbonamento"), " che differiscono per:"),
-        div(class = "attr-list",
-          div(class = "attr-row-framing",
-            tags$span(class = "attr-icon", tags$b("[A]")),
-            div(strong("Policy di labeling AI:"), " come la piattaforma comunica quale musica è generata dall'AI.")
+            tags$li(tr$framing_li1),
+            tags$li(tr$framing_li2),
+            tags$li(tr$framing_li3)
           ),
-          div(class = "attr-row-framing",
-            tags$span(class = "attr-icon", tags$b("[B]")),
-            div(strong("Struttura promozionale:"), " se e come la musica AI è inclusa nelle playlist raccomandate.")
-          ),
-          div(class = "attr-row-framing",
-            tags$span(class = "attr-icon", tags$b("[C]")),
-            div(strong("Controllo utente:"), " quali strumenti hai per filtrare o bloccare la musica AI.")
-          ),
-          div(class = "attr-row-framing",
-            tags$span(class = "attr-icon", tags$b("[D]")),
-            div(strong("Prezzo mensile:"), " il costo dell'abbonamento.")
-          )
-        ),
-        p(class = "mt-3",
-          "Per ciascuna situazione, ", strong("scegli l'alternativa che preferiresti"),
-          " come tuo piano di abbonamento. ",
-          "Non esistono risposte giuste o sbagliate: conta esclusivamente la tua preferenza personale.")
-      ),
-      div(class = "nav-buttons",
-        actionButton("btn_framing_next", "Inizia le scelte →", class = "btn btn-primary btn-lg")
-      )
-    )
-  )),
-
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PAGE 5 — CBC tasks (dynamic, 1 task at a time)
-  # ═══════════════════════════════════════════════════════════════════════════
-  hidden(div(id = "page_cbc", class = "survey-page",
-    div(class = "survey-container",
-      uiOutput("cbc_task_ui"),
-      div(class = "nav-buttons",
-        actionButton("btn_cbc_next", "Avanti →", class = "btn btn-primary")
-      )
-    )
-  )),
-
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PAGE 6 — Proxy items + churn_intent
-  # ═══════════════════════════════════════════════════════════════════════════
-  hidden(div(id = "page_proxy", class = "survey-page",
-    div(class = "survey-container",
-      div(class = "survey-header",
-        div(class = "page-badge", "Sezione 4 di 5"),
-        h3("Esperienze musicali e percezione dell'AI"),
-        p("Indica il tuo grado di accordo su una scala da ", strong("1 (Per nulla d'accordo)"),
-          " a ", strong("7 (Completamente d'accordo)"), ".")
-      ),
-      div(class = "proxy-list",
-        lapply(seq_len(nrow(PROXY_ITEMS)), function(i) {
-          div(class = "proxy-item",
-            p(class = "item-text", paste0(i, ". ", PROXY_ITEMS$text[i])),
-            div(class = "likert7-row",
-              radioButtons(
-                inputId  = PROXY_ITEMS$code[i],
-                label    = NULL,
-                choices  = LIKERT7_CHOICES,
-                selected = character(0),
-                inline   = TRUE
-              ),
-              div(class = "scale-anchors-7",
-                span("Per nulla d'accordo"),
-                span("Completamente d'accordo")
-              )
+          div(class = "status-quo-card",
+            tags$h6(tr$sq_title),
+            tags$ul(
+              tags$li(tr$sq_li1),
+              tags$li(tr$sq_li2),
+              tags$li(tr$sq_li3),
+              tags$li(tr$sq_li4)
             )
           )
-        })
-      ),
-      hr(),
-      div(class = "churn-section",
-        h5("Intenzione di abbandono"),
-        p("Ipotizzando che il tuo servizio di streaming attuale ", strong("non apportasse alcuna modifica"),
-          " alle politiche sulla musica AI nei prossimi 12 mesi, quanto saresti propenso/a a ",
-          "cancellare o cambiare abbonamento?"),
-        div(class = "likert7-row",
-          radioButtons(
-            inputId  = "churn_intent",
-            label    = NULL,
-            choices  = LIKERT7_CHOICES,
-            selected = character(0),
-            inline   = TRUE
-          ),
-          div(class = "scale-anchors-7",
-            span("1 – Per nulla probabile"),
-            span("7 – Molto probabile")
-          )
-        )
-      ),
-      div(class = "nav-buttons",
-        actionButton("btn_proxy_next", "Avanti →", class = "btn btn-primary")
-      )
-    )
-  )),
-
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PAGE 7 — Demografiche
-  # ═══════════════════════════════════════════════════════════════════════════
-  hidden(div(id = "page_demo", class = "survey-page",
-    div(class = "survey-container",
-      div(class = "survey-header",
-        div(class = "page-badge", "Sezione 5 di 5"),
-        h3("Dati demografici e utilizzo dei servizi"),
-        p("Ultima sezione. Tutte le informazioni sono anonime e usate esclusivamente a fini statistici.")
-      ),
-      fluidRow(
-        column(6,
-          selectInput("demo_age", "Fascia d'eta *",
-            choices  = c("-- Seleziona --" = "", "18-24", "25-34", "35-44", "45-54", "55-64", "65+"),
-            selected = "")
         ),
-        column(6,
-          selectInput("demo_gender", "Genere *",
-            choices  = c("-- Seleziona --" = "", "Uomo", "Donna",
-                         "Non binario / Terzo genere", "Preferisco non specificare"),
-            selected = "")
-        )
-      ),
-      fluidRow(
-        column(12,
-          selectInput("demo_education", "Titolo di studio piu elevato conseguito *",
-            choices = c("-- Seleziona --" = "",
-                        "Licenza media", "Diploma di scuola superiore",
-                        "Laurea triennale (L)", "Laurea magistrale / Ciclo unico (LM / LMU)",
-                        "Dottorato di ricerca / Post-laurea"),
-            selected = "")
-        )
-      ),
-      hr(),
-      h5("Utilizzo dei servizi di streaming musicale"),
-      radioButtons("dsp_user",
-        label    = "Sei attualmente abbonato/a o utilizzi regolarmente un servizio di streaming musicale? *",
-        choices  = c("Si" = "yes", "No" = "no"),
-        selected = character(0),
-        inline   = TRUE
-      ),
-      conditionalPanel(
-        condition = "input.dsp_user === 'yes'",
-        selectInput("dsp_current", "Quale servizio utilizzi principalmente? *",
-          choices = c("-- Seleziona --" = "", "Spotify", "Apple Music", "Amazon Music Unlimited",
-                      "YouTube Music", "Tidal", "Deezer", "Altro"),
-          selected = ""),
-        selectInput("dsp_tier", "Tipo di abbonamento *",
-          choices = c("-- Seleziona --" = "", "Gratuito (con pubblicita)", "Premium individuale",
-                      "Premium famiglia / Duo", "Studente", "Altro"),
-          selected = "")
-      ),
-      hr(),
-      div(class = "submit-section",
-        p(class = "text-muted small",
-          "(!) Controlla le tue risposte: dopo l'invio non sarà possibile modificarle."),
-        actionButton("btn_demo_submit", "Invia le risposte",
-                     class = "btn btn-success btn-lg",
-                     icon  = icon("paper-plane"))
+        hr(),
+        div(class = "framing-task",
+          h5(tr$task_h5),
+          p(tr$task_p1),
+          div(class = "attr-list",
+            div(class = "attr-row-framing",
+              tags$span(class = "attr-icon", tags$b("[A]")),
+              div(tags$strong(tr$attr_a_lbl), tr$attr_a_desc)
+            ),
+            div(class = "attr-row-framing",
+              tags$span(class = "attr-icon", tags$b("[B]")),
+              div(tags$strong(tr$attr_b_lbl), tr$attr_b_desc)
+            ),
+            div(class = "attr-row-framing",
+              tags$span(class = "attr-icon", tags$b("[C]")),
+              div(tags$strong(tr$attr_c_lbl), tr$attr_c_desc)
+            ),
+            div(class = "attr-row-framing",
+              tags$span(class = "attr-icon", tags$b("[D]")),
+              div(tags$strong(tr$attr_d_lbl), tr$attr_d_desc)
+            )
+          ),
+          p(class = "mt-3", tr$task_p2)
+        ),
+        div(class = "nav-buttons",
+          actionButton("btn_framing_next", tr$btn_start_cbc,
+                       class = "btn btn-primary btn-lg"))
       )
-    )
-  )),
+    )),
 
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PAGE 8 — Thank you
-  # ═══════════════════════════════════════════════════════════════════════════
-  hidden(div(id = "page_thankyou", class = "survey-page",
-    div(class = "survey-container thankyou-container text-center",
-      div(class = "thankyou-icon", icon("circle-check")),
-      h2("Grazie per la tua partecipazione!"),
-      p(class = "lead", "Le tue risposte sono state registrate con successo."),
-      hr(),
-      p("Puoi ora chiudere questa finestra."),
-      p(class = "text-muted small",
-        "Per informazioni sulla ricerca: ",
-        tags$a(href = "mailto:lorenzo.paravano@gmail.com", "lorenzo.paravano@gmail.com"))
-    )
-  ))
-)
+    # ── PAGE 5 — CBC tasks ────────────────────────────────────────────────────
+    hidden(div(id = "page_cbc", class = "survey-page",
+      div(class = "survey-container",
+        uiOutput("cbc_task_ui"),
+        div(class = "nav-buttons",
+          actionButton("btn_cbc_next", tr$btn_next, class = "btn btn-primary"))
+      )
+    )),
+
+    # ── PAGE 6 — Proxy + behavioural + churn ──────────────────────────────────
+    hidden(div(id = "page_proxy", class = "survey-page",
+      div(class = "survey-container",
+        div(class = "survey-header",
+          div(class = "page-badge", tr$badge4),
+          h3(tr$proxy_h3),
+          p(tr$proxy_instr)
+        ),
+        div(class = "gaais-list",
+          lapply(seq_len(nrow(PROXY_ITEMS)), function(i) {
+            nm <- PROXY_ITEMS$code[i]
+            div(class = "gaais-item",
+              p(class = "item-text", paste0(i, ". ", tr$proxy[i])),
+              div(class = "gaais-btn-group",
+                btn_check_group(
+                  setNames(as.character(1:5), tr$lik5),
+                  name = nm, id_prefix = nm, extra_lbl_class = "gaais-btn"
+                )
+              )
+            )
+          })
+        ),
+        hr(),
+        h5(tr$behav_h5),
+        div(class = "gaais-list",
+          div(class = "gaais-item",
+            p(class = "item-text", tr$freq_q),
+            div(class = "gaais-btn-group",
+              btn_check_group(tr$freq_opts, "music_freq", "music_freq", extra_lbl_class = "gaais-btn"))
+          ),
+          div(class = "gaais-item",
+            p(class = "item-text", tr$bg_q),
+            div(class = "gaais-btn-group",
+              btn_check_group(tr$bg_opts, "music_background", "music_bg", extra_lbl_class = "gaais-btn"))
+          ),
+          div(class = "gaais-item",
+            p(class = "item-text", tr$fam_q),
+            div(class = "gaais-btn-group",
+              btn_check_group(tr$fam_opts, "ai_familiarity", "ai_fam", extra_lbl_class = "gaais-btn"))
+          ),
+          div(class = "gaais-item",
+            p(class = "item-text", tr$aware_q),
+            div(class = "gaais-btn-group",
+              btn_check_group(tr$aware_opts, "ai_awareness", "ai_aware", extra_lbl_class = "gaais-btn"))
+          )
+        ),
+        hr(),
+        div(class = "churn-section",
+          h5(tr$churn_h5),
+          p(tr$churn_q),
+          div(class = "gaais-btn-group mt-2",
+            btn_check_group(
+              setNames(as.character(1:5), tr$lik5p),
+              name = "churn_intent", id_prefix = "churn",
+              extra_lbl_class = "gaais-btn"
+            )
+          )
+        ),
+        div(class = "nav-buttons",
+          actionButton("btn_proxy_next", tr$btn_next, class = "btn btn-primary"))
+      )
+    )),
+
+    # ── PAGE 7 — Demographics ─────────────────────────────────────────────────
+    hidden(div(id = "page_demo", class = "survey-page",
+      div(class = "survey-container",
+        div(class = "survey-header",
+          div(class = "page-badge", tr$badge5),
+          h3(tr$demo_h3),
+          p(tr$demo_instr)
+        ),
+        fluidRow(
+          column(6, sel("demo_age",    tr$age_lbl,    tr$age_opts)),
+          column(6, sel("demo_gender", tr$gender_lbl, tr$gender_opts))
+        ),
+        fluidRow(
+          column(6, sel("demo_country",   tr$country_lbl, tr$country_opts)),
+          column(6, sel("demo_education", tr$edu_lbl,     tr$edu_opts))
+        ),
+        hr(),
+        h5(tr$dsp_h5),
+        radioButtons("dsp_user",
+          label    = tr$dsp_user_q,
+          choices  = tr$dsp_yn,
+          selected = character(0),
+          inline   = TRUE
+        ),
+        conditionalPanel(
+          condition = "input.dsp_user === 'yes'",
+          sel("dsp_current", tr$dsp_svc_lbl,  tr$dsp_opts),
+          sel("dsp_tier",    tr$dsp_tier_lbl, tr$tier_opts)
+        ),
+        hr(),
+        div(class = "submit-section",
+          p(class = "text-muted small", tr$submit_warn),
+          actionButton("btn_demo_submit", tr$btn_submit,
+                       class = "btn btn-success btn-lg",
+                       icon  = icon("paper-plane"))
+        )
+      )
+    )),
+
+    # ── PAGE 8 — Thank you ────────────────────────────────────────────────────
+    hidden(div(id = "page_thankyou", class = "survey-page",
+      div(class = "survey-container thankyou-container text-center",
+        div(class = "thankyou-icon", icon("circle-check")),
+        h2(tr$ty_h2),
+        p(class = "lead", tr$ty_lead),
+        hr(),
+        p(tr$ty_close),
+        p(class = "text-muted small",
+          tr$ty_contact,
+          tags$a(href = "mailto:lorenzo.paravano@gmail.com",
+                 "lorenzo.paravano@gmail.com"))
+      )
+    ))
+  )
+}

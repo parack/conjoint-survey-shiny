@@ -41,8 +41,8 @@ body {
 
 .page-badge {
   display: inline-block;
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: #eff6ff;
+  color: #2563eb;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -58,15 +58,83 @@ body {
   text-align: right;
 }
 
+/* Override bslib green primary → blue for all action buttons */
+.btn-primary {
+  --bs-btn-bg:           #2563eb !important;
+  --bs-btn-border-color: #2563eb !important;
+  --bs-btn-hover-bg:     #1d4ed8 !important;
+  --bs-btn-hover-border-color: #1d4ed8 !important;
+  --bs-btn-active-bg:    #1e40af !important;
+}
+
 /* ── Consent box ──────────────────────────────────────────────────────────── */
 .consent-box {
   background: #f8f9fa;
-  border-left: 4px solid #1DB954;
+  border-left: 4px solid #2563eb;
   border-radius: 6px;
   padding: 1.2rem 1.5rem;
   margin-bottom: 1.2rem;
   font-size: 0.92rem;
   line-height: 1.65;
+}
+
+/* ── Consent checkbox (wraps Shiny checkboxInput) ─────────────────────────── */
+.consent-check-row .shiny-input-container,
+.consent-check-row .form-group {
+  width: 100%;
+  margin-bottom: 0;
+}
+.consent-check-row label {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 0.6em;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  padding-left: 0 !important;
+  font-weight: normal;
+}
+.consent-check-row input[type=checkbox] {
+  flex-shrink: 0;
+  width: 1.1em !important;
+  height: 1.1em !important;
+  margin-top: 0.2em !important;
+  margin-left: 0 !important;
+  cursor: pointer;
+  accent-color: #2563eb;
+  float: none !important;
+  position: relative !important;
+}
+
+/* ── Audio rating button group ────────────────────────────────────────────── */
+/* Same flex-wrap pattern as gaais-btn-group; 5 buttons wrap on narrow screens */
+.audio-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.audio-btn-group label.btn {
+  flex: 1 1 0;
+  font-size: 0.82rem;
+  border-radius: 0;
+  border-left-width: 0;
+  white-space: normal;
+  padding: 0.35rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.audio-btn-group label.btn:first-of-type {
+  border-radius: 6px 0 0 6px;
+  border-left-width: 1px;
+}
+
+.audio-btn-group label.btn:last-of-type {
+  border-radius: 0 6px 6px 0;
 }
 
 /* ── Audio clips ──────────────────────────────────────────────────────────── */
@@ -111,109 +179,74 @@ body {
   display: inline-block;
 }
 
-/* ── Audio rating: segmented button group via CSS on Shiny radioButtons ───── */
-.audio-rating-wrap .shiny-options-group {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0;
-  margin-top: 0.5rem;
-}
-
-.audio-rating-wrap .form-check-inline {
-  margin: 0;
-  padding: 0;
-}
-
-/* Hide radio circle, keep it in DOM for Shiny binding */
-.audio-rating-wrap .form-check-input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-  margin: 0;
-}
-
-/* Labels look like buttons */
-.audio-rating-wrap .form-check-label {
-  display: block;
-  cursor: pointer;
-  padding: 0.42rem 0.9rem;
+/* ── Audio rating: Bootstrap 5 btn-check segmented buttons ───────────────── */
+.btn-audio {
+  color: #2563eb !important;
+  border-color: #2563eb !important;
+  background: #fff !important;
   font-size: 0.85rem;
-  border: 1.5px solid #2563eb;
-  border-radius: 0;
-  color: #2563eb;
-  background: #fff;
-  margin: 0;
-  transition: background 0.15s, color 0.15s;
   white-space: nowrap;
-  user-select: none;
+  transition: background 0.15s;
+}
+.btn-audio:hover {
+  background: #dbeafe !important;
+  color: #2563eb !important;
+  border-color: #2563eb !important;
+}
+.btn-check:checked + .btn-audio {
+  background: #2563eb !important;
+  color: #fff !important;
+  border-color: #2563eb !important;
 }
 
-.audio-rating-wrap .form-check-label:hover {
-  background: #eff6ff;
-}
-
-/* First of the 4 main options: round left corners */
-.audio-rating-wrap .form-check-inline:first-child .form-check-label {
-  border-radius: 6px 0 0 6px;
-}
-
-/* Options 2-4: remove left border to avoid double line */
-.audio-rating-wrap .form-check-inline:nth-child(n+2):nth-child(-n+4) .form-check-label {
-  border-left: none;
-}
-
-/* 4th option: round right corners */
-.audio-rating-wrap .form-check-inline:nth-child(4) .form-check-label {
-  border-radius: 0 6px 6px 0;
-}
-
-/* Selected: blue fill */
-.audio-rating-wrap .form-check-input:checked + .form-check-label {
-  background: #2563eb;
-  color: #fff;
-  border-color: #2563eb;
-}
-
-/* "Non so" (5th/last): visually separated, grey */
-.audio-rating-wrap .form-check-inline:last-child {
-  margin-left: 1rem;
-}
-
-.audio-rating-wrap .form-check-inline:last-child .form-check-label {
-  border-radius: 6px;
-  border-color: #adb5bd;
-  border-width: 1.5px;
-  color: #6c757d;
+.btn-noscore {
+  color: #6c757d !important;
+  border-color: #adb5bd !important;
+  background: #fff !important;
+  font-size: 0.85rem;
   font-style: italic;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.btn-noscore:hover {
+  background: #f1f3f5 !important;
+  color: #6c757d !important;
+  border-color: #adb5bd !important;
+}
+.btn-check:checked + .btn-noscore {
+  background: #6c757d !important;
+  color: #fff !important;
+  border-color: #6c757d !important;
 }
 
-.audio-rating-wrap .form-check-inline:last-child .form-check-label:hover {
-  background: #f8f9fa;
+/* ── Global: blue accent for all form controls ──────────────────────────── */
+.form-check-input[type=radio]:checked {
+  background-color: #2563eb !important;
+  border-color: #2563eb !important;
 }
-
-.audio-rating-wrap .form-check-inline:last-child .form-check-input:checked + .form-check-label {
-  background: #6c757d;
-  color: #fff;
-  border-color: #6c757d;
+.form-check-input[type=radio]:focus,
+.form-check-input[type=checkbox]:focus {
+  box-shadow: 0 0 0 0.25rem rgba(37,99,235,0.25) !important;
+}
+.form-check-input[type=checkbox]:checked {
+  background-color: #2563eb !important;
+  border-color: #2563eb !important;
+}
+.form-select:focus,
+.form-control:focus {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 0.25rem rgba(37,99,235,0.25) !important;
 }
 
 /* ── GAAIS list ───────────────────────────────────────────────────────────── */
-.scale-anchor-header {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #6c757d;
-  padding-right: 0.25rem;
-  margin-bottom: 0.4rem;
+.gaais-btn {
+  min-width: 2.4rem;
+  text-align: center;
 }
 
-.scale-anchor-header span {
-  width: 70px;
-  text-align: center;
+.gaais-anchors {
+  font-size: 0.75rem;
+  color: #6c757d;
 }
 
 .gaais-list {
@@ -222,22 +255,53 @@ body {
 
 .gaais-item {
   border-bottom: 1px solid #f0f0f0;
-  padding: 0.9rem 0;
+  padding: 0.9rem 0.5rem;
+  transition: background 0.2s;
+}
+
+.gaais-item.item-answered {
+  background: #f0f7ff;
+  border-left: 3px solid #2563eb;
+  padding-left: 0.75rem;
 }
 
 .gaais-item .item-text {
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
   font-size: 0.93rem;
   line-height: 1.55;
 }
 
-/* Force inline radio buttons to be compact */
-.likert-radios .shiny-input-container {
-  margin-bottom: 0 !important;
+/* Flex-wrap container so buttons wrap on narrow screens */
+.gaais-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
 }
 
-.likert-radios .radio-inline {
-  margin-right: 8px !important;
+/* All gaais buttons: flat, no left border (shared edge), equal width */
+.gaais-btn-group label.gaais-btn {
+  font-size: 0.78rem;
+  border-radius: 0;
+  border-left-width: 0;
+  flex: 1 1 0;
+  text-align: center;
+  white-space: normal;
+  padding: 0.3rem 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+}
+
+/* First label: restore left border + round left corners */
+.gaais-btn-group label.gaais-btn:first-of-type {
+  border-radius: 6px 0 0 6px;
+  border-left-width: 1.5px;
+}
+
+/* Last label: round right corners */
+.gaais-btn-group label.gaais-btn:last-of-type {
+  border-radius: 0 6px 6px 0;
 }
 
 /* ── Framing page ─────────────────────────────────────────────────────────── */
@@ -299,14 +363,18 @@ body {
   border: 2px solid #dee2e6;
   border-radius: 10px;
   overflow: hidden;
-  background: #fff;
+  background: #f8f9fa;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 
 .cbc-card:hover {
-  border-color: #1DB954;
-  box-shadow: 0 3px 12px rgba(29,185,84,0.15);
+  border-color: #2563eb;
+  box-shadow: 0 3px 12px rgba(37,99,235,0.15);
+  background: #f8f9fa;
 }
 
 .cbc-card-selected {
@@ -336,17 +404,26 @@ body {
 .dot-pending { background: #dee2e6; }
 
 .cbc-card-header {
-  background: #1DB954;
-  color: #fff;
+  background: #e9ecef;
+  color: #495057;
   font-weight: 700;
   font-size: 0.95rem;
   padding: 0.6rem 1rem;
   letter-spacing: 0.02em;
 }
 
+.cbc-card-selected .cbc-card-header {
+  background: #2563eb;
+  color: #fff;
+}
+
 .attr-row-cbc {
   padding: 0.65rem 1rem;
   border-bottom: 1px solid #f0f0f0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .attr-label-cbc {
@@ -367,21 +444,16 @@ body {
 .price-display {
   font-size: 1.4rem;
   font-weight: 800;
-  color: #1DB954;
+  color: #6c757d;
   text-align: center;
   padding: 0.85rem 0.5rem;
+  margin-top: auto;
 }
 
-.cbc-choice-section {
-  background: #f8f9fa;
-  border-radius: 8px;
-  padding: 1rem 1.25rem;
+.cbc-card-selected .price-display {
+  color: #2563eb;
 }
 
-.cbc-choice-section .radio-inline {
-  margin-right: 1.5rem !important;
-  font-weight: 600;
-}
 
 /* ── Proxy / Likert 7 ─────────────────────────────────────────────────────── */
 .proxy-list .proxy-item {
@@ -395,20 +467,8 @@ body {
   line-height: 1.55;
 }
 
-.likert7-row {
-  margin-bottom: 0.25rem;
-}
-
-.scale-anchors-7 {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.76rem;
-  color: #6c757d;
-  padding: 0 0.25rem;
-}
-
 .churn-section {
-  background: #fff8e1;
+  background: #f0f7ff;
   border-radius: 8px;
   padding: 1.2rem 1.5rem;
   margin-top: 1.25rem;
@@ -436,6 +496,30 @@ body {
   margin-bottom: 1rem;
 }
 
+/* ── Language picker ──────────────────────────────────────────────────────── */
+#page_lang .survey-container {
+  max-width: 640px;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.lang-prompt {
+  font-size: 1rem;
+  white-space: nowrap;   /* keep the three-language text on one line */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #495057;
+}
+
+#page_lang .btn-outline-primary {
+  --bs-btn-color:        #2563eb;
+  --bs-btn-border-color: #2563eb;
+  --bs-btn-hover-bg:     #2563eb;
+  --bs-btn-hover-color:  #fff;
+  --bs-btn-active-bg:    #1d4ed8;
+  font-size: 1.05rem;
+}
+
 /* ── Mobile responsive ────────────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .survey-container {
@@ -446,13 +530,14 @@ body {
     flex: 1 1 100%;  /* stack vertically on small screens */
   }
 
-  .scale-anchor-header {
-    display: none;  /* hide header column labels on mobile */
+  /* CBC task header: stack badge above counter+dots on portrait mobile */
+  .cbc-task-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.4rem;
   }
-
-  .likert-radios .radio-inline {
-    display: block !important;
-    margin-bottom: 4px !important;
+  .cbc-task-header .page-badge {
+    margin-bottom: 0;
   }
 
   .cbc-choice-section .radio-inline {
@@ -462,5 +547,26 @@ body {
 
   .scale-anchors-7 {
     font-size: 0.7rem;
+  }
+
+  /* Audio buttons: 2-per-row chips on portrait mobile */
+  .audio-btn-group {
+    gap: 5px;
+  }
+  .audio-btn-group label.btn {
+    flex: 1 1 45%;
+    border-left-width: 1px !important;
+    border-radius: 6px !important;
+  }
+
+  /* GAAIS / proxy / churn buttons: 2-per-row chips on portrait mobile */
+  .gaais-btn-group {
+    gap: 5px;
+  }
+  .gaais-btn-group label.gaais-btn {
+    flex: 1 1 45%;
+    border-left-width: 1px !important;
+    border-radius: 6px !important;
+    font-size: 0.75rem;
   }
 }
