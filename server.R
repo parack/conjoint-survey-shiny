@@ -315,11 +315,30 @@ server <- function(input, output, session) {
 
     ts_complete <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
 
-    # Navigate first, then write Demography + Respondents after the flush (non-blocking)
+    # Build Choices rows (one row per alternative per task)
+    choices_rows <- do.call(rbind, lapply(seq_len(N_TASKS), function(t) {
+      prof <- rv$cbc_design[[t]]
+      do.call(rbind, lapply(seq_len(N_ALTS), function(a) {
+        p <- prof[a, ]
+        data.frame(
+          respondent_id = resp_id,
+          task          = t,
+          alt           = a,
+          a1_labeling   = tr$A1[p$a1],
+          a2_promotion  = tr$A2[p$a2],
+          a3_control    = tr$A3[p$a3],
+          a4_price      = A4_PRICES[p$a4],
+          stringsAsFactors = FALSE
+        )
+      }))
+    }))
+
+    # Navigate first, then write all sheets after the flush (non-blocking)
     # Survey_Answers was already written when the last CBC task was completed
     go_to("thankyou")
     set_progress(100)
     later::later(function() {
+      gs_append("Choices",   choices_rows)
       gs_append("Demography", demo_row)
       gs_append("Respondents", data.frame(
         respondent_id      = resp_id,
