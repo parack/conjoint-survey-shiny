@@ -171,6 +171,12 @@ ui <- function(request) {
           }
           // Gate: validate required page inputs before showing spinner
           if (!validatePage(this.id)) return false;
+          // Stop all audio players when leaving the audio section
+          if (this.id === 'btn_audio_next') {
+            document.querySelectorAll('audio').forEach(function(a) {
+              a.pause(); a.currentTime = 0;
+            });
+          }
           btn.prop('disabled', true);
           var orig = btn.html();
           btn.attr('data-orig-html', orig);
