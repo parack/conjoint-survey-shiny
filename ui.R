@@ -107,7 +107,7 @@ ui <- function(request) {
         });
 
         // ── Warn on refresh / tab-close ──────────────────────────────────────
-        // Active only after the user clicks "Inizia" (surveyStarted message).
+        // Active only after the user clicks 'Inizia' (surveyStarted message).
         // Disabled again when submission is complete (surveyComplete message).
         var _warnOnLeave = false;
         window.addEventListener('beforeunload', function(e) {
