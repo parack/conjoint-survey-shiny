@@ -151,8 +151,6 @@ ui <- function(request) {
             document.querySelectorAll('#page_proxy .gaais-item').forEach(function(item) {
               if (!item.querySelector('input.btn-check:checked')) { flashInvalid(item); ok = false; }
             });
-            var block = document.querySelector('#page_proxy .block-section');
-            if (block && !block.querySelector('input.btn-check:checked')) { flashInvalid(block); ok = false; }
             var churn = document.querySelector('#page_proxy .churn-section');
             if (churn && !churn.querySelector('input.btn-check:checked')) { flashInvalid(churn); ok = false; }
           }
@@ -340,34 +338,12 @@ ui <- function(request) {
           })
         ),
         hr(),
-        div(class = "block-section",
-          h5(tr$block_h5),
-          p(tr$block_q),
-          div(class = "gaais-btn-group mt-2",
-            btn_check_group(
-              setNames(as.character(1:5), tr$lik5b),
-              name = "block_intent", id_prefix = "block",
-              extra_lbl_class = "gaais-btn"
-            )
-          )
-        ),
-        hr(),
         h5(tr$behav_h5),
         div(class = "gaais-list",
           div(class = "gaais-item",
             p(class = "item-text", tr$freq_q),
             div(class = "gaais-btn-group",
               btn_check_group(tr$freq_opts, "music_freq", "music_freq", extra_lbl_class = "gaais-btn"))
-          ),
-          div(class = "gaais-item",
-            p(class = "item-text", tr$bg_q),
-            div(class = "gaais-btn-group",
-              btn_check_group(tr$bg_opts, "music_background", "music_bg", extra_lbl_class = "gaais-btn"))
-          ),
-          div(class = "gaais-item",
-            p(class = "item-text", tr$fam_q),
-            div(class = "gaais-btn-group",
-              btn_check_group(tr$fam_opts, "ai_familiarity", "ai_fam", extra_lbl_class = "gaais-btn"))
           ),
           div(class = "gaais-item",
             p(class = "item-text", tr$aware_q),
