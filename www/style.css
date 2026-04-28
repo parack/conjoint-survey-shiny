@@ -306,7 +306,6 @@ body {
 
 /* ── Section instruction block (GAAIS context, etc.) ─────────────────────── */
 .section-instr {
-  font-size: 0.92rem;
   line-height: 1.65;
   color: #495057;
   margin-bottom: 0.75rem;

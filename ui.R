@@ -238,7 +238,7 @@ ui <- function(request) {
         div(class = "survey-header",
           div(class = "page-badge", tr$badge1),
           h3(tr$audio_h3),
-          p(class = "text-muted", tr$audio_context),
+          p(tr$audio_context),
           p(tr$audio_instr)
         ),
         uiOutput("audio_clips_ui"),
