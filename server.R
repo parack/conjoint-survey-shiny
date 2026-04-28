@@ -162,6 +162,7 @@ server <- function(input, output, session) {
   observeEvent(input$btn_intro_next, {
     go_to("audio")
     set_progress(12)
+    session$sendCustomMessage("surveyStarted", list())  # activates beforeunload warning
   })
 
   # AUDIO → GAAIS

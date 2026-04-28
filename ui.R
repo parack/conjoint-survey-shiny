@@ -106,16 +106,21 @@ ui <- function(request) {
           history.pushState(null, null, location.href);
         });
 
-        // ── Warn on refresh / tab-close (disabled once survey is complete) ──
-        var _surveyComplete = false;
+        // ── Warn on refresh / tab-close ──────────────────────────────────────
+        // Active only after the user clicks "Inizia" (surveyStarted message).
+        // Disabled again when submission is complete (surveyComplete message).
+        var _warnOnLeave = false;
         window.addEventListener('beforeunload', function(e) {
-          if (_surveyComplete) return;
+          if (!_warnOnLeave) return;
           e.preventDefault();
           e.returnValue = '';
           return '';
         });
+        Shiny.addCustomMessageHandler('surveyStarted', function(msg) {
+          _warnOnLeave = true;
+        });
         Shiny.addCustomMessageHandler('surveyComplete', function(msg) {
-          _surveyComplete = true;
+          _warnOnLeave = false;
         });
 
         document.addEventListener('play', function(e) {
