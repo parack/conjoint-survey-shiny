@@ -64,12 +64,16 @@ ui <- function(request) {
         hr(),
         h5(tr$privacy_head),
         div(class = "consent-box",
-          p(tags$strong(tr$c_obj_lbl),  tr$c_obj),
-          p(tags$strong(tr$c_who_lbl),  tr$c_who),
+          p(tr$intro_body),
+          p(tags$strong(tr$what_asked_h)),
+          tr$what_asked,
+          hr(class = "my-2"),
           p(tags$strong(tr$c_part_lbl), tr$c_part),
           p(tags$strong(tr$c_data_lbl), tr$c_data),
           p(tags$strong(tr$c_time_lbl), tr$c_time),
-          p(tags$strong(tr$c_gdpr_lbl), tr$c_gdpr)
+          hr(class = "my-2"),
+          p(tags$strong(tr$contact_h)),
+          tr$contact_info
         ),
         div(class = "consent-check-row mt-3",
           checkboxInput("consent_check", label = tr$consent_chk, value = FALSE)
@@ -216,6 +220,7 @@ ui <- function(request) {
         div(class = "survey-header",
           div(class = "page-badge", tr$badge1),
           h3(tr$audio_h3),
+          p(class = "text-muted", tr$audio_context),
           p(tr$audio_instr)
         ),
         uiOutput("audio_clips_ui"),
@@ -230,7 +235,7 @@ ui <- function(request) {
         div(class = "survey-header",
           div(class = "page-badge", tr$badge2),
           h3(tr$gaais_h3),
-          p(tr$gaais_instr)
+          div(class = "section-instr", tr$gaais_context)
         ),
         div(class = "gaais-list",
           lapply(seq_len(nrow(GAAIS_ITEMS)), function(i) {
@@ -276,6 +281,10 @@ ui <- function(request) {
             )
           )
         ),
+        div(class = "facts-box",
+          h5(tr$facts_h),
+          tr$facts_items
+        ),
         hr(),
         div(class = "framing-task",
           h5(tr$task_h5),
@@ -283,19 +292,19 @@ ui <- function(request) {
           div(class = "attr-list",
             div(class = "attr-row-framing",
               tags$span(class = "attr-icon", tags$b("[A]")),
-              div(tags$strong(tr$attr_a_lbl), tr$attr_a_desc)
+              div(tags$strong(tr$attr_a_lbl), tr$attr_a_desc, tr$attr_a_levels)
             ),
             div(class = "attr-row-framing",
               tags$span(class = "attr-icon", tags$b("[B]")),
-              div(tags$strong(tr$attr_b_lbl), tr$attr_b_desc)
+              div(tags$strong(tr$attr_b_lbl), tr$attr_b_desc, tr$attr_b_levels)
             ),
             div(class = "attr-row-framing",
               tags$span(class = "attr-icon", tags$b("[C]")),
-              div(tags$strong(tr$attr_c_lbl), tr$attr_c_desc)
+              div(tags$strong(tr$attr_c_lbl), tr$attr_c_desc, tr$attr_c_levels)
             ),
             div(class = "attr-row-framing",
               tags$span(class = "attr-icon", tags$b("[D]")),
-              div(tags$strong(tr$attr_d_lbl), tr$attr_d_desc)
+              div(tags$strong(tr$attr_d_lbl), tr$attr_d_desc, tr$attr_d_levels)
             )
           ),
           p(class = "mt-3", tr$task_p2)
@@ -415,10 +424,10 @@ ui <- function(request) {
         p(class = "lead", tr$ty_lead),
         hr(),
         p(tr$ty_close),
-        p(class = "text-muted small",
-          tr$ty_contact,
-          tags$a(href = "mailto:lorenzo.paravano@gmail.com",
-                 "lorenzo.paravano@gmail.com"))
+        div(class = "text-muted small",
+          p(tr$ty_contact),
+          tr$contact_info
+        )
       )
     ))
   )

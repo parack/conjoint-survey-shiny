@@ -304,6 +304,57 @@ body {
   border-radius: 0 6px 6px 0;
 }
 
+/* ── Section instruction block (GAAIS context, etc.) ─────────────────────── */
+.section-instr {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: #495057;
+  margin-bottom: 0.75rem;
+}
+
+.section-instr p {
+  margin-bottom: 0.5rem;
+}
+
+/* ── Facts box (framing page quick facts) ─────────────────────────────────── */
+.facts-box {
+  background: #fff8e1;
+  border-left: 4px solid #f59e0b;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.91rem;
+  line-height: 1.65;
+}
+
+.facts-box h5 {
+  font-weight: 700;
+  color: #92400e;
+  margin-bottom: 0.6rem;
+}
+
+.facts-box ul {
+  margin-bottom: 0;
+  padding-left: 1.4rem;
+}
+
+.facts-box li {
+  margin-bottom: 0.4rem;
+}
+
+/* ── Attribute level lists (framing task) ─────────────────────────────────── */
+.levels-list {
+  margin: 0.4rem 0 0.2rem 0;
+  padding-left: 1.4rem;
+  font-size: 0.88rem;
+  color: #495057;
+  line-height: 1.55;
+}
+
+.levels-list li {
+  margin-bottom: 0.25rem;
+}
+
 /* ── Framing page ─────────────────────────────────────────────────────────── */
 .framing-box {
   background: #f0f7ff;
