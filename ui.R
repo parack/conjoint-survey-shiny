@@ -100,9 +100,22 @@ ui <- function(request) {
     tags$head(
       tags$link(rel = "stylesheet", href = "style.css"),
       tags$script(HTML(
-        "history.pushState(null, null, location.href);
+        "// ── Block back-button navigation ────────────────────────────────────
+        history.pushState(null, null, location.href);
         window.addEventListener('popstate', function() {
           history.pushState(null, null, location.href);
+        });
+
+        // ── Warn on refresh / tab-close (disabled once survey is complete) ──
+        var _surveyComplete = false;
+        window.addEventListener('beforeunload', function(e) {
+          if (_surveyComplete) return;
+          e.preventDefault();
+          e.returnValue = '';
+          return '';
+        });
+        Shiny.addCustomMessageHandler('surveyComplete', function(msg) {
+          _surveyComplete = true;
         });
 
         document.addEventListener('play', function(e) {

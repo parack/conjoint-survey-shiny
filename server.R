@@ -334,6 +334,7 @@ server <- function(input, output, session) {
     # Survey_Answers was already written when the last CBC task was completed
     go_to("thankyou")
     set_progress(100)
+    session$sendCustomMessage("surveyComplete", list())  # disables beforeunload warning
     later::later(function() {
       gs_append("Choices",   choices_rows)
       gs_append("Demography", demo_row)
