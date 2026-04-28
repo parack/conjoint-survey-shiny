@@ -346,16 +346,6 @@ ui <- function(request) {
               btn_check_group(tr$freq_opts, "music_freq", "music_freq", extra_lbl_class = "gaais-btn"))
           ),
           div(class = "gaais-item",
-            p(class = "item-text", tr$bg_q),
-            div(class = "gaais-btn-group",
-              btn_check_group(tr$bg_opts, "music_background", "music_bg", extra_lbl_class = "gaais-btn"))
-          ),
-          div(class = "gaais-item",
-            p(class = "item-text", tr$fam_q),
-            div(class = "gaais-btn-group",
-              btn_check_group(tr$fam_opts, "ai_familiarity", "ai_fam", extra_lbl_class = "gaais-btn"))
-          ),
-          div(class = "gaais-item",
             p(class = "item-text", tr$aware_q),
             div(class = "gaais-btn-group",
               btn_check_group(tr$aware_opts, "ai_awareness", "ai_aware", extra_lbl_class = "gaais-btn"))
