@@ -36,8 +36,9 @@ headers <- list(
     audio_cols    <- paste0(rep(c("audio_clip","audio_clip"), each=4), 1:4,
                             rep(c("_rating","_type"), each=4))
     gaais_cols    <- paste0("gaais_", GAAIS_ITEMS$code)
-    proxy_cols    <- PROXY_ITEMS$code
-    other_cols    <- c("churn_intent","music_freq","music_background",
+    proxy_cols    <- PROXY_ITEMS$code   # proxy_p1 … proxy_p5
+    other_cols    <- c("block_intent",
+                       "churn_intent","music_freq","music_background",
                        "ai_familiarity","ai_awareness",
                        "dsp_user","dsp_current","dsp_tier",
                        "age","gender","education","country")

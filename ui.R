@@ -151,6 +151,8 @@ ui <- function(request) {
             document.querySelectorAll('#page_proxy .gaais-item').forEach(function(item) {
               if (!item.querySelector('input.btn-check:checked')) { flashInvalid(item); ok = false; }
             });
+            var block = document.querySelector('#page_proxy .block-section');
+            if (block && !block.querySelector('input.btn-check:checked')) { flashInvalid(block); ok = false; }
             var churn = document.querySelector('#page_proxy .churn-section');
             if (churn && !churn.querySelector('input.btn-check:checked')) { flashInvalid(churn); ok = false; }
           }
@@ -336,6 +338,18 @@ ui <- function(request) {
               )
             )
           })
+        ),
+        hr(),
+        div(class = "block-section",
+          h5(tr$block_h5),
+          p(tr$block_q),
+          div(class = "gaais-btn-group mt-2",
+            btn_check_group(
+              setNames(as.character(1:5), tr$lik5b),
+              name = "block_intent", id_prefix = "block",
+              extra_lbl_class = "gaais-btn"
+            )
+          )
         ),
         hr(),
         h5(tr$behav_h5),

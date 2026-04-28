@@ -44,12 +44,11 @@ GAAIS_ITEMS <- data.frame(
   stringsAsFactors = FALSE
 )
 
-# ── Proxy items ────────────────────────────────────────────────────────────────
-# 3 proxy-D (sonic discrimination) + 3 proxy-GAAIS_neg (semantic resistance)
+# ── Proxy items (P1–P5: sonic engagement / algorithmic autonomy) ───────────────
 # Item texts are in TR[[lang]]$proxy.
 PROXY_ITEMS <- data.frame(
-  code     = c("proxy_d1","proxy_d2","proxy_d3","proxy_gneg1","proxy_gneg2","proxy_gneg3"),
-  subscale = c("d","d","d","gaais_neg","gaais_neg","gaais_neg"),
+  code     = c("proxy_p1","proxy_p2","proxy_p3","proxy_p4","proxy_p5"),
+  subscale = c("engagement","engagement","engagement","autonomy","autonomy"),
   stringsAsFactors = FALSE
 )
 

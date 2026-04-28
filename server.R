@@ -234,11 +234,13 @@ server <- function(input, output, session) {
 
   # PROXY → DEMO
   observeEvent(input$btn_proxy_next, {
-    proxy_vals <- sapply(PROXY_ITEMS$code, function(code) input[[code]])
-    churn      <- input$churn_intent
-    behav      <- sapply(c("music_freq","music_background","ai_familiarity","ai_awareness"),
-                         function(x) input[[x]])
-    if (any(sapply(proxy_vals, is.null)) || is.null(churn) || any(sapply(behav, is.null))) {
+    proxy_vals   <- sapply(PROXY_ITEMS$code, function(code) input[[code]])
+    block_intent <- input$block_intent
+    churn        <- input$churn_intent
+    behav        <- sapply(c("music_freq","music_background","ai_familiarity","ai_awareness"),
+                           function(x) input[[x]])
+    if (any(sapply(proxy_vals, is.null)) || is.null(block_intent) ||
+        is.null(churn) || any(sapply(behav, is.null))) {
       err(tr$err_proxy); return()
     }
     go_to("demo")
@@ -297,6 +299,7 @@ server <- function(input, output, session) {
       data.frame(gaais_pos = rv$gaais_pos, gaais_neg = rv$gaais_neg),
       proxy_df,
       data.frame(
+        block_intent     = as.integer(input$block_intent),
         churn_intent     = as.integer(input$churn_intent),
         music_freq       = input$music_freq,
         music_background = input$music_background,
