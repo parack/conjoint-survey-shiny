@@ -238,11 +238,14 @@ server <- function(input, output, session) {
   observeEvent(input$btn_proxy_next, {
     proxy_vals <- sapply(PROXY_ITEMS$code, function(code) input[[code]])
     churn      <- input$churn_intent
-    behav      <- sapply(c("music_freq","ai_awareness"), function(x) input[[x]])
+    # music_freq only required when dsp_user == "yes" (shown conditionally)
+    behav_codes <- if (!is.null(input$dsp_user) && input$dsp_user == "yes")
+                     c("music_freq", "ai_awareness") else "ai_awareness"
+    behav <- sapply(behav_codes, function(x) input[[x]])
     if (any(sapply(proxy_vals, is.null)) || is.null(churn) || any(sapply(behav, is.null))) {
       err(tr$err_proxy); return()
     }
-    # Validate DSP (moved here from demo submit)
+    # Validate DSP
     if (is.null(input$dsp_user)) {
       err(tr$err_dsp_user); return()
     }
@@ -300,7 +303,7 @@ server <- function(input, output, session) {
       proxy_df,
       data.frame(
         churn_intent = as.integer(input$churn_intent),
-        music_freq   = input$music_freq,
+        music_freq   = if (!is.null(input$dsp_user) && input$dsp_user == "yes") input$music_freq else "",
         ai_awareness = input$ai_awareness,
         dsp_user         = input$dsp_user,
         dsp_current      = if (input$dsp_user == "yes") input$dsp_current else "",

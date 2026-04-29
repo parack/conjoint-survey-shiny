@@ -109,7 +109,7 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=9"),
+      tags$link(rel = "stylesheet", href = "style.css?v=10"),
       tags$script(HTML(
         "// ── Block back-button navigation ────────────────────────────────────
         history.pushState(null, null, location.href);
@@ -395,13 +395,6 @@ ui <- function(request) {
             )
           })
         ),
-        div(class = "gaais-list",
-          div(class = "gaais-item",
-            p(class = "item-text", tr$freq_q),
-            div(class = "gaais-btn-group",
-              btn_check_group(tr$freq_opts, "music_freq", "music_freq", extra_lbl_class = "gaais-btn"))
-          )
-        ),
         hr(),
         h5(tr$dsp_h5),
         radioButtons("dsp_user",
@@ -413,7 +406,14 @@ ui <- function(request) {
         conditionalPanel(
           condition = "input.dsp_user === 'yes'",
           sel("dsp_current", tr$dsp_svc_lbl,  tr$dsp_opts),
-          sel("dsp_tier",    tr$dsp_tier_lbl, tr$tier_opts)
+          sel("dsp_tier",    tr$dsp_tier_lbl, tr$tier_opts),
+          div(class = "gaais-list mt-2",
+            div(class = "gaais-item",
+              p(class = "item-text", tr$freq_q),
+              div(class = "gaais-btn-group",
+                btn_check_group(tr$freq_opts, "music_freq", "music_freq", extra_lbl_class = "gaais-btn"))
+            )
+          )
         ),
         div(class = "gaais-list",
           div(class = "gaais-item",

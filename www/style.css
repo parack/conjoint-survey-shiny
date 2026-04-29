@@ -734,6 +734,13 @@ body {
   font-weight: 700;
 }
 
+/* ── Intro survey warning alert (lighter yellow, orange border kept) ─────── */
+.alert-warning {
+  background-color: #fffde7 !important;
+  border-color:     #f59e0b !important;
+  color:            #78350f !important;
+}
+
 /* ── Language picker ──────────────────────────────────────────────────────── */
 #page_lang .survey-container {
   max-width: 640px;
