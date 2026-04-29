@@ -108,7 +108,7 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=6"),
+      tags$link(rel = "stylesheet", href = "style.css?v=7"),
       tags$script(HTML(
         "// ── Block back-button navigation ────────────────────────────────────
         history.pushState(null, null, location.href);

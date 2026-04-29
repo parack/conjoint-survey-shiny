@@ -154,7 +154,7 @@ TR <- list(
       tags$em("Sicuramente umana"), " a ", tags$em("Sicuramente AI"),
       ". Qualora non riesca a esprimere un giudizio, selezioni l'opzione ", tags$em("'Non so'"), "."
     ),
-    audio_context = "Ai fini di questo studio, per 'musica generata dall'AI' si intende musica composta e prodotta interamente da sistemi di intelligenza artificiale generativa, senza alcun contributo umano nella composizione, nella scrittura o nella registrazione. Questi sistemi analizzano grandi quantita di musica esistente per apprenderne i pattern — ritmo, armonia, timbro, stile — e generano nuove composizioni originali a partire da prompt testuali o indicazioni dell'utente.",
+    audio_context = "Ai fini di questo studio, per 'musica generata dall'AI' si intende musica composta e prodotta interamente da sistemi di intelligenza artificiale generativa, senza alcun contributo umano nella composizione, nella scrittura o nella registrazione. Questi sistemi analizzano grandi quantita di musica esistente per apprenderne i pattern (ritmo, armonia, timbro, stile) e generano nuove composizioni originali a partire da prompt testuali o indicazioni dell'utente.",
     btn_next = "Avanti",
 
     badge2        = "Sezione 2 di 5",
@@ -162,7 +162,7 @@ TR <- list(
     gaais_instr   = "Per ciascuna affermazione, indichi il Suo grado di accordo.",
     gaais_context = tagList(
       tags$p("In questa sezione Le chiediamo le Sue opinioni sull'intelligenza artificiale in senso ampio, non solo quella applicata alla musica. Con \"intelligenza artificiale\" intendiamo qualsiasi sistema capace di svolgere compiti che normalmente richiederebbero l'intelligenza umana: dai sistemi di raccomandazione agli assistenti vocali, dai robot industriali ai software di analisi dei dati."),
-      tags$p("Per ciascuna delle affermazioni seguenti, indichi il Suo grado di accordo con la scala proposta. Non esistono risposte giuste o sbagliate.")
+      tags$p("Per ciascuna delle affermazioni seguenti, indichi il Suo grado di accordo sulla scala proposta. Non esistono risposte giuste o sbagliate.")
     ),
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
@@ -423,7 +423,7 @@ TR <- list(
       tags$em("Definitely human"), " to ", tags$em("Definitely AI"),
       ". If you are unable to form a judgement, please select the option ", tags$em("'Don't know'"), "."
     ),
-    audio_context = "For the purposes of this study, 'AI-generated music' refers to music composed and produced entirely by generative AI systems, without any human input in composition, writing or recording. These systems analyse vast datasets of existing music to learn patterns — such as rhythm, harmony, timbre and style — and use them to generate new, original compositions from text prompts or user input.",
+    audio_context = "For the purposes of this study, 'AI-generated music' refers to music composed and produced entirely by generative AI systems, without any human input in composition, writing or recording. These systems analyse vast datasets of existing music to learn patterns (rhythm, harmony, timbre and style) and use them to generate new, original compositions from text prompts or user input.",
     btn_next = "Next",
 
     badge2        = "Section 2 of 5",
@@ -693,7 +693,7 @@ TR <- list(
       tags$em("Surement humaine"), " a ", tags$em("Surement IA"),
       ". Si vous n'etes pas en mesure de formuler un jugement, selectionnez l'option ", tags$em("'Je ne sais pas'"), "."
     ),
-    audio_context = "Dans le cadre de cette etude, la 'musique generee par l'IA' designe la musique composee et produite entierement par des systemes d'IA generative, sans aucune contribution humaine dans la composition, l'ecriture ou l'enregistrement. Ces systemes analysent de vastes ensembles de musique existante pour en apprendre les patterns — rythme, harmonie, timbre, style — et generent de nouvelles compositions originales a partir d'invites textuelles ou d'indications de l'utilisateur.",
+    audio_context = "Dans le cadre de cette etude, la 'musique generee par l'IA' designe la musique composee et produite entierement par des systemes d'IA generative, sans aucune contribution humaine dans la composition, l'ecriture ou l'enregistrement. Ces systemes analysent de vastes ensembles de musique existante pour en apprendre les patterns (rythme, harmonie, timbre, style) et generent de nouvelles compositions originales a partir d'invites textuelles ou d'indications de l'utilisateur.",
     btn_next = "Suivant",
 
     badge2        = "Section 2 sur 5",
