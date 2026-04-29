@@ -32,11 +32,13 @@ ui <- function(request) {
     div(id = "page_lang", class = "survey-page",
       div(class = "survey-container text-center",
         div(class = "survey-header",
-          h3("AI Governance in Music Streaming", style = "margin-bottom:0.25rem;"),
-          p(class = "text-muted",
-            "Tesi magistrale / Master’s thesis / Mémoire de master",
-            tags$br(),
-            "Università degli Studi di Trento")
+          h3(class = "lang-page-title",
+            "Musica generata dall’AI nei servizi di streaming", tags$br(),
+            tags$small(class = "text-muted fw-normal",
+              "AI-Generated Music in Streaming · Musique générée par l’IA dans le streaming")
+          ),
+          p(class = "text-muted mt-1 mb-0",
+            tags$small("Università degli Studi di Trento"))
         ),
         hr(),
         p(class = "lang-prompt mb-4",
@@ -58,7 +60,7 @@ ui <- function(request) {
     div(id = "page_intro", class = "survey-page",
       div(class = "survey-container",
         div(class = "survey-header text-center",
-          h2(tr$intro_title, br(), tr$intro_title2)
+          h2(class = "intro-h2", tr$intro_title, tags$br(), tr$intro_title2)
         ),
         hr(),
         h5(tr$privacy_head),
@@ -235,11 +237,16 @@ ui <- function(request) {
     hidden(div(id = "page_audio", class = "survey-page",
       div(class = "survey-container",
         div(class = "survey-header",
-          div(class = "page-badge", tr$badge1),
+          div(class = "audio-header-row",
+            div(class = "page-badge", tr$badge1),
+            div(class = "audio-hint-chip", tr$audio_hint)
+          ),
           h3(tr$audio_h3),
           p(tr$audio_instr),
-          div(class = "audio-hint-box", tr$audio_hint),
-          div(class = "audio-context-box", tr$audio_context)
+          div(class = "audio-context-box",
+            div(class = "context-q", tags$strong(tr$audio_context_q)),
+            div(class = "context-a", tr$audio_context)
+          )
         ),
         uiOutput("audio_clips_ui"),
         div(class = "nav-buttons",

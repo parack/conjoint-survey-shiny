@@ -146,7 +146,8 @@ TR <- list(
 
     badge1        = "Sezione 1 di 5",
     audio_h3      = "Task di Discriminazione Audio",
-    audio_hint    = "\U0001F3A7 Per una valutazione ottimale, si consiglia l'ascolto in cuffia o in un ambiente silenzioso.",
+    audio_hint      = "\U0001F3A7 Consigliamo cuffiette o un ambiente silenzioso",
+    audio_context_q = "Cos'e la musica generata dall'AI?",
     audio_instr   = tagList(
       "Le presentiamo ", tags$strong("4 brevi clip musicali"),
       ". Per ciascuna traccia, La preghiamo di indicare in che misura ritiene che essa sia stata prodotta tramite l'utilizzo di intelligenza artificiale generativa o da un musicista umano, utilizzando la scala a 4 punti da ",
@@ -414,7 +415,8 @@ TR <- list(
 
     badge1        = "Section 1 of 5",
     audio_h3      = "Audio Discrimination Task",
-    audio_hint    = "\U0001F3A7 For the best results, we recommend listening with headphones or in a quiet environment.",
+    audio_hint      = "\U0001F3A7 Headphones or a quiet setting recommended",
+    audio_context_q = "What is AI-generated music?",
     audio_instr   = tagList(
       "We present you with ", tags$strong("4 short music clips"),
       ". For each track, please indicate to what extent you believe it was produced using generative artificial intelligence or by a human musician, using the 4-point scale from ",
@@ -683,7 +685,8 @@ TR <- list(
 
     badge1        = "Section 1 sur 5",
     audio_h3      = "Tache de discrimination audio",
-    audio_hint    = "\U0001F3A7 Pour une evaluation optimale, nous recommandons d'ecouter avec des ecouteurs ou dans un endroit calme.",
+    audio_hint      = "\U0001F3A7 Casque ou environnement calme recommande",
+    audio_context_q = "Qu'est-ce que la musique generee par l'IA ?",
     audio_instr   = tagList(
       "Nous vous presentons ", tags$strong("4 courts extraits musicaux"),
       ". Pour chaque piste, veuillez indiquer dans quelle mesure vous pensez qu'elle a ete produite par l'intelligence artificielle generative ou par un musicien humain, en utilisant l'echelle a 4 points de ",
