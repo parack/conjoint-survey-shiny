@@ -354,6 +354,66 @@ body {
   margin-bottom: 0.25rem;
 }
 
+/* ── Attribute color coding ───────────────────────────────────────────────── */
+
+/* CBC cards: attribute label colors */
+.attr-lbl-a { color: #2563eb !important; }
+.attr-lbl-b { color: #7c3aed !important; }
+.attr-lbl-c { color: #0d9488 !important; }
+
+/* CBC cards: attribute value pill */
+.lv {
+  border-radius: 5px;
+  padding: 0.15rem 0.35rem;
+  font-weight: 500;
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+/* A — Blue (labeling) */
+.lv-a1 { background: #eff6ff; color: #1d4ed8; }
+.lv-a2 { background: #dbeafe; color: #1e40af; }
+.lv-a3 { background: #bfdbfe; color: #1e3a8a; }
+
+/* B — Violet (promotion) */
+.lv-b1 { background: #f5f3ff; color: #5b21b6; }
+.lv-b2 { background: #ede9fe; color: #5b21b6; }
+.lv-b3 { background: #ddd6fe; color: #3b0764; }
+
+/* C — Teal (user control) */
+.lv-c1 { background: #f0fdfa; color: #0f766e; }
+.lv-c2 { background: #ccfbf1; color: #0d9488; }
+.lv-c3 { background: #99f6e4; color: #134e4a; }
+
+/* D — Amber (price display text) */
+.price-lv1 { color: #d97706; }
+.price-lv2 { color: #b45309; }
+.price-lv3 { color: #92400e; }
+
+/* Selected card: keep price readable */
+.cbc-card-selected .price-lv1,
+.cbc-card-selected .price-lv2,
+.cbc-card-selected .price-lv3 { color: #2563eb; }
+
+/* Framing page: colored attribute icons */
+.attr-row-a .attr-icon { color: #2563eb; }
+.attr-row-b .attr-icon { color: #7c3aed; }
+.attr-row-c .attr-icon { color: #0d9488; }
+.attr-row-d .attr-icon { color: #ea580c; }
+
+/* Framing page: colored level bullets (::marker) */
+.attr-row-a .levels-list li:nth-child(1)::marker { color: #93c5fd; }
+.attr-row-a .levels-list li:nth-child(2)::marker { color: #3b82f6; }
+.attr-row-a .levels-list li:nth-child(3)::marker { color: #1d4ed8; }
+
+.attr-row-b .levels-list li:nth-child(1)::marker { color: #c4b5fd; }
+.attr-row-b .levels-list li:nth-child(2)::marker { color: #8b5cf6; }
+.attr-row-b .levels-list li:nth-child(3)::marker { color: #6d28d9; }
+
+.attr-row-c .levels-list li:nth-child(1)::marker { color: #5eead4; }
+.attr-row-c .levels-list li:nth-child(2)::marker { color: #14b8a6; }
+.attr-row-c .levels-list li:nth-child(3)::marker { color: #0d9488; }
+
 /* ── Framing page ─────────────────────────────────────────────────────────── */
 .framing-box {
   background: #f0f7ff;

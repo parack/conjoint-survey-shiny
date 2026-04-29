@@ -115,18 +115,18 @@ server <- function(input, output, session) {
         div(class = "cbc-card-header",
             paste(tr$cbc_opt, LETTERS[a])),
         div(class = "attr-row-cbc",
-          div(class = "attr-label-cbc", tr$cbc_a1lbl),
-          div(class = "attr-value-cbc", tr$A1[p$a1])
+          div(class = "attr-label-cbc attr-lbl-a", tr$cbc_a1lbl),
+          div(class = paste0("attr-value-cbc lv lv-a", p$a1), tr$A1[p$a1])
         ),
         div(class = "attr-row-cbc",
-          div(class = "attr-label-cbc", tr$cbc_a2lbl),
-          div(class = "attr-value-cbc", tr$A2[p$a2])
+          div(class = "attr-label-cbc attr-lbl-b", tr$cbc_a2lbl),
+          div(class = paste0("attr-value-cbc lv lv-b", p$a2), tr$A2[p$a2])
         ),
         div(class = "attr-row-cbc",
-          div(class = "attr-label-cbc", tr$cbc_a3lbl),
-          div(class = "attr-value-cbc", tr$A3[p$a3])
+          div(class = "attr-label-cbc attr-lbl-c", tr$cbc_a3lbl),
+          div(class = paste0("attr-value-cbc lv lv-c", p$a3), tr$A3[p$a3])
         ),
-        div(class = "price-display", fmt_price(A4_PRICES[p$a4]))
+        div(class = paste0("price-display price-lv", p$a4), fmt_price(A4_PRICES[p$a4]))
       )
     })
 

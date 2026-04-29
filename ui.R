@@ -308,19 +308,19 @@ ui <- function(request) {
           h5(tr$task_h5),
           p(tr$task_p1),
           div(class = "attr-list",
-            div(class = "attr-row-framing",
+            div(class = "attr-row-framing attr-row-a",
               tags$span(class = "attr-icon", tags$b("[A]")),
               div(tags$strong(tr$attr_a_lbl), tr$attr_a_desc, tr$attr_a_levels)
             ),
-            div(class = "attr-row-framing",
+            div(class = "attr-row-framing attr-row-b",
               tags$span(class = "attr-icon", tags$b("[B]")),
               div(tags$strong(tr$attr_b_lbl), tr$attr_b_desc, tr$attr_b_levels)
             ),
-            div(class = "attr-row-framing",
+            div(class = "attr-row-framing attr-row-c",
               tags$span(class = "attr-icon", tags$b("[C]")),
               div(tags$strong(tr$attr_c_lbl), tr$attr_c_desc, tr$attr_c_levels)
             ),
-            div(class = "attr-row-framing",
+            div(class = "attr-row-framing attr-row-d",
               tags$span(class = "attr-icon", tags$b("[D]")),
               div(tags$strong(tr$attr_d_lbl), tr$attr_d_desc, tr$attr_d_levels)
             )
