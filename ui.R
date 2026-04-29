@@ -109,7 +109,7 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=11"),
+      tags$link(rel = "stylesheet", href = "style.css?v=12"),
       tags$script(HTML(
         "// ── Block back-button navigation ────────────────────────────────────
         history.pushState(null, null, location.href);
@@ -232,27 +232,30 @@ ui <- function(request) {
           if (item.length) item.addClass('item-answered');
         });
 
-        // ── Image popovers (? buttons in framing page) ───────────────────────
-        (function initImagePopovers() {
-          if (typeof bootstrap === 'undefined' || !bootstrap.Popover) {
-            setTimeout(initImagePopovers, 150); return;
-          }
-          document.querySelectorAll('.btn-popover-img:not([data-pop-init])').forEach(function(el) {
-            el.setAttribute('data-pop-init', '1');
-            new bootstrap.Popover(el, {
-              html: true,
-              content: '<img src=\"' + el.getAttribute('data-img') + '\" style=\"max-width:min(300px,82vw);width:100%;border-radius:6px;\">',
-              trigger: 'click',
-              placement: 'auto',
-              container: 'body'
-            });
-          });
-        })();
+        // ── Image popup on click/tap (custom lightweight, no Bootstrap dep) ──
+        $(document).on('click', '.btn-popover-img', function(e) {
+          e.stopPropagation();
+          var $btn = $(this);
+          var src  = $btn.attr('data-img');
+          var wasOpen = $btn.hasClass('pop-open');
+          // close any open popup
+          $('.img-popup-box').remove();
+          $('.btn-popover-img').removeClass('pop-open');
+          if (wasOpen) return;  // toggle off
+          $btn.addClass('pop-open');
+          var $box = $('<div class=\"img-popup-box\"><img src=\"' + src + '\" alt=\"\"></div>');
+          $('body').append($box);
+          var rect = this.getBoundingClientRect();
+          var st   = window.scrollY  || document.documentElement.scrollTop;
+          var sl   = window.scrollX  || document.documentElement.scrollLeft;
+          var bw   = $box.outerWidth();
+          var left = Math.max(8, Math.min(rect.left + sl, window.innerWidth + sl - bw - 12));
+          $box.css({ top: (rect.bottom + st + 6) + 'px', left: left + 'px' });
+        });
         $(document).on('click', function(e) {
-          if (!$(e.target).closest('.btn-popover-img, .popover').length) {
-            document.querySelectorAll('[data-pop-init]').forEach(function(el) {
-              var p = bootstrap.Popover.getInstance(el); if (p) p.hide();
-            });
+          if (!$(e.target).closest('.btn-popover-img, .img-popup-box').length) {
+            $('.img-popup-box').remove();
+            $('.btn-popover-img').removeClass('pop-open');
           }
         });"
       ))
@@ -353,7 +356,7 @@ ui <- function(request) {
               tags$span(class = "attr-icon", "•"),
               div(tags$strong(class = "attr-lbl-colored", tr$attr_a_lbl),
                   tags$button(type = "button", class = "btn-popover-img",
-                              `data-img` = "ai_switch.png", "?"),
+                              `data-img` = "ai_switch.png", "i"),
                   tr$attr_a_desc, tr$attr_a_levels)
             ),
             div(class = "attr-row-framing attr-row-b",

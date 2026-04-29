@@ -734,19 +734,21 @@ body {
   font-weight: 700;
 }
 
-/* ── Image popover trigger button ────────────────────────────────────────── */
+/* ── Image popup trigger button (ⓘ circle) ───────────────────────────────── */
 .btn-popover-img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.15em;
-  height: 1.15em;
+  width: 1.2em;
+  height: 1.2em;
   border-radius: 50%;
   background: #dbeafe;
   color: #1d4ed8;
   border: none;
-  font-size: 0.70rem;
+  font-size: 0.72rem;
   font-weight: 700;
+  font-style: italic;
+  font-family: Georgia, 'Times New Roman', serif;
   cursor: pointer;
   margin: 0 0.25em;
   vertical-align: middle;
@@ -755,22 +757,34 @@ body {
   flex-shrink: 0;
   transition: background 0.15s;
 }
-.btn-popover-img:hover {
+.btn-popover-img:hover,
+.btn-popover-img.pop-open {
   background: #bfdbfe;
 }
 
-/* Popover max-width override so image fits */
-.popover {
-  max-width: min(320px, 90vw) !important;
+/* Custom image popup box */
+.img-popup-box {
+  position: absolute;
+  z-index: 9999;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 6px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  max-width: min(320px, 90vw);
 }
-.popover-body {
-  padding: 0.4rem !important;
+.img-popup-box img {
+  display: block;
+  width: 100%;
+  border-radius: 4px;
 }
 
-/* ── Intro survey warning alert (lighter yellow, orange border kept) ─────── */
+/* ── Intro survey warning alert (lighter yellow, orange border) ──────────── */
 .alert-warning {
+  --bs-alert-bg:           #fffde7;
+  --bs-alert-border-color: #f59e0b;
   background-color: #fffde7 !important;
-  border-color:     #f59e0b !important;
+  border:           1px solid #f59e0b !important;
   color:            #78350f !important;
 }
 
