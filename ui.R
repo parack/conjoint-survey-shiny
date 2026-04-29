@@ -109,7 +109,7 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=10"),
+      tags$link(rel = "stylesheet", href = "style.css?v=11"),
       tags$script(HTML(
         "// ── Block back-button navigation ────────────────────────────────────
         history.pushState(null, null, location.href);
@@ -230,6 +230,30 @@ ui <- function(request) {
           }
           var item = $(this).closest('.gaais-item');
           if (item.length) item.addClass('item-answered');
+        });
+
+        // ── Image popovers (? buttons in framing page) ───────────────────────
+        (function initImagePopovers() {
+          if (typeof bootstrap === 'undefined' || !bootstrap.Popover) {
+            setTimeout(initImagePopovers, 150); return;
+          }
+          document.querySelectorAll('.btn-popover-img:not([data-pop-init])').forEach(function(el) {
+            el.setAttribute('data-pop-init', '1');
+            new bootstrap.Popover(el, {
+              html: true,
+              content: '<img src=\"' + el.getAttribute('data-img') + '\" style=\"max-width:min(300px,82vw);width:100%;border-radius:6px;\">',
+              trigger: 'click',
+              placement: 'auto',
+              container: 'body'
+            });
+          });
+        })();
+        $(document).on('click', function(e) {
+          if (!$(e.target).closest('.btn-popover-img, .popover').length) {
+            document.querySelectorAll('[data-pop-init]').forEach(function(el) {
+              var p = bootstrap.Popover.getInstance(el); if (p) p.hide();
+            });
+          }
         });"
       ))
     ),
@@ -328,6 +352,8 @@ ui <- function(request) {
             div(class = "attr-row-framing attr-row-a",
               tags$span(class = "attr-icon", "•"),
               div(tags$strong(class = "attr-lbl-colored", tr$attr_a_lbl),
+                  tags$button(type = "button", class = "btn-popover-img",
+                              `data-img` = "ai_switch.png", "?"),
                   tr$attr_a_desc, tr$attr_a_levels)
             ),
             div(class = "attr-row-framing attr-row-b",

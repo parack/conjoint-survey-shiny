@@ -734,6 +734,39 @@ body {
   font-weight: 700;
 }
 
+/* ── Image popover trigger button ────────────────────────────────────────── */
+.btn-popover-img {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15em;
+  height: 1.15em;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: #1d4ed8;
+  border: none;
+  font-size: 0.70rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 0 0.25em;
+  vertical-align: middle;
+  line-height: 1;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.btn-popover-img:hover {
+  background: #bfdbfe;
+}
+
+/* Popover max-width override so image fits */
+.popover {
+  max-width: min(320px, 90vw) !important;
+}
+.popover-body {
+  padding: 0.4rem !important;
+}
+
 /* ── Intro survey warning alert (lighter yellow, orange border kept) ─────── */
 .alert-warning {
   background-color: #fffde7 !important;

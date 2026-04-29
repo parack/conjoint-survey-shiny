@@ -219,7 +219,8 @@ TR <- list(
     attr_b_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("Non inclusa:"), " la musica AI non compare nelle playlist raccomandate.")),
       tags$li(tagList(tags$strong("Inclusa nelle playlist raccomandate e generaliste."))),
-      tags$li(tagList(tags$strong("Inclusa + spazio dedicato:"), " la musica AI e presente nelle playlist raccomandate e dispone di uno spazio editoriale aggiuntivo."))
+      tags$li(tagList(tags$strong("Inclusa + spazio dedicato:"), " la musica AI e presente nelle playlist raccomandate e dispone di uno spazio editoriale aggiuntivo.",
+        tags$button(type = "button", class = "btn-popover-img", `data-img` = "ai_section_ui.png", "?")))
     ),
     attr_c_lbl    = "Controllo utente",
     attr_c_desc   = " - Gli strumenti a disposizione per gestire la presenza di musica AI nella propria esperienza.",
@@ -491,7 +492,8 @@ TR <- list(
     attr_b_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("Not included:"), " AI music does not appear in recommended playlists.")),
       tags$li(tagList(tags$strong("Included in recommended and general playlists."))),
-      tags$li(tagList(tags$strong("Included + dedicated space:"), " AI music appears in recommended playlists and has an additional editorial section."))
+      tags$li(tagList(tags$strong("Included + dedicated space:"), " AI music appears in recommended playlists and has an additional editorial section.",
+        tags$button(type = "button", class = "btn-popover-img", `data-img` = "ai_section_ui.png", "?")))
     ),
     attr_c_lbl    = "User control",
     attr_c_desc   = " - The tools available to manage the presence of AI music in your experience.",
@@ -764,7 +766,8 @@ TR <- list(
     attr_b_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("Non incluse :"), " la musique IA n'apparait pas dans les playlists recommandees.")),
       tags$li(tagList(tags$strong("Incluse dans les playlists recommandees et generalistes."))),
-      tags$li(tagList(tags$strong("Incluse + espace dedie :"), " la musique IA est presente dans les playlists recommandees et dispose d'un espace editorial supplementaire."))
+      tags$li(tagList(tags$strong("Incluse + espace dedie :"), " la musique IA est presente dans les playlists recommandees et dispose d'un espace editorial supplementaire.",
+        tags$button(type = "button", class = "btn-popover-img", `data-img` = "ai_section_ui.png", "?")))
     ),
     attr_c_lbl    = "Controle utilisateur",
     attr_c_desc   = " - Les outils disponibles pour gerer la presence de musique IA dans votre experience.",
