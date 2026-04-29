@@ -356,7 +356,7 @@ ui <- function(request) {
               tags$span(class = "attr-icon", "•"),
               div(tags$strong(class = "attr-lbl-colored", tr$attr_a_lbl),
                   tags$button(type = "button", class = "btn-popover-img",
-                              `data-img` = "ai_switch.png", "i"),
+                              `data-img` = "ai_label.jpg", "i"),
                   tr$attr_a_desc, tr$attr_a_levels)
             ),
             div(class = "attr-row-framing attr-row-b",
