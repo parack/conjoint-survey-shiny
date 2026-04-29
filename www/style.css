@@ -202,14 +202,14 @@ body {
 .btn-noscore {
   color: #c2410c !important;
   border-color: #fed7aa !important;
-  background: #fff7ed !important;
+  background: #f3f4f6 !important;   /* light grey when unselected */
   font-size: 0.85rem;
   font-style: italic;
   white-space: nowrap;
   transition: background 0.15s;
 }
 .btn-noscore:hover {
-  background: #ffedd5 !important;
+  background: #e5e7eb !important;
   color: #c2410c !important;
   border-color: #fdba74 !important;
 }
@@ -742,17 +742,37 @@ body {
   padding-bottom: 3rem;
 }
 
+/* ── Language page: 3-level typography ───────────────────────────────────── */
+.lang-logo-wrap {
+  margin-bottom: 1.25rem;
+}
+
+.lang-logo {
+  height: 56px;
+  width: auto;
+}
+
+/* Level 1: main title */
 .lang-page-title {
   font-size: 1.35rem;
   font-weight: 700;
-  line-height: 1.4;
-  margin-bottom: 0.25rem;
+  line-height: 1.35;
+  margin-bottom: 0.4rem;
 }
 
-.lang-survey-sub {
-  font-size: 0.82rem;
+/* Level 2: multilingual subtitle (muted, slightly smaller) */
+.lang-title-sub {
+  font-size: 0.88rem;
   color: #9ca3af;
-  line-height: 1.4;
+  line-height: 1.45;
+  margin-bottom: 0;
+}
+
+/* Level 3: info/action lines — same size and color (Indagine + Seleziona) */
+.lang-prompt {
+  font-size: 0.92rem;
+  color: #6c757d;
+  line-height: 1.5;
 }
 
 /* Section survey title — shown at top of each section page */
@@ -762,14 +782,6 @@ body {
   color: #9ca3af;
   margin-bottom: 0.9rem;
   letter-spacing: 0.01em;
-}
-
-.lang-prompt {
-  font-size: 1rem;
-  white-space: nowrap;   /* keep the three-language text on one line */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #495057;
 }
 
 #page_lang .btn-outline-primary {

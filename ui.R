@@ -31,27 +31,33 @@ ui <- function(request) {
   page_lang_div <- if (!has_lang)
     div(id = "page_lang", class = "survey-page",
       div(class = "survey-container text-center",
+        # University logo — top of page
+        div(class = "lang-logo-wrap",
+          tags$img(src = "logo_unitrento.png", class = "lang-logo",
+                   alt = "Universita di Trento")
+        ),
         div(class = "survey-header",
+          # Level 1: main title (bold)
           h3(class = "lang-page-title",
-            "Musica generata dall’AI nei servizi di streaming", tags$br(),
-            tags$small(class = "text-muted fw-normal",
-              "AI-Generated Music in Streaming · Musique générée par l’IA dans le streaming")
+            "Musica generata dall'AI nei servizi di streaming"
           ),
-          p(class = "lang-survey-sub mt-1 mb-0",
-            "Indagine sulla preferenza dei consumatori · Consumer preference survey · Sondage sur les préférences"),
-          p(class = "text-muted mt-1 mb-0",
-            tags$small("Università degli Studi di Trento"))
+          # Level 2: multilingual subtitle (muted, smaller)
+          p(class = "lang-title-sub",
+            "AI-Generated Music in Streaming · Musique générée par l'IA dans le streaming")
         ),
         hr(),
+        # Level 3: same size/color for both info lines
+        p(class = "lang-prompt mb-1",
+          "Indagine sulla preferenza dei consumatori · Consumer preference survey · Sondage sur les préférences"),
         p(class = "lang-prompt mb-4",
           "Seleziona la lingua · Select your language · Choisissez la langue"),
         div(class = "d-flex justify-content-center gap-3 flex-wrap",
           tags$a(class = "btn btn-outline-primary btn-lg px-4",
-                 href = "?lang=it", "\U0001F1EE\U0001F1F9  Italiano"),
+                 href = "?lang=it", "Italiano"),
           tags$a(class = "btn btn-outline-primary btn-lg px-4",
-                 href = "?lang=en", "\U0001F1EC\U0001F1E7  English"),
+                 href = "?lang=en", "English"),
           tags$a(class = "btn btn-outline-primary btn-lg px-4",
-                 href = "?lang=fr", "\U0001F1EB\U0001F1F7  Français")
+                 href = "?lang=fr", "Français")
         )
       )
     )
@@ -101,7 +107,7 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=4"),
+      tags$link(rel = "stylesheet", href = "style.css?v=5"),
       tags$script(HTML(
         "// ── Block back-button navigation ────────────────────────────────────
         history.pushState(null, null, location.href);
