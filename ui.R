@@ -31,23 +31,34 @@ ui <- function(request) {
   page_lang_div <- if (!has_lang)
     div(id = "page_lang", class = "survey-page",
       div(class = "survey-container text-center",
-        div(class = "survey-header",
-          h3("AI Governance in Music Streaming", style = "margin-bottom:0.25rem;"),
-          p(class = "text-muted",
-            "Tesi magistrale / Master’s thesis / Mémoire de master",
-            tags$br(),
-            "Università degli Studi di Trento")
+        # University logo — top of page
+        div(class = "lang-logo-wrap",
+          tags$img(src = "logo_unitrento.jpg", class = "lang-logo",
+                   alt = "Universita di Trento")
         ),
-        hr(),
+        # Level 1: main title (bold)
+        div(class = "survey-header",
+          h3(class = "lang-page-title",
+            "Musica generata dall'AI nei servizi di streaming"
+          ),
+          # Level 2: multilingual subtitle (muted, smaller)
+          p(class = "lang-title-sub",
+            "AI-Generated Music in Streaming · Musique générée par l'IA dans le streaming")
+        ),
+        # Level 3: survey description — same style as Seleziona (no hr here)
+        p(class = "lang-prompt mt-3 mb-2",
+          "Indagine sulla preferenza dei consumatori · Consumer preference survey · Sondage sur les préférences"),
+        hr(class = "my-2"),
+        # Level 3: language prompt — same style
         p(class = "lang-prompt mb-4",
           "Seleziona la lingua · Select your language · Choisissez la langue"),
         div(class = "d-flex justify-content-center gap-3 flex-wrap",
           tags$a(class = "btn btn-outline-primary btn-lg px-4",
-                 href = "?lang=it", "\U0001F1EE\U0001F1F9  Italiano"),
+                 href = "?lang=it", "Italiano"),
           tags$a(class = "btn btn-outline-primary btn-lg px-4",
-                 href = "?lang=en", "\U0001F1EC\U0001F1E7  English"),
+                 href = "?lang=en", "English"),
           tags$a(class = "btn btn-outline-primary btn-lg px-4",
-                 href = "?lang=fr", "\U0001F1EB\U0001F1F7  Français")
+                 href = "?lang=fr", "Français")
         )
       )
     )
@@ -58,13 +69,12 @@ ui <- function(request) {
     div(id = "page_intro", class = "survey-page",
       div(class = "survey-container",
         div(class = "survey-header text-center",
-          h2(tr$intro_title, br(), tr$intro_title2),
-          p(class = "lead text-muted", tr$intro_subtitle)
+          h2(class = "intro-h2", tr$intro_title, tags$br(), tr$intro_title2)
         ),
         hr(),
         h5(tr$privacy_head),
         div(class = "consent-box",
-          p(tr$intro_body),
+          p(tags$strong(tr$intro_salute), tr$intro_body),
           p(tags$strong(tr$what_asked_h)),
           tr$what_asked,
           hr(class = "my-2"),
@@ -98,7 +108,7 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css"),
+      tags$link(rel = "stylesheet", href = "style.css?v=6"),
       tags$script(HTML(
         "// ── Block back-button navigation ────────────────────────────────────
         history.pushState(null, null, location.href);
@@ -236,10 +246,16 @@ ui <- function(request) {
     hidden(div(id = "page_audio", class = "survey-page",
       div(class = "survey-container",
         div(class = "survey-header",
-          div(class = "page-badge", tr$badge1),
+          div(class = "audio-header-row",
+            div(class = "page-badge", tr$badge1),
+            div(class = "audio-hint-chip", tr$audio_hint)
+          ),
           h3(tr$audio_h3),
-          p(tr$audio_context),
-          p(tr$audio_instr)
+          p(tr$audio_instr),
+          div(class = "audio-context-box",
+            div(class = "context-q", tags$strong(tr$audio_context_q)),
+            div(class = "context-a", tr$audio_context)
+          )
         ),
         uiOutput("audio_clips_ui"),
         div(class = "nav-buttons",
@@ -283,46 +299,64 @@ ui <- function(request) {
         ),
         div(class = "framing-box",
           h5(tr$framing_ctx),
-          p(tr$framing_p1),
-          tags$ul(
-            tags$li(tr$framing_li1),
-            tags$li(tr$framing_li2),
-            tags$li(tr$framing_li3)
-          ),
-          div(class = "status-quo-card",
-            tags$h6(tr$sq_title),
-            tags$ul(
-              tags$li(tr$sq_li1),
-              tags$li(tr$sq_li2),
-              tags$li(tr$sq_li3),
-              tags$li(tr$sq_li4)
-            )
-          )
+          p(tr$framing_p1)
         ),
-        div(class = "facts-box",
-          h5(tr$facts_h),
-          tr$facts_items
+        div(class = "stat-cards-row",
+          lapply(1:4, function(i) {
+            div(class = "stat-card",
+              div(class = "stat-number", tr[[paste0("stat_", i, "_num")]]),
+              div(class = "stat-label",  tr[[paste0("stat_", i, "_label")]]),
+              div(class = "stat-source", tr[[paste0("stat_", i, "_src")]])
+            )
+          })
+        ),
+        div(class = "dsp-policy-box",
+          h6(tr$dsp_policy_h),
+          tags$table(class = "dsp-table",
+            tags$tbody(
+              tags$tr(tags$th("Spotify"),      tags$td(tr$dsp_spotify)),
+              tags$tr(tags$th("Apple Music"),  tags$td(tr$dsp_apple)),
+              tags$tr(tags$th("Deezer"),       tags$td(tr$dsp_deezer)),
+              tags$tr(tags$th("Amazon Music"), tags$td(tr$dsp_amazon))
+            )
+          ),
+          p(class = "text-muted small mt-2", tr$dsp_policy_note)
+        ),
+        div(class = "status-quo-card mt-3",
+          tags$h6(tr$sq_title),
+          p(class = "sq-intro", tr$sq_intro),
+          tags$ul(
+            tags$li(tr$sq_li1),
+            tags$li(tr$sq_li2),
+            tags$li(tr$sq_li3),
+            tags$li(tr$sq_li4)
+          )
         ),
         hr(),
         div(class = "framing-task",
           h5(tr$task_h5),
           p(tr$task_p1),
           div(class = "attr-list",
-            div(class = "attr-row-framing",
-              tags$span(class = "attr-icon", tags$b("[A]")),
-              div(tags$strong(tr$attr_a_lbl), tr$attr_a_desc, tr$attr_a_levels)
+            # Attribute rows: colored bullet + colored label name
+            div(class = "attr-row-framing attr-row-a",
+              tags$span(class = "attr-icon", "•"),
+              div(tags$strong(class = "attr-lbl-colored", tr$attr_a_lbl),
+                  tr$attr_a_desc, tr$attr_a_levels)
             ),
-            div(class = "attr-row-framing",
-              tags$span(class = "attr-icon", tags$b("[B]")),
-              div(tags$strong(tr$attr_b_lbl), tr$attr_b_desc, tr$attr_b_levels)
+            div(class = "attr-row-framing attr-row-b",
+              tags$span(class = "attr-icon", "•"),
+              div(tags$strong(class = "attr-lbl-colored", tr$attr_b_lbl),
+                  tr$attr_b_desc, tr$attr_b_levels)
             ),
-            div(class = "attr-row-framing",
-              tags$span(class = "attr-icon", tags$b("[C]")),
-              div(tags$strong(tr$attr_c_lbl), tr$attr_c_desc, tr$attr_c_levels)
+            div(class = "attr-row-framing attr-row-c",
+              tags$span(class = "attr-icon", "•"),
+              div(tags$strong(class = "attr-lbl-colored", tr$attr_c_lbl),
+                  tr$attr_c_desc, tr$attr_c_levels)
             ),
-            div(class = "attr-row-framing",
-              tags$span(class = "attr-icon", tags$b("[D]")),
-              div(tags$strong(tr$attr_d_lbl), tr$attr_d_desc, tr$attr_d_levels)
+            div(class = "attr-row-framing attr-row-d",
+              tags$span(class = "attr-icon", "•"),
+              div(tags$strong(class = "attr-lbl-colored", tr$attr_d_lbl),
+                  tr$attr_d_desc, tr$attr_d_levels)
             )
           ),
           p(class = "mt-3", tr$task_p2)

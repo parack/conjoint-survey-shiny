@@ -3,3 +3,5 @@ service_account.json
 *.Renviron
 .Rhistory
 .RData
+*.csv
+survey_results.csv
