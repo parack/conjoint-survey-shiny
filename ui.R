@@ -283,25 +283,38 @@ ui <- function(request) {
         ),
         div(class = "framing-box",
           h5(tr$framing_ctx),
-          p(tr$framing_p1),
-          tags$ul(
-            tags$li(tr$framing_li1),
-            tags$li(tr$framing_li2),
-            tags$li(tr$framing_li3)
-          ),
-          div(class = "status-quo-card",
-            tags$h6(tr$sq_title),
-            tags$ul(
-              tags$li(tr$sq_li1),
-              tags$li(tr$sq_li2),
-              tags$li(tr$sq_li3),
-              tags$li(tr$sq_li4)
-            )
-          )
+          p(tr$framing_p1)
         ),
-        div(class = "facts-box",
-          h5(tr$facts_h),
-          tr$facts_items
+        div(class = "stat-cards-row",
+          lapply(1:4, function(i) {
+            div(class = "stat-card",
+              div(class = "stat-number", tr[[paste0("stat_", i, "_num")]]),
+              div(class = "stat-label",  tr[[paste0("stat_", i, "_label")]]),
+              div(class = "stat-source", tr[[paste0("stat_", i, "_src")]])
+            )
+          })
+        ),
+        div(class = "dsp-policy-box",
+          h6(tr$dsp_policy_h),
+          tags$table(class = "dsp-table",
+            tags$tbody(
+              tags$tr(tags$th("Spotify"),      tags$td(tr$dsp_spotify)),
+              tags$tr(tags$th("Apple Music"),  tags$td(tr$dsp_apple)),
+              tags$tr(tags$th("Deezer"),       tags$td(tr$dsp_deezer)),
+              tags$tr(tags$th("Amazon Music"), tags$td(tr$dsp_amazon))
+            )
+          ),
+          p(class = "text-muted small mt-2", tr$dsp_policy_note)
+        ),
+        div(class = "status-quo-card mt-3",
+          tags$h6(tr$sq_title),
+          p(class = "sq-intro", tr$sq_intro),
+          tags$ul(
+            tags$li(tr$sq_li1),
+            tags$li(tr$sq_li2),
+            tags$li(tr$sq_li3),
+            tags$li(tr$sq_li4)
+          )
         ),
         hr(),
         div(class = "framing-task",

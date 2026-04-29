@@ -315,30 +315,83 @@ body {
   margin-bottom: 0.5rem;
 }
 
-/* ── Facts box (framing page quick facts) ─────────────────────────────────── */
-.facts-box {
-  background: #fff8e1;
-  border-left: 4px solid #f59e0b;
+/* ── Stat cards row (framing page) ───────────────────────────────────────── */
+.stat-cards-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.stat-card {
+  flex: 1 1 180px;
+  background: #f0f7ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 1rem 1.1rem 0.9rem;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1d4ed8;
+  line-height: 1.1;
+  margin-bottom: 0.3rem;
+}
+
+.stat-label {
+  font-size: 0.82rem;
+  color: #374151;
+  line-height: 1.4;
+  margin-bottom: 0.35rem;
+}
+
+.stat-source {
+  font-size: 0.71rem;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* ── DSP policy box (framing page) ───────────────────────────────────────── */
+.dsp-policy-box {
+  background: #fafafa;
+  border: 1px solid #e5e7eb;
   border-radius: 8px;
-  padding: 1.2rem 1.5rem;
-  margin-bottom: 1.5rem;
-  font-size: 0.91rem;
-  line-height: 1.65;
+  padding: 1.1rem 1.3rem 0.8rem;
+  margin-bottom: 1rem;
 }
 
-.facts-box h5 {
+.dsp-policy-box h6 {
   font-weight: 700;
-  color: #92400e;
-  margin-bottom: 0.6rem;
+  color: #374151;
+  margin-bottom: 0.65rem;
 }
 
-.facts-box ul {
-  margin-bottom: 0;
-  padding-left: 1.4rem;
+.dsp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+  line-height: 1.45;
 }
 
-.facts-box li {
-  margin-bottom: 0.4rem;
+.dsp-table th,
+.dsp-table td {
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: top;
+}
+
+.dsp-table th {
+  white-space: nowrap;
+  font-weight: 700;
+  color: #1d4ed8;
+  width: 7rem;
+}
+
+.dsp-table tr:last-child th,
+.dsp-table tr:last-child td {
+  border-bottom: none;
 }
 
 /* ── Attribute level lists (framing task) ─────────────────────────────────── */
@@ -369,20 +422,48 @@ body {
   line-height: 1.45;
 }
 
+/* Numbered circle badge before each level value */
+.lv::before {
+  content: "";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25em;
+  height: 1.25em;
+  border-radius: 50%;
+  font-size: 0.68rem;
+  font-weight: 700;
+  margin-right: 0.35rem;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
 /* A — Blue: light → medium → deep */
 .lv-a1 { border-left-color: #bfdbfe; }
 .lv-a2 { border-left-color: #3b82f6; }
 .lv-a3 { border-left-color: #1d4ed8; }
+
+.lv-a1::before { content: "1"; background: #dbeafe; color: #1d4ed8; }
+.lv-a2::before { content: "2"; background: #3b82f6; color: #fff; }
+.lv-a3::before { content: "3"; background: #1d4ed8; color: #fff; }
 
 /* B — Violet: light → medium → deep */
 .lv-b1 { border-left-color: #ddd6fe; }
 .lv-b2 { border-left-color: #8b5cf6; }
 .lv-b3 { border-left-color: #6d28d9; }
 
+.lv-b1::before { content: "1"; background: #ede9fe; color: #6d28d9; }
+.lv-b2::before { content: "2"; background: #8b5cf6; color: #fff; }
+.lv-b3::before { content: "3"; background: #6d28d9; color: #fff; }
+
 /* C — Teal: light → medium → deep */
 .lv-c1 { border-left-color: #99f6e4; }
 .lv-c2 { border-left-color: #14b8a6; }
 .lv-c3 { border-left-color: #0d9488; }
+
+.lv-c1::before { content: "1"; background: #ccfbf1; color: #0f766e; }
+.lv-c2::before { content: "2"; background: #14b8a6; color: #fff; }
+.lv-c3::before { content: "3"; background: #0d9488; color: #fff; }
 
 /* Framing page: colored attribute icons */
 .attr-row-a .attr-icon { color: #2563eb; }
@@ -426,6 +507,13 @@ body {
 .status-quo-card h6 {
   font-weight: 700;
   margin-bottom: 0.5rem;
+}
+
+.sq-intro {
+  font-size: 0.88rem;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+  font-style: italic;
 }
 
 .framing-task {
