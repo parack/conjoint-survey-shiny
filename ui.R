@@ -37,6 +37,8 @@ ui <- function(request) {
             tags$small(class = "text-muted fw-normal",
               "AI-Generated Music in Streaming · Musique générée par l’IA dans le streaming")
           ),
+          p(class = "lang-survey-sub mt-1 mb-0",
+            "Indagine sulla preferenza dei consumatori · Consumer preference survey · Sondage sur les préférences"),
           p(class = "text-muted mt-1 mb-0",
             tags$small("Università degli Studi di Trento"))
         ),
@@ -99,7 +101,7 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css"),
+      tags$link(rel = "stylesheet", href = "style.css?v=4"),
       tags$script(HTML(
         "// ── Block back-button navigation ────────────────────────────────────
         history.pushState(null, null, location.href);
@@ -237,6 +239,7 @@ ui <- function(request) {
     hidden(div(id = "page_audio", class = "survey-page",
       div(class = "survey-container",
         div(class = "survey-header",
+          h2(class = "section-survey-title", tr$intro_title2),
           div(class = "audio-header-row",
             div(class = "page-badge", tr$badge1),
             div(class = "audio-hint-chip", tr$audio_hint)

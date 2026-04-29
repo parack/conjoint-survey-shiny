@@ -161,8 +161,8 @@ TR <- list(
     gaais_h3      = "Atteggiamenti verso l'Intelligenza Artificiale",
     gaais_instr   = "Per ciascuna affermazione, indichi il Suo grado di accordo.",
     gaais_context = tagList(
-      tags$p("Siamo interessati ai Suoi atteggiamenti nei confronti dell'Intelligenza Artificiale in senso ampio, non limitatamente all'ambito musicale. Per Intelligenza Artificiale intendiamo sistemi in grado di svolgere compiti che di solito richiederebbero l'intelligenza umana. Si prega di notare che tali sistemi possono includere computer, robot o altri dispositivi hardware, eventualmente integrati con sensori o telecamere."),
-      tags$p("La preghiamo di completare la scala seguente, indicando la propria risposta per ogni affermazione. Non ci sono risposte giuste o sbagliate.")
+      tags$p("In questa sezione Le chiediamo le Sue opinioni sull'intelligenza artificiale in senso ampio: non solo quella applicata alla musica, ma l'AI in tutte le sue forme. Con \"intelligenza artificiale\" intendiamo qualsiasi sistema capace di svolgere compiti che normalmente richiederebbero l'intelligenza umana — dai sistemi di raccomandazione agli assistenti vocali, dai robot industriali ai software di analisi dei dati."),
+      tags$p("Non esistono risposte giuste o sbagliate. Ci interessa esclusivamente il Suo punto di vista personale.")
     ),
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
@@ -430,8 +430,8 @@ TR <- list(
     gaais_h3      = "Attitudes towards Artificial Intelligence",
     gaais_instr   = "For each statement, indicate your level of agreement.",
     gaais_context = tagList(
-      tags$p("We are interested in your attitudes towards Artificial Intelligence broadly, not only in the context of music. By Artificial Intelligence we mean systems capable of performing tasks that would normally require human intelligence. Please note that these can include computers, robots or other hardware devices, possibly integrated with sensors or cameras."),
-      tags$p("Please complete the following scale, indicating your response for each statement. There are no right or wrong answers.")
+      tags$p("In this section we ask for your views on artificial intelligence broadly — not just AI in music, but AI in all its forms. By \"artificial intelligence\" we mean any system capable of performing tasks that would normally require human intelligence: from recommendation engines and voice assistants to industrial robots and data analysis tools."),
+      tags$p("There are no right or wrong answers. We are only interested in your personal perspective.")
     ),
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
@@ -700,8 +700,8 @@ TR <- list(
     gaais_h3      = "Attitudes envers l'Intelligence Artificielle",
     gaais_instr   = "Pour chaque affirmation, indiquez votre niveau d'accord.",
     gaais_context = tagList(
-      tags$p("Nous nous interessons a vos attitudes envers l'Intelligence Artificielle en general, et pas seulement dans le domaine musical. Par Intelligence Artificielle, nous entendons des systemes capables d'effectuer des taches qui necessiteraient normalement l'intelligence humaine. Veuillez noter que ceux-ci peuvent inclure des ordinateurs, des robots ou d'autres dispositifs materiels, eventuellement integres avec des capteurs ou des cameras."),
-      tags$p("Veuillez completer l'echelle suivante en indiquant votre reponse pour chaque affirmation. Il n'y a pas de bonnes ou de mauvaises reponses.")
+      tags$p("Dans cette section, nous vous demandons vos opinions sur l'intelligence artificielle au sens large — pas uniquement l'IA dans la musique, mais l'IA sous toutes ses formes. Par \"intelligence artificielle\" nous entendons tout systeme capable d'effectuer des taches qui necessiteraient normalement l'intelligence humaine : systemes de recommandation, assistants vocaux, robots industriels, logiciels d'analyse de donnees, et bien d'autres."),
+      tags$p("Il n'y a pas de bonnes ou de mauvaises reponses. Seul votre point de vue personnel nous interesse.")
     ),
 
     # ── Framing (Section 3) ────────────────────────────────────────────────

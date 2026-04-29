@@ -746,7 +746,22 @@ body {
   font-size: 1.35rem;
   font-weight: 700;
   line-height: 1.4;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
+}
+
+.lang-survey-sub {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  line-height: 1.4;
+}
+
+/* Section survey title — shown at top of each section page */
+.section-survey-title {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #9ca3af;
+  margin-bottom: 0.9rem;
+  letter-spacing: 0.01em;
 }
 
 .lang-prompt {
