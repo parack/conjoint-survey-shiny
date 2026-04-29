@@ -200,23 +200,23 @@ body {
 }
 
 .btn-noscore {
-  color: #6c757d !important;
-  border-color: #adb5bd !important;
-  background: #fff !important;
+  color: #c2410c !important;
+  border-color: #fed7aa !important;
+  background: #fff7ed !important;
   font-size: 0.85rem;
   font-style: italic;
   white-space: nowrap;
   transition: background 0.15s;
 }
 .btn-noscore:hover {
-  background: #f1f3f5 !important;
-  color: #6c757d !important;
-  border-color: #adb5bd !important;
+  background: #ffedd5 !important;
+  color: #c2410c !important;
+  border-color: #fdba74 !important;
 }
 .btn-check:checked + .btn-noscore {
-  background: #6c757d !important;
+  background: #ea580c !important;
   color: #fff !important;
-  border-color: #6c757d !important;
+  border-color: #ea580c !important;
 }
 
 /* ── Global: blue accent for all form controls ──────────────────────────── */
@@ -302,6 +302,30 @@ body {
 /* Last label: round right corners */
 .gaais-btn-group label.gaais-btn:last-of-type {
   border-radius: 0 6px 6px 0;
+}
+
+/* ── Audio section: hint box and definition box ───────────────────────────── */
+.audio-hint-box {
+  background: #f0fdf4;
+  border-left: 3px solid #86efac;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  color: #166534;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.audio-context-box {
+  background: #eff6ff;
+  border-left: 3px solid #93c5fd;
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  font-size: 0.86rem;
+  color: #374151;
+  line-height: 1.55;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
 }
 
 /* ── Section instruction block (GAAIS context, etc.) ─────────────────────── */

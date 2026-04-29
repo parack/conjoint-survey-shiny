@@ -58,13 +58,12 @@ ui <- function(request) {
     div(id = "page_intro", class = "survey-page",
       div(class = "survey-container",
         div(class = "survey-header text-center",
-          h2(tr$intro_title, br(), tr$intro_title2),
-          p(class = "lead text-muted", tr$intro_subtitle)
+          h2(tr$intro_title, br(), tr$intro_title2)
         ),
         hr(),
         h5(tr$privacy_head),
         div(class = "consent-box",
-          p(tr$intro_body),
+          p(tags$strong(tr$intro_salute), tr$intro_body),
           p(tags$strong(tr$what_asked_h)),
           tr$what_asked,
           hr(class = "my-2"),
@@ -238,8 +237,9 @@ ui <- function(request) {
         div(class = "survey-header",
           div(class = "page-badge", tr$badge1),
           h3(tr$audio_h3),
-          p(tr$audio_context),
-          p(tr$audio_instr)
+          p(tr$audio_instr),
+          div(class = "audio-hint-box", tr$audio_hint),
+          div(class = "audio-context-box", tr$audio_context)
         ),
         uiOutput("audio_clips_ui"),
         div(class = "nav-buttons",

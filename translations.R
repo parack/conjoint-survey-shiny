@@ -111,12 +111,13 @@ TR <- list(
     err_dsp_svc  = "Indichi il servizio di streaming che utilizza principalmente.",
     err_dsp_tier = "Indichi il tipo di abbonamento.",
 
-    intro_title    = "Preferenze dei consumatori per la governance dell'AI",
-    intro_title2   = "nei servizi musicali in streaming",
-    intro_subtitle = "Sondaggio per tesi magistrale - Universita degli Studi di Trento",
+    intro_title    = "Musica generata dall'AI nei servizi di streaming",
+    intro_title2   = "Sondaggio sulle preferenze dei consumatori",
+    intro_subtitle = "",
     privacy_head   = "Informativa sulla privacy e consenso informato",
 
-    intro_body = "Sono uno studente del Corso di Laurea Magistrale in Management presso l'Universita degli Studi di Trento. Chiedo la Sua disponibilita a partecipare a questa indagine per la mia tesi, il cui obiettivo e analizzare le preferenze dei consumatori riguardo alle politiche di governance della musica generata dall'intelligenza artificiale nei servizi di streaming musicale.",
+    intro_salute = "Gentile partecipante,",
+    intro_body   = "sono uno studente del Corso di Laurea Magistrale in Management dell'Universita degli Studi di Trento. La invito a partecipare a questo sondaggio, sviluppato nell'ambito della mia tesi magistrale, che ha l'obiettivo di analizzare le preferenze dei consumatori riguardo alle politiche adottate dalle piattaforme di streaming musicale in materia di musica generata dall'intelligenza artificiale.",
 
     what_asked_h = "Cosa Le verra chiesto?",
     what_asked   = tags$ol(
@@ -145,22 +146,22 @@ TR <- list(
 
     badge1        = "Sezione 1 di 5",
     audio_h3      = "Task di Discriminazione Audio",
-    audio_context = "Per musica generata dall'AI si intende musica composta o prodotta interamente o in parte da algoritmi di intelligenza artificiale, senza il contributo diretto di un musicista umano nella composizione o nell'esecuzione.",
+    audio_hint    = "\U0001F3A7 Per una valutazione ottimale, si consiglia l'ascolto in cuffia o in un ambiente silenzioso.",
     audio_instr   = tagList(
       "Le presentiamo ", tags$strong("4 brevi clip musicali"),
-      ". Per ognuna, Le chiediamo di indicare in che misura ritiene che sia stata prodotta dall'intelligenza artificiale o da un musicista umano, utilizzando la scala a 4 punti da ",
+      ". Per ciascuna traccia, La preghiamo di indicare in che misura ritiene che essa sia stata prodotta tramite l'utilizzo di intelligenza artificiale generativa o da un musicista umano, utilizzando la scala a 4 punti da ",
       tags$em("Sicuramente umana"), " a ", tags$em("Sicuramente AI"),
-      ". Se non riesce a esprimere un giudizio, selezioni ", tags$em("'Non so'"), "."
+      ". Qualora non riesca a esprimere un giudizio, selezioni l'opzione ", tags$em("'Non so'"), "."
     ),
+    audio_context = "Per musica generata dall'AI si intende musica composta o prodotta interamente o in parte da algoritmi di intelligenza artificiale generativa, senza il contributo diretto di un musicista umano nella composizione o nell'esecuzione.",
     btn_next = "Avanti",
 
     badge2        = "Sezione 2 di 5",
     gaais_h3      = "Atteggiamenti verso l'Intelligenza Artificiale",
     gaais_instr   = "Per ciascuna affermazione, indichi il Suo grado di accordo.",
     gaais_context = tagList(
-      tags$p("Siamo interessati ai Suoi atteggiamenti nei confronti dell'Intelligenza Artificiale. Per Intelligenza Artificiale intendiamo sistemi in grado di svolgere compiti che solitamente richiederebbero l'intelligenza umana, inclusa la composizione e produzione musicale."),
-      tags$p("Come suggerisce il nome, la musica generata dall'AI viene prodotta automaticamente da algoritmi a partire da un input testuale. Decenni di ricerca hanno portato allo sviluppo di modelli in grado di generare composizioni di alta qualita, apprendendo i pattern presenti in vasti archivi di musica prodotta dall'uomo."),
-      tags$p("La preghiamo di completare la scala seguente, indicando la propria risposta per ogni affermazione. Non ci sono risposte giuste o sbagliate: siamo interessati alle Sue opinioni personali.")
+      tags$p("Siamo interessati ai Suoi atteggiamenti nei confronti dell'Intelligenza Artificiale in senso ampio, non limitatamente all'ambito musicale. Per Intelligenza Artificiale intendiamo sistemi in grado di svolgere compiti che di solito richiederebbero l'intelligenza umana. Si prega di notare che tali sistemi possono includere computer, robot o altri dispositivi hardware, eventualmente integrati con sensori o telecamere."),
+      tags$p("La preghiamo di completare la scala seguente, indicando la propria risposta per ogni affermazione. Non ci sono risposte giuste o sbagliate.")
     ),
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
@@ -378,12 +379,13 @@ TR <- list(
     err_dsp_svc  = "Please indicate the streaming service you use most.",
     err_dsp_tier = "Please indicate your subscription type.",
 
-    intro_title    = "Consumer Preferences for AI Governance",
-    intro_title2   = "in Music Streaming Services",
-    intro_subtitle = "Master's thesis survey - University of Trento",
+    intro_title    = "AI-Generated Music in Streaming Services",
+    intro_title2   = "A Survey on Consumer Preferences",
+    intro_subtitle = "",
     privacy_head   = "Privacy notice and informed consent",
 
-    intro_body = "I am a Master's student at the University of Trento. I would like to ask for your participation in this survey for my thesis, which aims to analyse consumer preferences regarding AI-generated music governance policies in music streaming services.",
+    intro_salute = "Dear participant,",
+    intro_body   = "I am a Master's student in Management at the University of Trento. I am inviting you to take part in this survey, developed as part of my Master's thesis, which aims to understand consumer preferences regarding the policies adopted by music streaming platforms in relation to AI-generated music.",
 
     what_asked_h = "What will be asked of you?",
     what_asked   = tags$ol(
@@ -412,22 +414,22 @@ TR <- list(
 
     badge1        = "Section 1 of 5",
     audio_h3      = "Audio Discrimination Task",
-    audio_context = "AI-generated music refers to music composed or produced entirely or in part by artificial intelligence algorithms, without the direct contribution of a human musician in the composition or performance.",
+    audio_hint    = "\U0001F3A7 For the best results, we recommend listening with headphones or in a quiet environment.",
     audio_instr   = tagList(
       "We present you with ", tags$strong("4 short music clips"),
-      ". For each one, please indicate to what extent you believe it was produced by artificial intelligence or by a human musician, using the 4-point scale from ",
+      ". For each track, please indicate to what extent you believe it was produced using generative artificial intelligence or by a human musician, using the 4-point scale from ",
       tags$em("Definitely human"), " to ", tags$em("Definitely AI"),
-      ". If you cannot form a judgement, select ", tags$em("'Don't know'"), "."
+      ". If you are unable to form a judgement, please select the option ", tags$em("'Don't know'"), "."
     ),
+    audio_context = "AI-generated music refers to music composed or produced entirely or in part by generative artificial intelligence algorithms, without the direct contribution of a human musician in the composition or performance.",
     btn_next = "Next",
 
     badge2        = "Section 2 of 5",
     gaais_h3      = "Attitudes towards Artificial Intelligence",
     gaais_instr   = "For each statement, indicate your level of agreement.",
     gaais_context = tagList(
-      tags$p("We are interested in your attitudes towards Artificial Intelligence. By Artificial Intelligence we mean systems capable of performing tasks that would normally require human intelligence, including musical composition and production."),
-      tags$p("As the name suggests, AI-generated music can automatically create musical pieces based on a prompt. Decades of research have led to AI models that can generate high-quality musical compositions by learning underlying patterns present in large archives of human-made music."),
-      tags$p("Please complete the following scale, indicating your response for each statement. There are no right or wrong answers: we are interested in your personal opinions.")
+      tags$p("We are interested in your attitudes towards Artificial Intelligence broadly, not only in the context of music. By Artificial Intelligence we mean systems capable of performing tasks that would normally require human intelligence. Please note that these can include computers, robots or other hardware devices, possibly integrated with sensors or cameras."),
+      tags$p("Please complete the following scale, indicating your response for each statement. There are no right or wrong answers.")
     ),
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
@@ -646,12 +648,13 @@ TR <- list(
     err_dsp_svc  = "Veuillez indiquer le service de streaming que vous utilisez principalement.",
     err_dsp_tier = "Veuillez indiquer votre type d'abonnement.",
 
-    intro_title    = "Preferences des consommateurs pour la gouvernance de l'IA",
-    intro_title2   = "dans les services de streaming musical",
-    intro_subtitle = "Sondage pour memoire de master - Universite de Trente",
+    intro_title    = "La musique generee par l'IA dans les services de streaming",
+    intro_title2   = "Sondage sur les preferences des consommateurs",
+    intro_subtitle = "",
     privacy_head   = "Avis de confidentialite et consentement eclaire",
 
-    intro_body = "Je suis etudiant en Master Management a l'Universite de Trente. Je vous demande de bien vouloir participer a cette enquete pour mon memoire, dont l'objectif est d'analyser les preferences des consommateurs concernant les politiques de gouvernance de la musique generee par l'IA dans les services de streaming musical.",
+    intro_salute = "Chere participante, cher participant,",
+    intro_body   = "je suis etudiant en Master Management a l'Universite de Trente. Je vous invite a participer a ce sondage, elabore dans le cadre de mon memoire de master, dont l'objectif est de comprendre les preferences des consommateurs concernant les politiques adoptees par les plateformes de streaming musical en matiere de musique generee par l'IA.",
 
     what_asked_h = "Ce qu'on vous demandera ?",
     what_asked   = tags$ol(
@@ -680,22 +683,22 @@ TR <- list(
 
     badge1        = "Section 1 sur 5",
     audio_h3      = "Tache de discrimination audio",
-    audio_context = "La musique generee par l'IA designe la musique composee ou produite entierement ou en partie par des algorithmes d'intelligence artificielle, sans la contribution directe d'un musicien humain dans la composition ou l'execution.",
+    audio_hint    = "\U0001F3A7 Pour une evaluation optimale, nous recommandons d'ecouter avec des ecouteurs ou dans un endroit calme.",
     audio_instr   = tagList(
       "Nous vous presentons ", tags$strong("4 courts extraits musicaux"),
-      ". Pour chacun, indiquez dans quelle mesure vous pensez qu'il a ete produit par l'intelligence artificielle ou par un musicien humain, en utilisant l'echelle a 4 points de ",
+      ". Pour chaque piste, veuillez indiquer dans quelle mesure vous pensez qu'elle a ete produite par l'intelligence artificielle generative ou par un musicien humain, en utilisant l'echelle a 4 points de ",
       tags$em("Surement humaine"), " a ", tags$em("Surement IA"),
-      ". Si vous ne pouvez pas formuler de jugement, selectionnez ", tags$em("'Je ne sais pas'"), "."
+      ". Si vous n'etes pas en mesure de formuler un jugement, selectionnez l'option ", tags$em("'Je ne sais pas'"), "."
     ),
+    audio_context = "La musique generee par l'IA designe la musique composee ou produite entierement ou en partie par des algorithmes d'intelligence artificielle generative, sans la contribution directe d'un musicien humain dans la composition ou l'execution.",
     btn_next = "Suivant",
 
     badge2        = "Section 2 sur 5",
     gaais_h3      = "Attitudes envers l'Intelligence Artificielle",
     gaais_instr   = "Pour chaque affirmation, indiquez votre niveau d'accord.",
     gaais_context = tagList(
-      tags$p("Nous nous interessons a vos attitudes envers l'Intelligence Artificielle. Par Intelligence Artificielle, nous entendons des systemes capables d'effectuer des taches qui necessiteraient normalement l'intelligence humaine, notamment la composition et la production musicale."),
-      tags$p("Comme son nom l'indique, la musique generee par l'IA est produite automatiquement par des algorithmes a partir d'une invite textuelle. Des decennies de recherche ont permis de developper des modeles capables de generer des compositions de haute qualite, en apprenant les patterns presents dans de vastes archives de musique produite par des humains."),
-      tags$p("Veuillez completer l'echelle suivante en indiquant votre reponse pour chaque affirmation. Il n'y a pas de bonnes ou de mauvaises reponses : nous nous interessons a vos opinions personnelles.")
+      tags$p("Nous nous interessons a vos attitudes envers l'Intelligence Artificielle en general, et pas seulement dans le domaine musical. Par Intelligence Artificielle, nous entendons des systemes capables d'effectuer des taches qui necessiteraient normalement l'intelligence humaine. Veuillez noter que ceux-ci peuvent inclure des ordinateurs, des robots ou d'autres dispositifs materiels, eventuellement integres avec des capteurs ou des cameras."),
+      tags$p("Veuillez completer l'echelle suivante en indiquant votre reponse pour chaque affirmation. Il n'y a pas de bonnes ou de mauvaises reponses.")
     ),
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
