@@ -707,15 +707,7 @@ body {
 }
 
 .churn-section {
-  background: #f0f7ff;
-  border-radius: 8px;
-  padding: 1.2rem 1.5rem;
-  margin-top: 1.25rem;
-}
-
-.churn-section h5 {
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  padding: 0.5rem 0;
 }
 
 /* ── Demographics / Submit ────────────────────────────────────────────────── */

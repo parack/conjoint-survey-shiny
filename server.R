@@ -148,7 +148,8 @@ server <- function(input, output, session) {
           )
         ),
         h4(tr$cbc_q),
-        p(class = "text-muted", tr$cbc_instr)
+        p(class = "text-muted", tr$cbc_instr),
+        if (t > 1L) p(class = "text-muted fst-italic small", tr$cbc_instr_cont) else NULL
       ),
       div(class = "cbc-cards", cards)
     )
@@ -241,6 +242,18 @@ server <- function(input, output, session) {
     if (any(sapply(proxy_vals, is.null)) || is.null(churn) || any(sapply(behav, is.null))) {
       err(tr$err_proxy); return()
     }
+    # Validate DSP (moved here from demo submit)
+    if (is.null(input$dsp_user)) {
+      err(tr$err_dsp_user); return()
+    }
+    if (input$dsp_user == "yes") {
+      if (is.null(input$dsp_current) || input$dsp_current == "") {
+        err(tr$err_dsp_svc); return()
+      }
+      if (is.null(input$dsp_tier) || input$dsp_tier == "") {
+        err(tr$err_dsp_tier); return()
+      }
+    }
     go_to("demo")
     set_progress(85)
   })
@@ -252,17 +265,6 @@ server <- function(input, output, session) {
     if (input$demo_age == "" || input$demo_gender == "" ||
         input$demo_education == "" || input$demo_country == "") {
       err(tr$err_demo_req); return()
-    }
-    if (is.null(input$dsp_user)) {
-      err(tr$err_dsp_user); return()
-    }
-    if (input$dsp_user == "yes") {
-      if (is.null(input$dsp_current) || input$dsp_current == "") {
-        err(tr$err_dsp_svc); return()
-      }
-      if (is.null(input$dsp_tier) || input$dsp_tier == "") {
-        err(tr$err_dsp_tier); return()
-      }
     }
 
     # ── Collect audio raw ratings ────────────────────────────────────────────

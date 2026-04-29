@@ -85,7 +85,8 @@ ui <- function(request) {
           p(tags$strong(tr$contact_h)),
           tr$contact_info
         ),
-        div(class = "consent-check-row mt-3",
+        div(class = "alert alert-warning py-2 mt-3 small", tr$survey_warn),
+        div(class = "consent-check-row mt-2",
           checkboxInput("consent_check", label = tr$consent_chk, value = FALSE)
         ),
         div(class = "nav-buttons",
@@ -108,7 +109,7 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=8"),
+      tags$link(rel = "stylesheet", href = "style.css?v=9"),
       tags$script(HTML(
         "// ── Block back-button navigation ────────────────────────────────────
         history.pushState(null, null, location.href);
@@ -319,22 +320,11 @@ ui <- function(request) {
             )
           })
         ),
-        div(class = "status-quo-card-blue mt-3",
-          tags$h6(tr$sq_title),
-          p(class = "sq-intro", tr$sq_intro),
-          tags$ul(
-            tags$li(tr$sq_li1),
-            tags$li(tr$sq_li2),
-            tags$li(tr$sq_li3),
-            tags$li(tr$sq_li4)
-          )
-        ),
         hr(),
         div(class = "framing-task",
           h5(tr$task_h5),
           p(tr$task_p1),
           div(class = "attr-list",
-            # Attribute rows: colored bullet + colored label name
             div(class = "attr-row-framing attr-row-a",
               tags$span(class = "attr-icon", "•"),
               div(tags$strong(class = "attr-lbl-colored", tr$attr_a_lbl),
@@ -357,6 +347,16 @@ ui <- function(request) {
             )
           ),
           p(class = "mt-3", tr$task_p2)
+        ),
+        div(class = "status-quo-card-blue mt-3",
+          tags$h6(tr$sq_title),
+          p(class = "sq-intro", tr$sq_intro),
+          tags$ul(
+            tags$li(tr$sq_li1),
+            tags$li(tr$sq_li2),
+            tags$li(tr$sq_li3),
+            tags$li(tr$sq_li4)
+          )
         ),
         div(class = "nav-buttons",
           actionButton("btn_framing_next", tr$btn_start_cbc,
@@ -395,23 +395,34 @@ ui <- function(request) {
             )
           })
         ),
-        hr(),
-        h5(tr$behav_h5),
         div(class = "gaais-list",
           div(class = "gaais-item",
             p(class = "item-text", tr$freq_q),
             div(class = "gaais-btn-group",
               btn_check_group(tr$freq_opts, "music_freq", "music_freq", extra_lbl_class = "gaais-btn"))
-          ),
+          )
+        ),
+        hr(),
+        h5(tr$dsp_h5),
+        radioButtons("dsp_user",
+          label    = tr$dsp_user_q,
+          choices  = tr$dsp_yn,
+          selected = character(0),
+          inline   = TRUE
+        ),
+        conditionalPanel(
+          condition = "input.dsp_user === 'yes'",
+          sel("dsp_current", tr$dsp_svc_lbl,  tr$dsp_opts),
+          sel("dsp_tier",    tr$dsp_tier_lbl, tr$tier_opts)
+        ),
+        div(class = "gaais-list",
           div(class = "gaais-item",
             p(class = "item-text", tr$aware_q),
             div(class = "gaais-btn-group",
               btn_check_group(tr$aware_opts, "ai_awareness", "ai_aware", extra_lbl_class = "gaais-btn"))
           )
         ),
-        hr(),
-        div(class = "churn-section",
-          h5(tr$churn_h5),
+        div(class = "churn-section mt-3",
           p(tr$churn_q),
           div(class = "gaais-btn-group mt-2",
             btn_check_group(
@@ -442,24 +453,9 @@ ui <- function(request) {
           column(6, sel("demo_country",   tr$country_lbl, tr$country_opts)),
           column(6, sel("demo_education", tr$edu_lbl,     tr$edu_opts))
         ),
-        hr(),
-        h5(tr$dsp_h5),
-        radioButtons("dsp_user",
-          label    = tr$dsp_user_q,
-          choices  = tr$dsp_yn,
-          selected = character(0),
-          inline   = TRUE
-        ),
-        conditionalPanel(
-          condition = "input.dsp_user === 'yes'",
-          sel("dsp_current", tr$dsp_svc_lbl,  tr$dsp_opts),
-          sel("dsp_tier",    tr$dsp_tier_lbl, tr$tier_opts)
-        ),
-        hr(),
-        div(class = "submit-section",
-          p(class = "text-muted small", tr$submit_warn),
+        div(class = "submit-section mt-3",
           actionButton("btn_demo_submit", tr$btn_submit,
-                       class = "btn btn-success btn-lg",
+                       class = "btn btn-primary btn-lg",
                        icon  = icon("paper-plane"))
         )
       )
