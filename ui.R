@@ -85,7 +85,8 @@ ui <- function(request) {
           p(tags$strong(tr$contact_h)),
           tr$contact_info
         ),
-        div(class = "consent-check-row mt-3",
+        div(class = "alert alert-warning py-2 mt-3 small", tr$survey_warn),
+        div(class = "consent-check-row mt-2",
           checkboxInput("consent_check", label = tr$consent_chk, value = FALSE)
         ),
         div(class = "nav-buttons",
@@ -108,7 +109,7 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=6"),
+      tags$link(rel = "stylesheet", href = "style.css?v=13"),
       tags$script(HTML(
         "// ── Block back-button navigation ────────────────────────────────────
         history.pushState(null, null, location.href);
@@ -229,6 +230,33 @@ ui <- function(request) {
           }
           var item = $(this).closest('.gaais-item');
           if (item.length) item.addClass('item-answered');
+        });
+
+        // ── Image popup on click/tap (custom lightweight, no Bootstrap dep) ──
+        $(document).on('click', '.btn-popover-img', function(e) {
+          e.stopPropagation();
+          var $btn = $(this);
+          var src  = $btn.attr('data-img');
+          var wasOpen = $btn.hasClass('pop-open');
+          // close any open popup
+          $('.img-popup-box').remove();
+          $('.btn-popover-img').removeClass('pop-open');
+          if (wasOpen) return;  // toggle off
+          $btn.addClass('pop-open');
+          var $box = $('<div class=\"img-popup-box\"><img src=\"' + src + '\" alt=\"\"></div>');
+          $('body').append($box);
+          var rect = this.getBoundingClientRect();
+          var st   = window.scrollY  || document.documentElement.scrollTop;
+          var sl   = window.scrollX  || document.documentElement.scrollLeft;
+          var bw   = $box.outerWidth();
+          var left = Math.max(8, Math.min(rect.left + sl, window.innerWidth + sl - bw - 12));
+          $box.css({ top: (rect.bottom + st + 6) + 'px', left: left + 'px' });
+        });
+        $(document).on('click', function(e) {
+          if (!$(e.target).closest('.btn-popover-img, .img-popup-box').length) {
+            $('.img-popup-box').remove();
+            $('.btn-popover-img').removeClass('pop-open');
+          }
         });"
       ))
     ),
@@ -297,19 +325,7 @@ ui <- function(request) {
           div(class = "page-badge", tr$badge3),
           h3(tr$framing_h3)
         ),
-        div(class = "framing-box",
-          h5(tr$framing_ctx),
-          p(tr$framing_p1)
-        ),
-        div(class = "stat-cards-row",
-          lapply(1:4, function(i) {
-            div(class = "stat-card",
-              div(class = "stat-number", tr[[paste0("stat_", i, "_num")]]),
-              div(class = "stat-label",  tr[[paste0("stat_", i, "_label")]]),
-              div(class = "stat-source", tr[[paste0("stat_", i, "_src")]])
-            )
-          })
-        ),
+        p(class = "text-muted mb-3", tr$framing_p1),
         div(class = "dsp-policy-box",
           h6(tr$dsp_policy_h),
           tags$table(class = "dsp-table",
@@ -322,25 +338,25 @@ ui <- function(request) {
           ),
           p(class = "text-muted small mt-2", tr$dsp_policy_note)
         ),
-        div(class = "status-quo-card mt-3",
-          tags$h6(tr$sq_title),
-          p(class = "sq-intro", tr$sq_intro),
-          tags$ul(
-            tags$li(tr$sq_li1),
-            tags$li(tr$sq_li2),
-            tags$li(tr$sq_li3),
-            tags$li(tr$sq_li4)
-          )
+        div(class = "stat-cards-row mt-3",
+          lapply(1:4, function(i) {
+            div(class = "stat-card",
+              div(class = "stat-number", tr[[paste0("stat_", i, "_num")]]),
+              div(class = "stat-label",  tr[[paste0("stat_", i, "_label")]]),
+              div(class = "stat-source", tr[[paste0("stat_", i, "_src")]])
+            )
+          })
         ),
         hr(),
         div(class = "framing-task",
           h5(tr$task_h5),
           p(tr$task_p1),
           div(class = "attr-list",
-            # Attribute rows: colored bullet + colored label name
             div(class = "attr-row-framing attr-row-a",
               tags$span(class = "attr-icon", "•"),
               div(tags$strong(class = "attr-lbl-colored", tr$attr_a_lbl),
+                  tags$button(type = "button", class = "btn-popover-img",
+                              `data-img` = "ai_label.jpg", "i"),
                   tr$attr_a_desc, tr$attr_a_levels)
             ),
             div(class = "attr-row-framing attr-row-b",
@@ -360,6 +376,16 @@ ui <- function(request) {
             )
           ),
           p(class = "mt-3", tr$task_p2)
+        ),
+        div(class = "status-quo-card-blue mt-3",
+          tags$h6(tr$sq_title),
+          p(class = "sq-intro", tr$sq_intro),
+          tags$ul(
+            tags$li(tr$sq_li1),
+            tags$li(tr$sq_li2),
+            tags$li(tr$sq_li3),
+            tags$li(tr$sq_li4)
+          )
         ),
         div(class = "nav-buttons",
           actionButton("btn_framing_next", tr$btn_start_cbc,
@@ -399,22 +425,33 @@ ui <- function(request) {
           })
         ),
         hr(),
-        h5(tr$behav_h5),
+        h5(tr$dsp_h5),
+        radioButtons("dsp_user",
+          label    = tr$dsp_user_q,
+          choices  = tr$dsp_yn,
+          selected = character(0),
+          inline   = TRUE
+        ),
+        conditionalPanel(
+          condition = "input.dsp_user === 'yes'",
+          sel("dsp_current", tr$dsp_svc_lbl,  tr$dsp_opts),
+          sel("dsp_tier",    tr$dsp_tier_lbl, tr$tier_opts),
+          div(class = "gaais-list mt-2",
+            div(class = "gaais-item",
+              p(class = "item-text", tr$freq_q),
+              div(class = "gaais-btn-group",
+                btn_check_group(tr$freq_opts, "music_freq", "music_freq", extra_lbl_class = "gaais-btn"))
+            )
+          )
+        ),
         div(class = "gaais-list",
-          div(class = "gaais-item",
-            p(class = "item-text", tr$freq_q),
-            div(class = "gaais-btn-group",
-              btn_check_group(tr$freq_opts, "music_freq", "music_freq", extra_lbl_class = "gaais-btn"))
-          ),
           div(class = "gaais-item",
             p(class = "item-text", tr$aware_q),
             div(class = "gaais-btn-group",
               btn_check_group(tr$aware_opts, "ai_awareness", "ai_aware", extra_lbl_class = "gaais-btn"))
           )
         ),
-        hr(),
-        div(class = "churn-section",
-          h5(tr$churn_h5),
+        div(class = "churn-section mt-3",
           p(tr$churn_q),
           div(class = "gaais-btn-group mt-2",
             btn_check_group(
@@ -445,24 +482,9 @@ ui <- function(request) {
           column(6, sel("demo_country",   tr$country_lbl, tr$country_opts)),
           column(6, sel("demo_education", tr$edu_lbl,     tr$edu_opts))
         ),
-        hr(),
-        h5(tr$dsp_h5),
-        radioButtons("dsp_user",
-          label    = tr$dsp_user_q,
-          choices  = tr$dsp_yn,
-          selected = character(0),
-          inline   = TRUE
-        ),
-        conditionalPanel(
-          condition = "input.dsp_user === 'yes'",
-          sel("dsp_current", tr$dsp_svc_lbl,  tr$dsp_opts),
-          sel("dsp_tier",    tr$dsp_tier_lbl, tr$tier_opts)
-        ),
-        hr(),
-        div(class = "submit-section",
-          p(class = "text-muted small", tr$submit_warn),
+        div(class = "submit-section mt-3",
           actionButton("btn_demo_submit", tr$btn_submit,
-                       class = "btn btn-success btn-lg",
+                       class = "btn btn-primary btn-lg",
                        icon  = icon("paper-plane"))
         )
       )

@@ -148,7 +148,8 @@ server <- function(input, output, session) {
           )
         ),
         h4(tr$cbc_q),
-        p(class = "text-muted", tr$cbc_instr)
+        p(class = "text-muted", tr$cbc_instr),
+        if (t > 1L) p(class = "text-muted fst-italic small", tr$cbc_instr_cont) else NULL
       ),
       div(class = "cbc-cards", cards)
     )
@@ -158,8 +159,11 @@ server <- function(input, output, session) {
   # Navigation handlers
   # ═══════════════════════════════════════════════════════════════════════════
 
-  # INTRO → AUDIO  (consent validated client-side; _consentOK + cb.checked, Safari-safe)
+  # INTRO → AUDIO
   observeEvent(input$btn_intro_next, {
+    if (!isTRUE(input$consent_check)) {
+      err(tr$err_consent); return()
+    }
     go_to("audio")
     set_progress(12)
     session$sendCustomMessage("surveyStarted", list())  # activates beforeunload warning
@@ -237,9 +241,24 @@ server <- function(input, output, session) {
   observeEvent(input$btn_proxy_next, {
     proxy_vals <- sapply(PROXY_ITEMS$code, function(code) input[[code]])
     churn      <- input$churn_intent
-    behav      <- sapply(c("music_freq","ai_awareness"), function(x) input[[x]])
+    # music_freq only required when dsp_user == "yes" (shown conditionally)
+    behav_codes <- if (!is.null(input$dsp_user) && input$dsp_user == "yes")
+                     c("music_freq", "ai_awareness") else "ai_awareness"
+    behav <- sapply(behav_codes, function(x) input[[x]])
     if (any(sapply(proxy_vals, is.null)) || is.null(churn) || any(sapply(behav, is.null))) {
       err(tr$err_proxy); return()
+    }
+    # Validate DSP
+    if (is.null(input$dsp_user)) {
+      err(tr$err_dsp_user); return()
+    }
+    if (input$dsp_user == "yes") {
+      if (is.null(input$dsp_current) || input$dsp_current == "") {
+        err(tr$err_dsp_svc); return()
+      }
+      if (is.null(input$dsp_tier) || input$dsp_tier == "") {
+        err(tr$err_dsp_tier); return()
+      }
     }
     go_to("demo")
     set_progress(85)
@@ -252,17 +271,6 @@ server <- function(input, output, session) {
     if (input$demo_age == "" || input$demo_gender == "" ||
         input$demo_education == "" || input$demo_country == "") {
       err(tr$err_demo_req); return()
-    }
-    if (is.null(input$dsp_user)) {
-      err(tr$err_dsp_user); return()
-    }
-    if (input$dsp_user == "yes") {
-      if (is.null(input$dsp_current) || input$dsp_current == "") {
-        err(tr$err_dsp_svc); return()
-      }
-      if (is.null(input$dsp_tier) || input$dsp_tier == "") {
-        err(tr$err_dsp_tier); return()
-      }
     }
 
     # ── Collect audio raw ratings ────────────────────────────────────────────
@@ -298,7 +306,7 @@ server <- function(input, output, session) {
       proxy_df,
       data.frame(
         churn_intent = as.integer(input$churn_intent),
-        music_freq   = input$music_freq,
+        music_freq   = if (!is.null(input$dsp_user) && input$dsp_user == "yes") input$music_freq else "",
         ai_awareness = input$ai_awareness,
         dsp_user         = input$dsp_user,
         dsp_current      = if (input$dsp_user == "yes") input$dsp_current else "",
