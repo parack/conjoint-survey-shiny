@@ -543,16 +543,17 @@ body {
   margin-bottom: 1.5rem;
 }
 
-.status-quo-card {
-  background: #fff3cd;
-  border: 1px solid #ffc107;
+.status-quo-card-blue {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
   border-radius: 6px;
   padding: 1rem 1.25rem;
   margin-top: 1rem;
 }
 
-.status-quo-card h6 {
+.status-quo-card-blue h6 {
   font-weight: 700;
+  color: #1d4ed8;
   margin-bottom: 0.5rem;
 }
 

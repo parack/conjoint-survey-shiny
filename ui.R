@@ -108,7 +108,7 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=7"),
+      tags$link(rel = "stylesheet", href = "style.css?v=8"),
       tags$script(HTML(
         "// ── Block back-button navigation ────────────────────────────────────
         history.pushState(null, null, location.href);
@@ -297,19 +297,7 @@ ui <- function(request) {
           div(class = "page-badge", tr$badge3),
           h3(tr$framing_h3)
         ),
-        div(class = "framing-box",
-          h5(tr$framing_ctx),
-          p(tr$framing_p1)
-        ),
-        div(class = "stat-cards-row",
-          lapply(1:4, function(i) {
-            div(class = "stat-card",
-              div(class = "stat-number", tr[[paste0("stat_", i, "_num")]]),
-              div(class = "stat-label",  tr[[paste0("stat_", i, "_label")]]),
-              div(class = "stat-source", tr[[paste0("stat_", i, "_src")]])
-            )
-          })
-        ),
+        p(class = "text-muted mb-3", tr$framing_p1),
         div(class = "dsp-policy-box",
           h6(tr$dsp_policy_h),
           tags$table(class = "dsp-table",
@@ -322,7 +310,16 @@ ui <- function(request) {
           ),
           p(class = "text-muted small mt-2", tr$dsp_policy_note)
         ),
-        div(class = "status-quo-card mt-3",
+        div(class = "stat-cards-row mt-3",
+          lapply(1:4, function(i) {
+            div(class = "stat-card",
+              div(class = "stat-number", tr[[paste0("stat_", i, "_num")]]),
+              div(class = "stat-label",  tr[[paste0("stat_", i, "_label")]]),
+              div(class = "stat-source", tr[[paste0("stat_", i, "_src")]])
+            )
+          })
+        ),
+        div(class = "status-quo-card-blue mt-3",
           tags$h6(tr$sq_title),
           p(class = "sq-intro", tr$sq_intro),
           tags$ul(
