@@ -126,7 +126,7 @@ server <- function(input, output, session) {
           div(class = "attr-label-cbc attr-lbl-c", tr$cbc_a3lbl),
           div(class = paste0("attr-value-cbc lv lv-c", p$a3), tr$A3[p$a3])
         ),
-        div(class = paste0("price-display price-lv", p$a4), fmt_price(A4_PRICES[p$a4]))
+        div(class = "price-display", fmt_price(A4_PRICES[p$a4]))
       )
     })
 
