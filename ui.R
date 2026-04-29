@@ -33,11 +33,11 @@ ui <- function(request) {
       div(class = "survey-container text-center",
         # University logo — top of page
         div(class = "lang-logo-wrap",
-          tags$img(src = "logo_unitrento.png", class = "lang-logo",
+          tags$img(src = "logo_unitrento.jpg", class = "lang-logo",
                    alt = "Universita di Trento")
         ),
+        # Level 1: main title (bold)
         div(class = "survey-header",
-          # Level 1: main title (bold)
           h3(class = "lang-page-title",
             "Musica generata dall'AI nei servizi di streaming"
           ),
@@ -45,10 +45,11 @@ ui <- function(request) {
           p(class = "lang-title-sub",
             "AI-Generated Music in Streaming · Musique générée par l'IA dans le streaming")
         ),
-        hr(),
-        # Level 3: same size/color for both info lines
-        p(class = "lang-prompt mb-1",
+        # Level 3: survey description — same style as Seleziona (no hr here)
+        p(class = "lang-prompt mt-3 mb-2",
           "Indagine sulla preferenza dei consumatori · Consumer preference survey · Sondage sur les préférences"),
+        hr(class = "my-2"),
+        # Level 3: language prompt — same style
         p(class = "lang-prompt mb-4",
           "Seleziona la lingua · Select your language · Choisissez la langue"),
         div(class = "d-flex justify-content-center gap-3 flex-wrap",
@@ -107,7 +108,7 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=5"),
+      tags$link(rel = "stylesheet", href = "style.css?v=6"),
       tags$script(HTML(
         "// ── Block back-button navigation ────────────────────────────────────
         history.pushState(null, null, location.href);
@@ -245,7 +246,6 @@ ui <- function(request) {
     hidden(div(id = "page_audio", class = "survey-page",
       div(class = "survey-container",
         div(class = "survey-header",
-          h2(class = "section-survey-title", tr$intro_title2),
           div(class = "audio-header-row",
             div(class = "page-badge", tr$badge1),
             div(class = "audio-hint-chip", tr$audio_hint)
@@ -337,21 +337,26 @@ ui <- function(request) {
           h5(tr$task_h5),
           p(tr$task_p1),
           div(class = "attr-list",
+            # Attribute rows: colored bullet + colored label name
             div(class = "attr-row-framing attr-row-a",
-              tags$span(class = "attr-icon", tags$b("[A]")),
-              div(tags$strong(tr$attr_a_lbl), tr$attr_a_desc, tr$attr_a_levels)
+              tags$span(class = "attr-icon", "•"),
+              div(tags$strong(class = "attr-lbl-colored", tr$attr_a_lbl),
+                  tr$attr_a_desc, tr$attr_a_levels)
             ),
             div(class = "attr-row-framing attr-row-b",
-              tags$span(class = "attr-icon", tags$b("[B]")),
-              div(tags$strong(tr$attr_b_lbl), tr$attr_b_desc, tr$attr_b_levels)
+              tags$span(class = "attr-icon", "•"),
+              div(tags$strong(class = "attr-lbl-colored", tr$attr_b_lbl),
+                  tr$attr_b_desc, tr$attr_b_levels)
             ),
             div(class = "attr-row-framing attr-row-c",
-              tags$span(class = "attr-icon", tags$b("[C]")),
-              div(tags$strong(tr$attr_c_lbl), tr$attr_c_desc, tr$attr_c_levels)
+              tags$span(class = "attr-icon", "•"),
+              div(tags$strong(class = "attr-lbl-colored", tr$attr_c_lbl),
+                  tr$attr_c_desc, tr$attr_c_levels)
             ),
             div(class = "attr-row-framing attr-row-d",
-              tags$span(class = "attr-icon", tags$b("[D]")),
-              div(tags$strong(tr$attr_d_lbl), tr$attr_d_desc, tr$attr_d_levels)
+              tags$span(class = "attr-icon", "•"),
+              div(tags$strong(class = "attr-lbl-colored", tr$attr_d_lbl),
+                  tr$attr_d_desc, tr$attr_d_levels)
             )
           ),
           p(class = "mt-3", tr$task_p2)

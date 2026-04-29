@@ -161,8 +161,8 @@ TR <- list(
     gaais_h3      = "Atteggiamenti verso l'Intelligenza Artificiale",
     gaais_instr   = "Per ciascuna affermazione, indichi il Suo grado di accordo.",
     gaais_context = tagList(
-      tags$p("In questa sezione Le chiediamo le Sue opinioni sull'intelligenza artificiale in senso ampio: non solo quella applicata alla musica, ma l'AI in tutte le sue forme. Con \"intelligenza artificiale\" intendiamo qualsiasi sistema capace di svolgere compiti che normalmente richiederebbero l'intelligenza umana — dai sistemi di raccomandazione agli assistenti vocali, dai robot industriali ai software di analisi dei dati."),
-      tags$p("Non esistono risposte giuste o sbagliate. Ci interessa esclusivamente il Suo punto di vista personale.")
+      tags$p("In questa sezione Le chiediamo le Sue opinioni sull'intelligenza artificiale in senso ampio, non solo quella applicata alla musica. Con \"intelligenza artificiale\" intendiamo qualsiasi sistema capace di svolgere compiti che normalmente richiederebbero l'intelligenza umana: dai sistemi di raccomandazione agli assistenti vocali, dai robot industriali ai software di analisi dei dati."),
+      tags$p("Per ciascuna delle affermazioni seguenti, indichi il Suo grado di accordo con la scala proposta. Non esistono risposte giuste o sbagliate.")
     ),
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
@@ -430,8 +430,8 @@ TR <- list(
     gaais_h3      = "Attitudes towards Artificial Intelligence",
     gaais_instr   = "For each statement, indicate your level of agreement.",
     gaais_context = tagList(
-      tags$p("In this section we ask for your views on artificial intelligence broadly — not just AI in music, but AI in all its forms. By \"artificial intelligence\" we mean any system capable of performing tasks that would normally require human intelligence: from recommendation engines and voice assistants to industrial robots and data analysis tools."),
-      tags$p("There are no right or wrong answers. We are only interested in your personal perspective.")
+      tags$p("In this section we ask for your views on artificial intelligence broadly, not just AI in music. By \"artificial intelligence\" we mean any system capable of performing tasks that would normally require human intelligence: from recommendation engines and voice assistants to industrial robots and data analysis tools."),
+      tags$p("For each of the following statements, please indicate your level of agreement using the scale provided. There are no right or wrong answers.")
     ),
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
@@ -700,8 +700,8 @@ TR <- list(
     gaais_h3      = "Attitudes envers l'Intelligence Artificielle",
     gaais_instr   = "Pour chaque affirmation, indiquez votre niveau d'accord.",
     gaais_context = tagList(
-      tags$p("Dans cette section, nous vous demandons vos opinions sur l'intelligence artificielle au sens large — pas uniquement l'IA dans la musique, mais l'IA sous toutes ses formes. Par \"intelligence artificielle\" nous entendons tout systeme capable d'effectuer des taches qui necessiteraient normalement l'intelligence humaine : systemes de recommandation, assistants vocaux, robots industriels, logiciels d'analyse de donnees, et bien d'autres."),
-      tags$p("Il n'y a pas de bonnes ou de mauvaises reponses. Seul votre point de vue personnel nous interesse.")
+      tags$p("Dans cette section, nous vous demandons vos opinions sur l'intelligence artificielle au sens large, pas uniquement dans le domaine musical. Par \"intelligence artificielle\" nous entendons tout systeme capable d'effectuer des taches qui necessiteraient normalement l'intelligence humaine : systemes de recommandation, assistants vocaux, robots industriels, logiciels d'analyse de donnees, et bien d'autres."),
+      tags$p("Pour chacune des affirmations suivantes, indiquez votre niveau d'accord avec l'echelle proposee. Il n'y a pas de bonnes ou de mauvaises reponses.")
     ),
 
     # ── Framing (Section 3) ────────────────────────────────────────────────

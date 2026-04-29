@@ -201,7 +201,7 @@ body {
 
 .btn-noscore {
   color: #c2410c !important;
-  border-color: #fed7aa !important;
+  border-color: #c2410c !important;
   background: #f3f4f6 !important;   /* light grey when unselected */
   font-size: 0.85rem;
   font-style: italic;
@@ -511,6 +511,12 @@ body {
 .attr-row-b .attr-icon { color: #7c3aed; }
 .attr-row-c .attr-icon { color: #0d9488; }
 .attr-row-d .attr-icon { color: #ea580c; }
+
+/* Framing page: colored attribute label text */
+.attr-row-a .attr-lbl-colored { color: #2563eb; }
+.attr-row-b .attr-lbl-colored { color: #7c3aed; }
+.attr-row-c .attr-lbl-colored { color: #0d9488; }
+.attr-row-d .attr-lbl-colored { color: #ea580c; }
 
 /* Framing page: circled-number level markers ①②③ — same hue, clearly distinct */
 .attr-row-a .levels-list,
