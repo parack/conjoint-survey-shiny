@@ -159,8 +159,11 @@ server <- function(input, output, session) {
   # Navigation handlers
   # ═══════════════════════════════════════════════════════════════════════════
 
-  # INTRO → AUDIO  (consent validated client-side; _consentOK + cb.checked, Safari-safe)
+  # INTRO → AUDIO
   observeEvent(input$btn_intro_next, {
+    if (!isTRUE(input$consent_check)) {
+      err(tr$err_consent); return()
+    }
     go_to("audio")
     set_progress(12)
     session$sendCustomMessage("surveyStarted", list())  # activates beforeunload warning
