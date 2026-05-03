@@ -539,13 +539,6 @@ body {
 .attr-row-c .levels-list li:nth-child(3)::before { content: "③ "; color: #0d9488; font-weight: 700; }
 
 /* ── Framing page ─────────────────────────────────────────────────────────── */
-.framing-box {
-  background: #f0f7ff;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
 .status-quo-card-blue {
   background: #eff6ff;
   border: 1px solid #bfdbfe;
@@ -697,18 +690,7 @@ body {
 }
 
 
-/* ── Proxy / Likert 7 ─────────────────────────────────────────────────────── */
-.proxy-list .proxy-item {
-  border-bottom: 1px solid #f0f0f0;
-  padding: 0.9rem 0;
-}
-
-.proxy-item .item-text {
-  margin-bottom: 0.4rem;
-  font-size: 0.93rem;
-  line-height: 1.55;
-}
-
+/* ── Proxy / churn ────────────────────────────────────────────────────────── */
 .churn-section {
   padding: 0.5rem 0;
 }
@@ -768,7 +750,7 @@ body {
 /* Custom image popup box */
 .img-popup-box {
   position: absolute;
-  z-index: 9999;
+  z-index: 10000;
   background: #fff;
   border: 1px solid #dee2e6;
   border-radius: 8px;
@@ -831,15 +813,6 @@ body {
   line-height: 1.5;
 }
 
-/* Section survey title — shown at top of each section page */
-.section-survey-title {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #9ca3af;
-  margin-bottom: 0.9rem;
-  letter-spacing: 0.01em;
-}
-
 #page_lang .btn-outline-primary {
   --bs-btn-color:        #2563eb;
   --bs-btn-border-color: #2563eb;
@@ -867,15 +840,6 @@ body {
   }
   .cbc-task-header .page-badge {
     margin-bottom: 0;
-  }
-
-  .cbc-choice-section .radio-inline {
-    display: block !important;
-    margin-bottom: 6px !important;
-  }
-
-  .scale-anchors-7 {
-    font-size: 0.7rem;
   }
 
   /* Audio header: wrap badge + chip on narrow screens */
