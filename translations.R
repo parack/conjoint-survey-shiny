@@ -28,8 +28,6 @@ TR <- list(
               "D'accordo","Fortemente d'accordo"),
     lik5p = c("Per nulla probabile","Poco probabile","Neutrale",
               "Probabile","Molto probabile"),
-    lik5b = c("Per nulla","Poco","Abbastanza","Molto","Moltissimo"),
-
     freq_opts  = c("Mai"="never","Qualche volta al mese"="monthly",
                    "Qualche volta a settimana"="weekly","Ogni giorno"="daily"),
     aware_opts = c("Si"="yes","No"="no","Non ero sicuro/a"="unsure"),
@@ -113,7 +111,6 @@ TR <- list(
 
     intro_title    = "Musica generata dall'AI nei servizi di streaming",
     intro_title2   = "Sondaggio sulle preferenze dei consumatori",
-    intro_subtitle = "",
     privacy_head   = "Informativa sulla privacy e consenso informato",
 
     intro_salute = "Gentile partecipante,",
@@ -161,7 +158,6 @@ TR <- list(
 
     badge2        = "Sezione 2 di 5",
     gaais_h3      = "Atteggiamenti verso l'Intelligenza Artificiale",
-    gaais_instr   = "Per ciascuna affermazione, indichi il Suo grado di accordo.",
     gaais_context = tagList(
       tags$p("In questa sezione Le chiediamo le Sue opinioni sull'intelligenza artificiale in senso ampio, non solo quella applicata alla musica. Con \"intelligenza artificiale\" intendiamo qualsiasi sistema capace di svolgere compiti che normalmente richiederebbero l'intelligenza umana: dai sistemi di raccomandazione agli assistenti vocali, dai robot industriali ai software di analisi dei dati."),
       tags$p("Per ciascuna delle affermazioni seguenti, indichi quanto e d'accordo utilizzando la scala proposta. Non esistono risposte giuste o sbagliate.")
@@ -170,10 +166,8 @@ TR <- list(
     # ── Framing (Section 3) ────────────────────────────────────────────────
     badge3      = "Sezione 3 di 5",
     framing_h3  = "Politiche AI nei servizi di streaming musicale",
-    framing_ctx = "Contesto",
     framing_p1  = "I principali servizi di streaming musicale ospitano un numero crescente di brani generati interamente o in parte dall'intelligenza artificiale. Le piattaforme hanno recentemente avviato le prime iniziative di policy, con approcci molto diversi tra loro.",
 
-    stat_h       = "Il fenomeno in numeri",
     stat_1_num   = "44%",
     stat_1_label = "degli upload giornalieri su Deezer risulta AI-generated",
     stat_1_src   = "Deezer Newsroom, apr. 2026",
@@ -253,10 +247,8 @@ TR <- list(
     badge4      = "Sezione 4 di 5",
     proxy_h3    = "Esperienze musicali e percezione dell'AI",
     proxy_instr = "Di seguito sono elencate alcune affermazioni. Le chiediamo di leggerle attentamente e di indicare quanto e d'accordo o in disaccordo con ciascuna di esse.",
-    behav_h5    = "Abitudini di ascolto",
     freq_q      = "Con quale frequenza ascolta musica in streaming?",
     aware_q     = "Prima di questo sondaggio, era a conoscenza del fatto che il Suo servizio di streaming include tracce generate dall'AI?",
-    churn_h5    = "Intenzione di abbandono",
     churn_q     = tagList(
       "Se il servizio di streaming che utilizza non introducesse alcuna ",
       tags$strong("politica di trasparenza"),
@@ -274,7 +266,6 @@ TR <- list(
     dsp_user_q   = "E attualmente abbonato/a o utilizza regolarmente un servizio di streaming musicale? *",
     dsp_svc_lbl  = "Quale servizio utilizza principalmente? *",
     dsp_tier_lbl = "Tipo di abbonamento *",
-    submit_warn  = "",
     btn_submit   = "Invia le risposte",
 
     ty_h2      = "Grazie per la Sua partecipazione!",
@@ -304,8 +295,6 @@ TR <- list(
 
     lik5  = c("Strongly disagree","Disagree","Neutral","Agree","Strongly agree"),
     lik5p = c("Not at all likely","Unlikely","Neutral","Likely","Very likely"),
-    lik5b = c("Not at all","A little","Somewhat","Very","Extremely"),
-
     freq_opts  = c("Never"="never","A few times a month"="monthly",
                    "A few times a week"="weekly","Every day"="daily"),
     aware_opts = c("Yes"="yes","No"="no","I wasn't sure"="unsure"),
@@ -387,7 +376,6 @@ TR <- list(
 
     intro_title    = "AI-Generated Music in Streaming Services",
     intro_title2   = "A Survey on Consumer Preferences",
-    intro_subtitle = "",
     privacy_head   = "Privacy notice and informed consent",
 
     intro_salute = "Dear participant,",
@@ -435,7 +423,6 @@ TR <- list(
 
     badge2        = "Section 2 of 5",
     gaais_h3      = "Attitudes towards Artificial Intelligence",
-    gaais_instr   = "For each statement, indicate your level of agreement.",
     gaais_context = tagList(
       tags$p("In this section we ask for your views on artificial intelligence broadly, not just AI in music. By \"artificial intelligence\" we mean any system capable of performing tasks that would normally require human intelligence: from recommendation engines and voice assistants to industrial robots and data analysis tools."),
       tags$p("For each of the following statements, please indicate your level of agreement using the scale provided. There are no right or wrong answers.")
@@ -444,10 +431,8 @@ TR <- list(
     # ── Framing (Section 3) ────────────────────────────────────────────────
     badge3      = "Section 3 of 5",
     framing_h3  = "AI Policies in Music Streaming Services",
-    framing_ctx = "Context",
     framing_p1  = "The major music streaming services host a growing number of tracks generated entirely or in part by artificial intelligence. Platforms have recently launched their first policy initiatives, with very different approaches.",
 
-    stat_h       = "The phenomenon in numbers",
     stat_1_num   = "44%",
     stat_1_label = "of daily uploads on Deezer is AI-generated",
     stat_1_src   = "Deezer Newsroom, Apr. 2026",
@@ -527,10 +512,8 @@ TR <- list(
     badge4      = "Section 4 of 5",
     proxy_h3    = "Music experiences and AI perception",
     proxy_instr = "Below are a number of statements. Please read each one carefully and indicate how much you agree or disagree with each of them.",
-    behav_h5    = "Listening habits",
     freq_q      = "How often do you listen to streaming music?",
     aware_q     = "Before this survey, were you aware that your streaming service includes AI-generated tracks?",
-    churn_h5    = "Switching intention",
     churn_q     = tagList(
       "If the streaming service you use were to introduce ",
       tags$strong("no transparency policy"),
@@ -548,7 +531,6 @@ TR <- list(
     dsp_user_q   = "Are you currently subscribed to or regularly using a music streaming service? *",
     dsp_svc_lbl  = "Which service do you use most? *",
     dsp_tier_lbl = "Subscription type *",
-    submit_warn  = "",
     btn_submit   = "Submit answers",
 
     ty_h2      = "Thank you for your participation!",
@@ -579,8 +561,6 @@ TR <- list(
     lik5  = c("Tout a fait en desaccord","En desaccord","Neutre",
               "D'accord","Tout a fait d'accord"),
     lik5p = c("Pas du tout probable","Peu probable","Neutre","Probable","Tres probable"),
-    lik5b = c("Pas du tout","Un peu","Assez","Beaucoup","Extremement"),
-
     freq_opts  = c("Jamais"="never","Quelques fois par mois"="monthly",
                    "Quelques fois par semaine"="weekly","Chaque jour"="daily"),
     aware_opts = c("Oui"="yes","Non"="no","Je n'etais pas sur(e)"="unsure"),
@@ -662,7 +642,6 @@ TR <- list(
 
     intro_title    = "La musique generee par l'IA dans les services de streaming",
     intro_title2   = "Sondage sur les preferences des consommateurs",
-    intro_subtitle = "",
     privacy_head   = "Avis de confidentialite et consentement eclaire",
 
     intro_salute = "Chere participante, cher participant,",
@@ -710,7 +689,6 @@ TR <- list(
 
     badge2        = "Section 2 sur 5",
     gaais_h3      = "Attitudes envers l'Intelligence Artificielle",
-    gaais_instr   = "Pour chaque affirmation, indiquez votre niveau d'accord.",
     gaais_context = tagList(
       tags$p("Dans cette section, nous vous demandons vos opinions sur l'intelligence artificielle au sens large, pas uniquement dans le domaine musical. Par \"intelligence artificielle\" nous entendons tout systeme capable d'effectuer des taches qui necessiteraient normalement l'intelligence humaine : systemes de recommandation, assistants vocaux, robots industriels, logiciels d'analyse de donnees, et bien d'autres."),
       tags$p("Pour chacune des affirmations suivantes, indiquez votre niveau d'accord avec l'echelle proposee. Il n'y a pas de bonnes ou de mauvaises reponses.")
@@ -719,10 +697,8 @@ TR <- list(
     # ── Framing (Section 3) ────────────────────────────────────────────────
     badge3      = "Section 3 sur 5",
     framing_h3  = "Politiques IA dans les services de streaming musical",
-    framing_ctx = "Contexte",
     framing_p1  = "Les principaux services de streaming musical hebergent un nombre croissant de titres generes entierement ou en partie par l'intelligence artificielle. Les plateformes ont recemment lance leurs premieres initiatives de politique, avec des approches tres differentes.",
 
-    stat_h       = "Le phenomene en chiffres",
     stat_1_num   = "44%",
     stat_1_label = "des uploads quotidiens sur Deezer sont generes par l'IA",
     stat_1_src   = "Deezer Newsroom, avr. 2026",
@@ -802,10 +778,8 @@ TR <- list(
     badge4      = "Section 4 sur 5",
     proxy_h3    = "Experiences musicales et perception de l'IA",
     proxy_instr = "Vous trouverez ci-dessous plusieurs affirmations. Nous vous demandons de les lire attentivement et d'indiquer dans quelle mesure vous etes d'accord ou en desaccord avec chacune d'elles.",
-    behav_h5    = "Habitudes d'ecoute",
     freq_q      = "A quelle frequence ecoutez-vous de la musique en streaming ?",
     aware_q     = "Avant ce sondage, saviez-vous que votre service de streaming inclut des titres generes par l'IA ?",
-    churn_h5    = "Intention de resiliation",
     churn_q     = tagList(
       "Si le service de streaming que vous utilisez n'introduisait aucune ",
       tags$strong("politique de transparence"),
@@ -823,7 +797,6 @@ TR <- list(
     dsp_user_q   = "Etes-vous actuellement abonne(e) a ou utilisez-vous regulierement un service de streaming musical ? *",
     dsp_svc_lbl  = "Quel service utilisez-vous principalement ? *",
     dsp_tier_lbl = "Type d'abonnement *",
-    submit_warn  = "",
     btn_submit   = "Soumettre les reponses",
 
     ty_h2      = "Merci de votre participation !",
