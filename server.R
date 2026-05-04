@@ -133,8 +133,11 @@ server <- function(input, output, session) {
         updateRadioButtons(session, "dsp_user", selected = ans$dsp_user)
       for (nm in c("dsp_current", "dsp_tier",
                    "demo_age", "demo_gender", "demo_country", "demo_education")) {
-        if (!is.null(ans[[nm]]) && nchar(as.character(ans[[nm]])) > 0L)
-          updateSelectInput(session, nm, selected = as.character(ans[[nm]]))
+        raw_nm <- ans[[nm]]
+        if (is.null(raw_nm)) next                # missing key → skip
+        coerced <- as.character(raw_nm)
+        if (length(coerced) == 0L || !nzchar(coerced)) next  # character(0) or "" → skip
+        updateSelectInput(session, nm, selected = coerced)
       }
     }
 
@@ -167,7 +170,10 @@ server <- function(input, output, session) {
     if (!is.null(ans)) {
       btn_ans <- ans[!names(ans) %in% native_inputs]
       for (nm in names(btn_ans)) {
-        val <- as.character(btn_ans[[nm]])
+        raw_val <- btn_ans[[nm]]
+        if (is.null(raw_val)) next               # JSON null → skip silently
+        val <- as.character(raw_val)
+        if (length(val) == 0L || !nzchar(val)) next  # character(0) or "" → skip
         runjs(sprintf(
           paste0('(function(){',
                  'var el=document.querySelector("input[name=%s][value=%s]");',
