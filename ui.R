@@ -110,7 +110,7 @@ ui <- function(request) {
     useShinyjs(),
     tags$head(
       tags$link(rel = "stylesheet", href = "style.css?v=14"),
-      tags$script(src = "survey.js?v=1")
+      tags$script(src = "survey.js?v=2")
     ),
 
     # ── Progress bar ──────────────────────────────────────────────────────────

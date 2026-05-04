@@ -13,23 +13,27 @@ server <- function(input, output, session) {
   resp_id  <- paste0("R", format(Sys.time(), "%Y%m%d%H%M%S"), sample(1000L:9999L, 1L))
 
   rv <- reactiveValues(
-    page        = if (.has_lang) "intro" else "lang",
-    lang        = .lang,
-    cbc_design  = generate_cbc_design(),
-    cbc_task    = 1L,
-    cbc_choices = integer(N_TASKS),   # 0 = not yet answered
-    audio_order = sample(1L:4L),      # randomized presentation of 4 clips
-    d_index     = NA_real_,
-    gaais_pos   = NA_real_,
-    gaais_neg   = NA_real_
+    page                = if (.has_lang) "intro" else "lang",
+    lang                = .lang,
+    cbc_design          = generate_cbc_design(),
+    cbc_task            = 1L,
+    cbc_choices         = integer(N_TASKS),   # 0 = not yet answered
+    audio_order         = sample(1L:4L),      # randomized presentation of 4 clips
+    d_index             = NA_real_,
+    gaais_pos           = NA_real_,
+    gaais_neg           = NA_real_,
+    cbc_answers_written = FALSE               # guard against duplicate Survey_Answers write
   )
 
   # ── Helpers ────────────────────────────────────────────────────────────────
-  go_to <- function(new_page) {
+  # persist = FALSE suppresses the localStorage page update (used on go_to("thankyou")
+  # after clearSavedState has already been sent, and on restore-driven navigation).
+  go_to <- function(new_page, persist = TRUE) {
     hide(paste0("page_", rv$page))
     show(paste0("page_", new_page))
     rv$page <- new_page
     runjs("window.scrollTo(0, 0);")
+    if (persist) session$sendCustomMessage("persistState", list(page = new_page))
   }
 
   set_progress <- function(pct) {
@@ -52,8 +56,142 @@ server <- function(input, output, session) {
     p_str <- formatC(price, format = "f", digits = 2)
     # Replace decimal point with locale separator
     p_str <- gsub(".", tr$decimal_sep, p_str, fixed = TRUE)
-    paste0("\u20ac", p_str, tr$per_month)
+    paste0("€", p_str, tr$per_month)
   }
+
+  # ── Session init: send identifiers to JS localStorage ─────────────────────
+  # persistStateInit only writes if no prior session exists (reconnect-safe).
+  session$sendCustomMessage("persistStateInit", list(
+    resp_id         = resp_id,
+    lang            = .lang,
+    audio_order     = as.list(rv$audio_order),
+    cbc_design_flat = as.list(unlist(lapply(rv$cbc_design, function(df) {
+      as.integer(unlist(t(df[, c("a1", "a2", "a3", "a4")])))
+    })))
+  ))
+
+  # ── Restore handler: fires once on reconnect ───────────────────────────────
+  # JS sends __restored_state__ (JSON string) on shiny:connected if localStorage
+  # contains a prior resp_id.  We parse it and restore all session state.
+  observeEvent(input[["__restored_state__"]], once = TRUE, {
+    raw <- input[["__restored_state__"]]
+    if (is.null(raw) || nchar(raw) < 5L) return()
+
+    state <- tryCatch(
+      jsonlite::fromJSON(raw, simplifyDataFrame = FALSE, simplifyVector = TRUE),
+      error = function(e) { message("[Restore] JSON error: ", e$message); NULL }
+    )
+    if (is.null(state) || is.null(state$resp_id)) return()
+
+    # Adopt saved identifiers
+    resp_id <<- state$resp_id
+
+    if (!is.null(state$audio_order) && length(state$audio_order) == 4L)
+      rv$audio_order <- as.integer(state$audio_order)
+
+    # Rebuild CBC design from flat int array (N_TASKS * N_ALTS * 4 integers)
+    n_flat <- N_TASKS * N_ALTS * 4L
+    if (!is.null(state$cbc_design_flat) && length(state$cbc_design_flat) == n_flat) {
+      flat <- as.integer(state$cbc_design_flat)
+      rv$cbc_design <- lapply(seq_len(N_TASKS), function(t_idx) {
+        start <- (t_idx - 1L) * N_ALTS * 4L + 1L
+        df    <- as.data.frame(matrix(
+          flat[start:(start + N_ALTS * 4L - 1L)],
+          nrow = N_ALTS, ncol = 4L, byrow = TRUE
+        ))
+        colnames(df) <- c("a1", "a2", "a3", "a4")
+        df
+      })
+    }
+
+    # Restore computed scores
+    if (!is.null(state$d_index))   rv$d_index   <- as.numeric(state$d_index)
+    if (!is.null(state$gaais_pos)) rv$gaais_pos <- as.numeric(state$gaais_pos)
+    if (!is.null(state$gaais_neg)) rv$gaais_neg <- as.numeric(state$gaais_neg)
+
+    # Restore CBC choices vector
+    if (!is.null(state$cbc_choices)) {
+      choices <- integer(N_TASKS)
+      for (nm in names(state$cbc_choices)) {
+        t_idx <- suppressWarnings(as.integer(sub("^t", "", nm)))
+        if (!is.na(t_idx) && t_idx >= 1L && t_idx <= N_TASKS)
+          choices[t_idx] <- as.integer(state$cbc_choices[[nm]])
+      }
+      rv$cbc_choices <- choices
+    }
+    if (!is.null(state$cbc_task))
+      rv$cbc_task <- max(1L, min(N_TASKS, as.integer(state$cbc_task)))
+
+    # Guard flag — prevents double-write of Survey_Answers
+    if (isTRUE(state$cbc_answers_written))
+      rv$cbc_answers_written <- TRUE
+
+    # Restore native Shiny inputs (dropdowns, radioButtons)
+    ans <- state$answers
+    if (!is.null(ans)) {
+      if (!is.null(ans$dsp_user))
+        updateRadioButtons(session, "dsp_user", selected = ans$dsp_user)
+      for (nm in c("dsp_current", "dsp_tier",
+                   "demo_age", "demo_gender", "demo_country", "demo_education")) {
+        if (!is.null(ans[[nm]]) && nchar(as.character(ans[[nm]])) > 0L)
+          updateSelectInput(session, nm, selected = as.character(ans[[nm]]))
+      }
+    }
+
+    # Navigate to the saved page
+    target <- if (!is.null(state$page)) state$page else "intro"
+
+    if (target == "thankyou") {
+      # Survey already completed — wipe state and show thank-you without re-persisting
+      session$sendCustomMessage("clearSavedState", list())
+      go_to("thankyou", persist = FALSE)
+      set_progress(100)
+      return()
+    }
+
+    restorable <- c("audio", "gaais", "framing", "cbc", "proxy", "demo")
+    if (target %in% restorable) {
+      go_to(target, persist = FALSE)   # navigation already saved; don't double-write
+      base_pct <- c(audio = 12L, gaais = 25L, framing = 38L,
+                    cbc   = 45L, proxy = 72L, demo    = 85L)[[target]]
+      if (target == "cbc") {
+        tasks_done <- sum(rv$cbc_choices > 0L)
+        base_pct   <- 45L + round((tasks_done / N_TASKS) * 25L)
+      }
+      set_progress(base_pct)
+    }
+
+    # Re-check btn-check inputs (audio ratings, GAAIS, proxy) via JS
+    native_inputs <- c("dsp_user", "dsp_current", "dsp_tier",
+                       "demo_age", "demo_gender", "demo_country", "demo_education")
+    if (!is.null(ans)) {
+      btn_ans <- ans[!names(ans) %in% native_inputs]
+      for (nm in names(btn_ans)) {
+        val <- as.character(btn_ans[[nm]])
+        runjs(sprintf(
+          paste0('(function(){',
+                 'var el=document.querySelector("input[name=%s][value=%s]");',
+                 'if(el){el.checked=true;el.dispatchEvent(new Event("change"));}',
+                 '})()'),
+          jsonlite::toJSON(nm,  auto_unbox = TRUE),
+          jsonlite::toJSON(val, auto_unbox = TRUE)
+        ))
+      }
+    }
+
+    # Re-select the current CBC card (if on CBC page)
+    if (target == "cbc") {
+      t_idx  <- rv$cbc_task
+      choice <- rv$cbc_choices[t_idx]
+      if (choice > 0L) runjs(sprintf(
+        paste0('setTimeout(function(){',
+               'var c=document.querySelector(".cbc-card[data-choice=\\"%d\\"][data-task=\\"%d\\"]");',
+               'if(c)c.click();',
+               '},300);'),
+        choice, t_idx
+      ))
+    }
+  })
 
   # ── Audio clips UI ──────────────────────────────────────────────────────────
   output$audio_clips_ui <- renderUI({
@@ -178,6 +316,7 @@ server <- function(input, output, session) {
     ratings_int   <- as.integer(unlist(ratings))
     ordered_types <- AUDIO_CLIPS$type[rv$audio_order]
     rv$d_index    <- compute_d_index(ratings_int, ordered_types)
+    session$sendCustomMessage("persistState", list(d_index = rv$d_index))
     go_to("gaais")
     set_progress(25)
   })
@@ -191,6 +330,8 @@ server <- function(input, output, session) {
     g            <- score_gaais(unlist(responses))
     rv$gaais_pos <- g$pos
     rv$gaais_neg <- g$neg
+    session$sendCustomMessage("persistState", list(gaais_pos = rv$gaais_pos,
+                                                   gaais_neg = rv$gaais_neg))
     go_to("framing")
     set_progress(38)
   })
@@ -213,6 +354,7 @@ server <- function(input, output, session) {
 
     if (t < N_TASKS) {
       rv$cbc_task <- t + 1L
+      session$sendCustomMessage("persistState", list(cbc_task = t + 1L))
       set_progress(45L + round((t / N_TASKS) * 25L))
       runjs("setTimeout(function(){ document.body.scrollTop=0; document.documentElement.scrollTop=0; }, 120);")
       # Re-enable the Next button immediately (spinner was set by client-side JS)
@@ -225,15 +367,19 @@ server <- function(input, output, session) {
         }
       })();")
     } else {
-      # All tasks done — navigate to proxy, then write CBC choices non-blocking
+      # All tasks done — write Survey_Answers once (guard prevents duplicate on reconnect)
+      if (!rv$cbc_answers_written) {
+        local({
+          answers <- as.data.frame(t(rv$cbc_choices))
+          colnames(answers) <- paste0("choice_", seq_len(N_TASKS))
+          answers <- cbind(data.frame(respondent_id = resp_id, stringsAsFactors = FALSE), answers)
+          later::later(function() gs_append("Survey_Answers", answers), delay = 0)
+        })
+        rv$cbc_answers_written <- TRUE
+        session$sendCustomMessage("persistState", list(cbc_answers_written = TRUE))
+      }
       go_to("proxy")
       set_progress(72)
-      local({
-        answers <- as.data.frame(t(rv$cbc_choices))
-        colnames(answers) <- paste0("choice_", seq_len(N_TASKS))
-        answers <- cbind(data.frame(respondent_id = resp_id, stringsAsFactors = FALSE), answers)
-        later::later(function() gs_append("Survey_Answers", answers), delay = 0)
-      })
     }
   })
 
@@ -339,9 +485,12 @@ server <- function(input, output, session) {
       }))
     }))
 
+    # Clear localStorage before navigating (prevents restore on future visits)
+    session$sendCustomMessage("clearSavedState", list())
+
     # Navigate first, then write all sheets after the flush (non-blocking)
     # Survey_Answers was already written when the last CBC task was completed
-    go_to("thankyou")
+    go_to("thankyou", persist = FALSE)
     set_progress(100)
     session$sendCustomMessage("surveyComplete", list())  # disables beforeunload warning
     later::later(function() {
