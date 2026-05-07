@@ -158,9 +158,10 @@ TR <- list(
 
     badge2          = "Sezione 2 di 5",
     gaais_h3        = "Atteggiamenti verso l'Intelligenza Artificiale",
-    gaais_context_q = "Cosa si intende per Intelligenza Artificiale?",
-    gaais_ai_def    = "Con \"intelligenza artificiale\" intendiamo qualsiasi sistema capace di svolgere compiti che normalmente richiederebbero l'intelligenza umana: dai sistemi di raccomandazione agli assistenti vocali, dai robot industriali ai software di analisi dei dati.",
-    gaais_context   = "In questa sezione Le chiediamo le Sue opinioni sull'intelligenza artificiale in senso ampio, non solo quella applicata alla musica. Per ogni affermazione, indichi in che misura si trova d'accordo. Non esistono risposte giuste o sbagliate.",
+    gaais_context_intro = "In questa sezione Le chiediamo le Sue opinioni sull'intelligenza artificiale in senso ampio, non solo quella applicata alla musica.",
+    gaais_context_q     = "Cosa si intende per Intelligenza Artificiale?",
+    gaais_ai_def        = "Con \"intelligenza artificiale\" intendiamo qualsiasi sistema capace di svolgere compiti che normalmente richiederebbero l'intelligenza umana: dai sistemi di raccomandazione agli assistenti vocali, dai robot industriali ai software di analisi dei dati.",
+    gaais_context_scale = "Per ogni affermazione, indichi in che misura si trova d'accordo. Non esistono risposte giuste o sbagliate.",
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
     badge3      = "Sezione 3 di 5",
@@ -422,9 +423,10 @@ TR <- list(
 
     badge2          = "Section 2 of 5",
     gaais_h3        = "Attitudes towards Artificial Intelligence",
-    gaais_context_q = "What do we mean by Artificial Intelligence?",
-    gaais_ai_def    = "By \"artificial intelligence\" we mean any system capable of performing tasks that would normally require human intelligence: from recommendation engines and voice assistants to industrial robots and data analysis tools.",
-    gaais_context   = "In this section we ask for your views on artificial intelligence broadly, not just AI in music. For each of the following statements, please indicate your level of agreement using the scale provided. There are no right or wrong answers.",
+    gaais_context_intro = "In this section we ask for your views on artificial intelligence broadly, not just AI in music.",
+    gaais_context_q     = "What do we mean by Artificial Intelligence?",
+    gaais_ai_def        = "By \"artificial intelligence\" we mean any system capable of performing tasks that would normally require human intelligence: from recommendation engines and voice assistants to industrial robots and data analysis tools.",
+    gaais_context_scale = "For each statement, indicate to what extent you agree. There are no right or wrong answers.",
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
     badge3      = "Section 3 of 5",
@@ -687,9 +689,10 @@ TR <- list(
 
     badge2          = "Section 2 sur 5",
     gaais_h3        = "Attitudes envers l'Intelligence Artificielle",
-    gaais_context_q = "Qu'entend-on par Intelligence Artificielle ?",
-    gaais_ai_def    = "Par \"intelligence artificielle\", nous entendons tout systeme capable d'effectuer des taches qui necessiteraient normalement l'intelligence humaine : systemes de recommandation, assistants vocaux, robots industriels, logiciels d'analyse de donnees, et bien d'autres.",
-    gaais_context   = "Dans cette section, nous vous demandons vos opinions sur l'intelligence artificielle au sens large, pas uniquement dans le domaine musical. Pour chacune des affirmations suivantes, indiquez votre niveau d'accord avec l'echelle proposee. Il n'y a pas de bonnes ou de mauvaises reponses.",
+    gaais_context_intro = "Dans cette section, nous vous demandons vos opinions sur l'intelligence artificielle au sens large, pas uniquement dans le domaine musical.",
+    gaais_context_q     = "Qu'entend-on par Intelligence Artificielle ?",
+    gaais_ai_def        = "Par \"intelligence artificielle\", nous entendons tout système capable d'effectuer des tâches qui nécessiteraient normalement l'intelligence humaine : systèmes de recommandation, assistants vocaux, robots industriels, logiciels d'analyse de données, et bien d'autres.",
+    gaais_context_scale = "Pour chaque affirmation, indiquez dans quelle mesure vous êtes d'accord. Il n'y a pas de bonnes ou de mauvaises réponses.",
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
     badge3      = "Section 3 sur 5",

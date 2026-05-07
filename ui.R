@@ -149,11 +149,12 @@ ui <- function(request) {
         div(class = "survey-header",
           div(class = "page-badge", tr$badge2),
           h3(tr$gaais_h3),
+          div(class = "section-instr", tr$gaais_context_intro),
           div(class = "audio-context-box",
             div(class = "context-q", tags$strong(tr$gaais_context_q)),
             div(class = "context-a", tr$gaais_ai_def)
           ),
-          div(class = "section-instr", tr$gaais_context)
+          div(class = "section-instr", tr$gaais_context_scale)
         ),
         div(class = "gaais-list",
           lapply(seq_len(nrow(GAAIS_ITEMS)), function(i) {
