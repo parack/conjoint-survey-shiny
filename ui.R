@@ -109,7 +109,7 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=14"),
+      tags$link(rel = "stylesheet", href = "style.css?v=15"),
       tags$script(src = "survey.js?v=2")
     ),
 
