@@ -182,7 +182,8 @@ ui <- function(request) {
           div(class = "page-badge", tr$badge3),
           h3(tr$framing_h3)
         ),
-        p(class = "text-muted mb-3", tr$framing_p1),
+        p(class = "text-muted mb-2", tr$framing_p1),
+        p(class = "text-muted mb-3", tr$framing_p2),
         div(class = "dsp-policy-box",
           h6(tr$dsp_policy_h),
           tags$table(class = "dsp-table",
@@ -194,15 +195,6 @@ ui <- function(request) {
             )
           ),
           p(class = "text-muted small mt-2", tr$dsp_policy_note)
-        ),
-        div(class = "stat-cards-row mt-3",
-          lapply(1:4, function(i) {
-            div(class = "stat-card",
-              div(class = "stat-number", tr[[paste0("stat_", i, "_num")]]),
-              div(class = "stat-label",  tr[[paste0("stat_", i, "_label")]]),
-              div(class = "stat-source", tr[[paste0("stat_", i, "_src")]])
-            )
-          })
         ),
         hr(),
         div(class = "framing-task",
