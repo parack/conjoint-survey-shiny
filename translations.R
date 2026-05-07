@@ -203,7 +203,7 @@ TR <- list(
       tags$li(tagList(tags$strong("Non inclusa:"), " la musica AI non compare nelle playlist raccomandate.")),
       tags$li(tagList(tags$strong("Inclusa nelle playlist raccomandate e generaliste."))),
       tags$li(tagList(tags$strong("Inclusa + spazio dedicato:"), " la musica AI è presente nelle playlist raccomandate e dispone di uno spazio editoriale aggiuntivo.",
-        tags$button(type = "button", class = "btn-popover-img", `data-img` = "ai_section_ui.png", "i")))
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "\U0001F446")))
     ),
     attr_c_lbl    = "Controllo utente",
     attr_c_desc   = " - Gli strumenti a disposizione per gestire la presenza di musica AI nella propria esperienza.",
@@ -211,7 +211,7 @@ TR <- list(
       tags$li(tagList(tags$strong("Nessun controllo:"), " non sono disponibili strumenti per filtrare i contenuti AI.")),
       tags$li(tagList(tags$strong("Filtro parziale:"), " la musica AI rimane disponibile sulla piattaforma, ma può essere esclusa dalle playlist personalizzate.")),
       tags$li(tagList(tags$strong("Filtro completo:"), " blocco totale della musica AI sull'intera piattaforma.",
-        tags$button(type = "button", class = "btn-popover-img", `data-img` = "ai_switch.png", "i")))
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "\U0001F446")))
     ),
     attr_d_lbl    = "Prezzo mensile",
     attr_d_desc   = " - Il costo mensile dell'abbonamento.",
@@ -457,7 +457,7 @@ TR <- list(
       tags$li(tagList(tags$strong("Not included:"), " AI music does not appear in recommended playlists.")),
       tags$li(tagList(tags$strong("Included in recommended and general playlists."))),
       tags$li(tagList(tags$strong("Included + dedicated space:"), " AI music appears in recommended playlists and has an additional editorial section.",
-        tags$button(type = "button", class = "btn-popover-img", `data-img` = "ai_section_ui.png", "i")))
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "\U0001F446")))
     ),
     attr_c_lbl    = "User control",
     attr_c_desc   = " - The tools available to manage the presence of AI music in your experience.",
@@ -465,7 +465,7 @@ TR <- list(
       tags$li(tagList(tags$strong("No control:"), " no tools are available to filter AI content.")),
       tags$li(tagList(tags$strong("Partial filter:"), " AI music remains available on the platform but can be excluded from personalised playlists.")),
       tags$li(tagList(tags$strong("Full filter:"), " total block of AI music across the entire platform.",
-        tags$button(type = "button", class = "btn-popover-img", `data-img` = "ai_switch.png", "i")))
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "\U0001F446")))
     ),
     attr_d_lbl    = "Monthly price",
     attr_d_desc   = " - The monthly cost of the subscription.",
@@ -712,7 +712,7 @@ TR <- list(
       tags$li(tagList(tags$strong("Non incluse :"), " la musique IA n'apparait pas dans les playlists recommandees.")),
       tags$li(tagList(tags$strong("Incluse dans les playlists recommandees et generalistes."))),
       tags$li(tagList(tags$strong("Incluse + espace dedie :"), " la musique IA est presente dans les playlists recommandees et dispose d'un espace editorial supplementaire.",
-        tags$button(type = "button", class = "btn-popover-img", `data-img` = "ai_section_ui.png", "i")))
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "\U0001F446")))
     ),
     attr_c_lbl    = "Controle utilisateur",
     attr_c_desc   = " - Les outils disponibles pour gerer la presence de musique IA dans votre experience.",
@@ -720,7 +720,7 @@ TR <- list(
       tags$li(tagList(tags$strong("Aucun controle :"), " aucun outil n'est disponible pour filtrer les contenus IA.")),
       tags$li(tagList(tags$strong("Filtre partiel :"), " la musique IA reste disponible sur la plateforme, mais peut etre exclue des playlists personnalisees.")),
       tags$li(tagList(tags$strong("Filtre complet :"), " blocage total de la musique IA sur l'ensemble de la plateforme.",
-        tags$button(type = "button", class = "btn-popover-img", `data-img` = "ai_switch.png", "i")))
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "\U0001F446")))
     ),
     attr_d_lbl    = "Prix mensuel",
     attr_d_desc   = " - Le cout mensuel de l'abonnement.",

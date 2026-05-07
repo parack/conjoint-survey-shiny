@@ -719,26 +719,21 @@ body {
   font-weight: 700;
 }
 
-/* ── Image popup trigger button (ⓘ circle) ───────────────────────────────── */
+/* ── Image popup trigger button (tap emoji tag) ──────────────────────────── */
 .btn-popover-img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.2em;
-  height: 1.2em;
-  border-radius: 50%;
+  height: 1.35em;
+  border-radius: 4px;
   background: #dbeafe;
-  color: #1d4ed8;
   border: none;
-  font-size: 0.72rem;
-  font-weight: 700;
-  font-style: italic;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 0.7rem;
   cursor: pointer;
   margin: 0 0.25em;
   vertical-align: middle;
   line-height: 1;
-  padding: 0;
+  padding: 0 0.3em;
   flex-shrink: 0;
   transition: background 0.15s;
 }
