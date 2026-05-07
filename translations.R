@@ -182,7 +182,7 @@ TR <- list(
     stat_4_src   = "Deezer Newsroom, apr. 2026",
 
     dsp_policy_h    = "Come si stanno muovendo le piattaforme",
-    dsp_spotify     = "Label volontaria nella sezione credenziali del brano (apr. 2026) - nessuna verifica tecnica automatica",
+    dsp_spotify     = "Label AI volontaria nei credenziali del brano (apr. 2026); badge 'Verified by Spotify' sui profili artista con revisione umana — i profili prevalentemente AI non sono idonei alla verifica (apr. 2026)",
     dsp_apple       = "Tag di trasparenza volontari per 4 categorie: traccia, artwork, composizione, video (mar. 2026)",
     dsp_deezer      = "Algoritmo brevettato di rilevazione dei contenuti AI; esclusione dalle playlist algoritmiche ed editoriali (da gen. 2025)",
     dsp_amazon      = "Nessuna policy specifica; brani AI accettati senza obbligo di disclosure",
@@ -447,7 +447,7 @@ TR <- list(
     stat_4_src   = "Deezer Newsroom, Apr. 2026",
 
     dsp_policy_h    = "How platforms are responding",
-    dsp_spotify     = "Voluntary AI label in song credits section (Apr. 2026) - no automated verification",
+    dsp_spotify     = "Voluntary AI label in song credits (Apr. 2026); 'Verified by Spotify' badge on artist profiles via human review — profiles primarily representing AI artists are not eligible (Apr. 2026)",
     dsp_apple       = "Voluntary transparency tags for 4 categories: track, artwork, composition, video (Mar. 2026)",
     dsp_deezer      = "Patented AI-detection algorithm; exclusion from algorithmic and editorial playlists (since Jan. 2025)",
     dsp_amazon      = "No specific policy; AI tracks accepted without disclosure requirement",
@@ -713,7 +713,7 @@ TR <- list(
     stat_4_src   = "Deezer Newsroom, avr. 2026",
 
     dsp_policy_h    = "Comment les plateformes reagissent",
-    dsp_spotify     = "Label IA volontaire dans les credits du titre (avr. 2026) - aucune verification technique automatique",
+    dsp_spotify     = "Label IA volontaire dans les crédits du titre (avr. 2026) ; badge « Verified by Spotify » sur les profils artistes avec révision humaine — les profils principalement IA ne sont pas éligibles à la vérification (avr. 2026)",
     dsp_apple       = "Tags de transparence volontaires pour 4 categories : titre, artwork, composition, video (mar. 2026)",
     dsp_deezer      = "Algorithme brevete de detection des contenus IA ; exclusion des playlists algorithmiques et editoriales (depuis janv. 2025)",
     dsp_amazon      = "Aucune politique specifique ; titres IA acceptes sans obligation de declaration",
