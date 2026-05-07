@@ -1,7 +1,28 @@
+# Credenziali Google
 .secrets/
 service_account.json
+**/service_account.json
+
+# R
 *.Renviron
 .Rhistory
 .RData
-*.csv
+
+# Audio raw (file originali non croppati — pesanti)
+pretest/www/audio_raw/
+
+# Output analisi (generati dallo script, non servono in repo)
+analysis/clip_stats_results.csv
+analysis/detection_rate_plot.png
+
+# Dati grezzi rispondenti (privacy — caricare solo versione anonimizzata)
 survey_results.csv
+analysis/responses_anonymized.csv
+
+# CSV selected (output degli script di sampling — opzionale tenerli)
+sampling/jamendo_pop_selected.csv
+sampling/jamendo_rock_selected.csv
+sampling/suno_pop_selected.csv
+sampling/suno_rock_selected.csv
+".claude/" 
+"rsconnect/" 

@@ -1,0 +1,21 @@
+clip_id;clip_type;title;artist;source;genre;listens
+ai_01;AI;Pressure;The Cinderbloc Choir;Suno;Indie Rock;2700
+ai_02;AI;It my life my way;TenBreathSun;Suno;Indie Rock;2800
+ai_03;AI;Hymn to a Joy;Elon Grain;Suno;Indie Rock;9200
+ai_04;AI;Mr. Nice Guy;kysohum;Suno;Indie Rock;5800
+ai_05;AI;low light (ft.bleeder);a.astronaut;Suno;Indie Rock;8600
+ai_06;AI;footnote;Northern spinn;Suno;Pop;43000
+ai_07;AI;I Never Knew;GeneuWeen;Suno;Pop;108000
+ai_08;AI;Hearts & Strings (Remix);Athenaremixes;Suno;Pop;42000
+ai_09;AI;addicted;lane;Suno;Pop;45000
+ai_10;AI;20250928;Nanashi_Zero;Suno;Pop;41000
+hu_01;HUMAN;New Friends;Loudog;Jamendo;Rock;350000
+hu_02;HUMAN;Rocksteady;Houdini Roadshow;Jamendo;Rock;420000
+hu_03;HUMAN;No Ska Today;Skabrot;Jamendo;Rock;380000
+hu_04;HUMAN;Lucky numbers;Katherine;Jamendo;Rock;300000
+hu_05;HUMAN;Thank you;Loon Attic;Jamendo;Pop;310000
+hu_06;HUMAN;Only Human;Dayung;Jamendo;Pop;290000
+hu_07;HUMAN;Everything_m;entheos;Jamendo;Pop;320000
+hu_08;HUMAN;Mona Lisa;Josh Woodward;Jamendo;Pop;450000
+hu_09;HUMAN;Empty;Tryad;Jamendo;Pop;360000
+hu_10;HUMAN;Microwave;Major Major;Jamendo;Rock;400000

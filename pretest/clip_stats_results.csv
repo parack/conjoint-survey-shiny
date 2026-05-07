@@ -1,0 +1,21 @@
+"clip_id","clip_type","n","mean_rating","sd_rating","pct_correct","pct_familiar","pct_nonso","mean_points","title","artist","source","genre","listens"
+"ai_01","AI",7,2.43,0.53,0.43,0,0,1.43,"Pressure","The Cinderbloc Choir","Suno","Indie Rock",2700
+"ai_02","AI",7,2.29,0.95,0.57,0,0,1.29,"It my life my way","TenBreathSun","Suno","Indie Rock",2800
+"ai_03","AI",7,3.14,1.07,0.86,0,0,2.14,"Hymn to a Joy","Elon Grain","Suno","Indie Rock",9200
+"ai_04","AI",7,2,1.15,0.29,0,0,1,"Mr. Nice Guy","kysohum","Suno","Indie Rock",5800
+"ai_05","AI",7,1.57,0.79,0.14,0,0,0.57,"low light (ft.bleeder)","a.astronaut","Suno","Indie Rock",8600
+"ai_06","AI",7,3,1,0.86,0,0,2,"footnote","Northern spinn","Suno","Pop",43000
+"ai_07","AI",7,3.43,0.98,0.71,0,0.14,1.86,"I Never Knew","GeneuWeen","Suno","Pop",108000
+"ai_08","AI",7,3.14,1.07,0.57,0,0,2.14,"Hearts & Strings (Remix)","Athenaremixes","Suno","Pop",42000
+"ai_09","AI",7,3,1,0.86,0.29,0,2,"addicted","lane","Suno","Pop",45000
+"ai_10","AI",7,2.71,1.11,0.57,0,0,1.71,"20250928","Nanashi_Zero","Suno","Pop",41000
+"hu_01","HUMAN",7,2.86,0.9,0.43,0,0,1.14,"New Friends","Loudog","Jamendo","Rock",350000
+"hu_02","HUMAN",7,2.57,0.79,0.57,0,0,1.43,"Rocksteady","Houdini Roadshow","Jamendo","Rock",420000
+"hu_03","HUMAN",7,3.14,0.9,0.29,0,0,0.86,"No Ska Today","Skabrot","Jamendo","Rock",380000
+"hu_04","HUMAN",7,2.86,0.9,0.43,0,0,1.14,"Lucky numbers","Katherine","Jamendo","Rock",300000
+"hu_05","HUMAN",7,3.57,0.79,0,0,0.14,0.57,"Thank you","Loon Attic","Jamendo","Pop",310000
+"hu_06","HUMAN",7,2.29,1.11,0.57,0,0,1.71,"Only Human","Dayung","Jamendo","Pop",290000
+"hu_07","HUMAN",7,3.14,1.21,0.43,0,0.14,1,"Everything_m","entheos","Jamendo","Pop",320000
+"hu_08","HUMAN",7,3.14,1.57,0.43,0,0.29,1.14,"Mona Lisa","Josh Woodward","Jamendo","Pop",450000
+"hu_09","HUMAN",7,3,1.29,0.29,0,0.14,1.14,"Empty","Tryad","Jamendo","Pop",360000
+"hu_10","HUMAN",7,2.57,1.13,0.57,0.14,0,1.43,"Microwave","Major Major","Jamendo","Rock",400000
