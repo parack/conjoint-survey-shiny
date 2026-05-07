@@ -224,9 +224,11 @@ ui <- function(request) {
                   tr$attr_d_desc, tr$attr_d_levels)
             )
           ),
+          div(class = "audio-context-box mt-3",
+            div(class = "context-a", tr$sq_note)
+          ),
           p(class = "mt-3", tr$task_p2)
         ),
-        p(class = "text-muted small fst-italic mt-3", tr$sq_note),
         div(class = "nav-buttons",
           actionButton("btn_framing_next", tr$btn_start_cbc,
                        class = "btn btn-primary btn-lg"))
