@@ -188,10 +188,18 @@ ui <- function(request) {
           h6(tr$dsp_policy_h),
           tags$table(class = "dsp-table",
             tags$tbody(
-              tags$tr(tags$th("Spotify"),      tags$td(tr$dsp_spotify)),
-              tags$tr(tags$th("Apple Music"),  tags$td(tr$dsp_apple)),
-              tags$tr(tags$th("Deezer"),       tags$td(tr$dsp_deezer)),
-              tags$tr(tags$th("Amazon Music"), tags$td(tr$dsp_amazon))
+              tags$tr(
+                tags$th(tagList("Deezer",        tags$br(), tags$span(class="dsp-badge badge-algo",  tr$dsp_badge_deezer))),
+                tags$td(tr$dsp_deezer)),
+              tags$tr(
+                tags$th(tagList("Spotify",       tags$br(), tags$span(class="dsp-badge badge-human", tr$dsp_badge_spotify))),
+                tags$td(tr$dsp_spotify)),
+              tags$tr(
+                tags$th(tagList("Apple Music",   tags$br(), tags$span(class="dsp-badge badge-self",  tr$dsp_badge_apple))),
+                tags$td(tr$dsp_apple)),
+              tags$tr(
+                tags$th(tagList("Amazon Music",  tags$br(), tags$span(class="dsp-badge badge-none",  tr$dsp_badge_amazon))),
+                tags$td(tr$dsp_amazon))
             )
           ),
           p(class = "text-muted small mt-2", tr$dsp_policy_note)
