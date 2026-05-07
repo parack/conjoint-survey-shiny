@@ -60,19 +60,32 @@ Responses are stored in a private Google Sheet (4 tabs):
 | `Survey_Answers` | choice_1 … choice_12 |
 | `Choices` | long format — one row per alternative per task (a1, a2, a3, a4) |
 
+## Audio Pretest
+
+Before the main survey, a separate Shiny app (`pretest/pretest_app.R`) was used to select the 4 final audio clips. 20 candidates (10 AI-generated via Suno, 10 human-made via Jamendo) were rated by a convenience sample. Clips were selected to maximise discrimination variance while controlling for genre and production quality.
+
+| File | Content |
+|---|---|
+| `pretest/pretest_app.R` | Shiny app used to collect pretest ratings |
+| `pretest/clips_metadata.csv` | Full list of 20 candidate clips with source and metadata |
+| `pretest/clip_stats_results.csv` | Detection rates and discrimination scores per clip |
+| `pretest/detection_rate_plot.png` | Visual summary of pretest results |
+| `pretest/sample_tracks.R` | Reproducible sampling script (set.seed(57)) |
+| `pretest/data/` | Candidate and selected track lists for Jamendo and Suno |
+
 ## Repository Structure
 
 ```
-app.R               # Shiny entry point
-global.R            # Config, CBC design, scoring functions (D-index, GAAIS)
-server.R            # Server logic
-ui.R                # UI layout
-translations.R      # IT / EN / FR text
-setup_sheets.R      # One-time Google Sheets initialisation
-analysis/           # Analysis scripts
-sampling/           # Audio clip sampling scripts
-pretest/            # Audio preprocessing
-www/                # Static assets (CSS, JS, images, audio clips)
+├── app.R               # Shiny entry point
+├── global.R            # Config, CBC design, scoring functions (D-index, GAAIS)
+├── server.R            # Server logic
+├── ui.R                # UI layout
+├── translations.R      # IT / EN / FR text
+├── setup_sheets.R      # One-time Google Sheets initialisation
+├── www/                # Static assets (CSS, JS, images, audio clips)
+├── pretest/            # Clip selection: pretest app, scripts, results
+│   └── data/           # Candidate and selected track CSVs
+└── analysis/           # Analysis scripts (Mixed MNL, SSAM, scenario analysis)
 ```
 
 ## Setup
@@ -92,7 +105,7 @@ shiny::runApp()
 rsconnect::deployApp()
 ```
 
-Audio clips (`www/audio/`) must be provided manually — see `sampling/sample_tracks.R` for the selection procedure.
+Audio clips (`www/audio/`) must be provided manually — see `pretest/sample_tracks.R` and `pretest/clips_metadata.csv` for the selection procedure and clip details.
 
 ## References
 
@@ -103,4 +116,4 @@ Audio clips (`www/audio/`) must be provided manually — see `sampling/sample_tr
 
 ---
 
-*Master's thesis in Management – Digital Transformation | University of Trento | Supervisor: Prof. Diego Giuliani*
+*Master's thesis in Management – Digital Transformation | University of Trento*
