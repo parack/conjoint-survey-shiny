@@ -156,12 +156,11 @@ TR <- list(
     audio_context = "Ai fini di questo studio, per 'musica generata dall'AI' si intende musica composta e prodotta interamente da sistemi di intelligenza artificiale generativa, senza alcun contributo umano nella composizione, nella scrittura o nella registrazione. Questi sistemi analizzano grandi quantita di musica esistente per apprenderne i pattern (ritmo, armonia, timbro, stile) e generano nuove composizioni originali a partire da prompt testuali o indicazioni dell'utente.",
     btn_next = "Avanti",
 
-    badge2        = "Sezione 2 di 5",
-    gaais_h3      = "Atteggiamenti verso l'Intelligenza Artificiale",
-    gaais_context = tagList(
-      tags$p("In questa sezione Le chiediamo le Sue opinioni sull'intelligenza artificiale in senso ampio, non solo quella applicata alla musica. Con \"intelligenza artificiale\" intendiamo qualsiasi sistema capace di svolgere compiti che normalmente richiederebbero l'intelligenza umana: dai sistemi di raccomandazione agli assistenti vocali, dai robot industriali ai software di analisi dei dati."),
-      tags$p("Per ciascuna delle affermazioni seguenti, indichi quanto e d'accordo utilizzando la scala proposta. Non esistono risposte giuste o sbagliate.")
-    ),
+    badge2          = "Sezione 2 di 5",
+    gaais_h3        = "Atteggiamenti verso l'Intelligenza Artificiale",
+    gaais_context_q = "Cosa si intende per Intelligenza Artificiale?",
+    gaais_ai_def    = "Con \"intelligenza artificiale\" intendiamo qualsiasi sistema capace di svolgere compiti che normalmente richiederebbero l'intelligenza umana: dai sistemi di raccomandazione agli assistenti vocali, dai robot industriali ai software di analisi dei dati.",
+    gaais_context   = "In questa sezione Le chiediamo le Sue opinioni sull'intelligenza artificiale in senso ampio, non solo quella applicata alla musica. Per ciascuna delle affermazioni seguenti, indichi quanto e d'accordo utilizzando la scala proposta. Non esistono risposte giuste o sbagliate.",
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
     badge3      = "Sezione 3 di 5",
@@ -421,12 +420,11 @@ TR <- list(
     audio_context = "For the purposes of this study, 'AI-generated music' refers to music composed and produced entirely by generative AI systems, without any human input in composition, writing or recording. These systems analyse vast datasets of existing music to learn patterns (rhythm, harmony, timbre and style) and use them to generate new, original compositions from text prompts or user input.",
     btn_next = "Next",
 
-    badge2        = "Section 2 of 5",
-    gaais_h3      = "Attitudes towards Artificial Intelligence",
-    gaais_context = tagList(
-      tags$p("In this section we ask for your views on artificial intelligence broadly, not just AI in music. By \"artificial intelligence\" we mean any system capable of performing tasks that would normally require human intelligence: from recommendation engines and voice assistants to industrial robots and data analysis tools."),
-      tags$p("For each of the following statements, please indicate your level of agreement using the scale provided. There are no right or wrong answers.")
-    ),
+    badge2          = "Section 2 of 5",
+    gaais_h3        = "Attitudes towards Artificial Intelligence",
+    gaais_context_q = "What do we mean by Artificial Intelligence?",
+    gaais_ai_def    = "By \"artificial intelligence\" we mean any system capable of performing tasks that would normally require human intelligence: from recommendation engines and voice assistants to industrial robots and data analysis tools.",
+    gaais_context   = "In this section we ask for your views on artificial intelligence broadly, not just AI in music. For each of the following statements, please indicate your level of agreement using the scale provided. There are no right or wrong answers.",
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
     badge3      = "Section 3 of 5",
@@ -687,12 +685,11 @@ TR <- list(
     audio_context = "Dans le cadre de cette etude, la 'musique generee par l'IA' designe la musique composee et produite entierement par des systemes d'IA generative, sans aucune contribution humaine dans la composition, l'ecriture ou l'enregistrement. Ces systemes analysent de vastes ensembles de musique existante pour en apprendre les patterns (rythme, harmonie, timbre, style) et generent de nouvelles compositions originales a partir d'invites textuelles ou d'indications de l'utilisateur.",
     btn_next = "Suivant",
 
-    badge2        = "Section 2 sur 5",
-    gaais_h3      = "Attitudes envers l'Intelligence Artificielle",
-    gaais_context = tagList(
-      tags$p("Dans cette section, nous vous demandons vos opinions sur l'intelligence artificielle au sens large, pas uniquement dans le domaine musical. Par \"intelligence artificielle\" nous entendons tout systeme capable d'effectuer des taches qui necessiteraient normalement l'intelligence humaine : systemes de recommandation, assistants vocaux, robots industriels, logiciels d'analyse de donnees, et bien d'autres."),
-      tags$p("Pour chacune des affirmations suivantes, indiquez votre niveau d'accord avec l'echelle proposee. Il n'y a pas de bonnes ou de mauvaises reponses.")
-    ),
+    badge2          = "Section 2 sur 5",
+    gaais_h3        = "Attitudes envers l'Intelligence Artificielle",
+    gaais_context_q = "Qu'entend-on par Intelligence Artificielle ?",
+    gaais_ai_def    = "Par \"intelligence artificielle\", nous entendons tout systeme capable d'effectuer des taches qui necessiteraient normalement l'intelligence humaine : systemes de recommandation, assistants vocaux, robots industriels, logiciels d'analyse de donnees, et bien d'autres.",
+    gaais_context   = "Dans cette section, nous vous demandons vos opinions sur l'intelligence artificielle au sens large, pas uniquement dans le domaine musical. Pour chacune des affirmations suivantes, indiquez votre niveau d'accord avec l'echelle proposee. Il n'y a pas de bonnes ou de mauvaises reponses.",
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
     badge3      = "Section 3 sur 5",

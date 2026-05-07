@@ -149,6 +149,10 @@ ui <- function(request) {
         div(class = "survey-header",
           div(class = "page-badge", tr$badge2),
           h3(tr$gaais_h3),
+          div(class = "audio-context-box",
+            div(class = "context-q", tags$strong(tr$gaais_context_q)),
+            div(class = "context-a", tr$gaais_ai_def)
+          ),
           div(class = "section-instr", tr$gaais_context)
         ),
         div(class = "gaais-list",
