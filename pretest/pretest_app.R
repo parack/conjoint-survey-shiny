@@ -44,9 +44,6 @@ LANG <- list(
     clip_rated   = "Valutata",
     audio_msg    = "Il tuo browser non supporta la riproduzione audio.",
     familiar_lbl = "Ho già sentito questo brano",
-    username_lbl = "Il tuo nome o nickname:",
-    username_ph  = "es. Mario",
-    username_err = "⚠️ Inserisci un nome per continuare.",
     btn_start    = "Inizia",
     audio_badge  = "Pre-test",
     audio_hint   = "\U0001F3A7 Consigliamo cuffiette o un ambiente silenzioso",
@@ -69,8 +66,6 @@ stile) e generano nuove composizioni originali a partire da prompt testuali o in
     results_h2   = "Risultati",
     correct_fmt  = function(n) paste0("Risposte corrette: ", n, " / ", N_CLIPS),
     avg_fmt      = function(a) paste0("Punteggio medio per risposta: ", a, " / 3"),
-    leaderboard  = "🏆 Classifica",
-    restart_btn  = "Gioca ancora",
     selfability_q   = "Quanto ritieni di essere capace di distinguere la musica generata dall'AI da quella umana?",
     selfability_lo  = "Per nulla capace",
     selfability_hi  = "Perfettamente capace",
@@ -101,9 +96,6 @@ stile) e generano nuove composizioni originali a partire da prompt testuali o in
     clip_rated   = "Évaluée",
     audio_msg    = "Votre navigateur ne prend pas en charge la lecture audio.",
     familiar_lbl = "J'ai déjà entendu ce morceau",
-    username_lbl = "Votre nom ou pseudo :",
-    username_ph  = "ex. Marie",
-    username_err = "⚠️ Entrez un nom pour continuer.",
     btn_start    = "Commencer",
     audio_badge  = "Pré-test",
     audio_hint   = "\U0001F3A7 Casque ou environnement calme recommandé",
@@ -128,8 +120,6 @@ l'utilisateur.",
     results_h2   = "Résultats",
     correct_fmt  = function(n) paste0("Réponses correctes : ", n, " / ", N_CLIPS),
     avg_fmt      = function(a) paste0("Score moyen par réponse : ", a, " / 3"),
-    leaderboard  = "🏆 Classement",
-    restart_btn  = "Rejouer",
     selfability_q   = "Dans quelle mesure pensez-vous être capable de distinguer la musique générée par l'IA de la musique humaine ?",
     selfability_lo  = "Pas du tout capable",
     selfability_hi  = "Parfaitement capable",
@@ -341,7 +331,7 @@ ui <- page_fluid(
       div(class = "alert alert-warning py-2 px-3",
           style = "font-size:0.85rem;",
           "📱 Tieni lo schermo attivo durante il test per evitare disconnessioni."),
-      uiOutput("welcome_form_ui")
+      uiOutput("welcome_start_ui")
     )
   ),
 
@@ -364,12 +354,9 @@ ui <- page_fluid(
       uiOutput("results_title_ui"),
       uiOutput("results_ui"),
       hr(),
-      uiOutput("leaderboard_header_ui"),
-      div(style = "overflow-x:auto; font-size:0.85rem;",
-        tableOutput("leaderboard_table")
-      ),
-      br(),
-      uiOutput("restart_btn_ui")
+      div(class = "alert alert-success py-2 px-3",
+          style = "font-size:0.9rem;",
+          "🙏 Grazie per la partecipazione! I tuoi dati sono stati registrati.")
     )
   ))
 )
@@ -381,7 +368,7 @@ server <- function(input, output, session) {
 
   rv <- reactiveValues(
     lang         = "it",
-    username     = NULL,
+    session_id   = paste0("anon_", format(Sys.time(), "%Y%m%d%H%M%S"), "_", sample(1000:9999, 1)),
     self_ability = NULL,
     clip_order   = NULL,
     submitted    = FALSE,
@@ -407,11 +394,11 @@ server <- function(input, output, session) {
       }
     }
 
-    # Ripristina progresso (solo se username presente)
-    uname <- trimws(as.character(if (!is.null(state$username)) state$username else ""))
-    if (nchar(uname) > 0) {
+    # Ripristina progresso (solo se session_id presente)
+    sid <- trimws(as.character(if (!is.null(state$session_id)) state$session_id else ""))
+    if (nchar(sid) > 0) {
+      rv$session_id  <- sid
       rv$saved_state <- state
-      rv$username    <- uname
       rv$clip_order  <- c(1,20,16,11,7,5,8,3,13,12,6,18,4,9,19,14,17,2,15,10)
       rv$restored    <- TRUE
       hide("page_welcome")
@@ -436,32 +423,19 @@ server <- function(input, output, session) {
     ')
   })
 
-  # ── Form benvenuto (lingua-reattivo) ───────────────────────────────────────
-  output$welcome_form_ui <- renderUI({
+  # ── Pulsante start (lingua-reattivo) ──────────────────────────────────────
+  output$welcome_start_ui <- renderUI({
     tx <- LANG[[rv$lang]]
-    tagList(
-      textInput("username", tx$username_lbl, placeholder = tx$username_ph),
-      div(id    = "username_error",
-          style = "color:#dc3545; display:none; font-size:.9em; margin-top:-8px;",
-          tx$username_err),
-      div(class = "nav-buttons",
-        actionButton("btn_start", tx$btn_start, class = "btn btn-primary btn-lg")
-      )
+    div(class = "nav-buttons mt-3",
+      actionButton("btn_start", tx$btn_start, class = "btn btn-primary btn-lg")
     )
   })
 
   # ── Start ──────────────────────────────────────────────────────────────────
   observeEvent(input$btn_start, {
-    nm <- trimws(input$username)
-    if (nchar(nm) == 0) {
-      runjs('document.getElementById("username_error").style.display="block";')
-      return()
-    }
-    runjs('document.getElementById("username_error").style.display="none";')
-    rv$username   <- nm
     rv$clip_order <- c(1,20,16,11,7,5,8,3,13,12,6,18,4,9,19,14,17,2,15,10)
-    # Salva username e lingua in localStorage
-    session$sendCustomMessage("saveLS", list(username = nm, lang = rv$lang))
+    # Salva session_id e lingua in localStorage
+    session$sendCustomMessage("saveLS", list(session_id = rv$session_id, lang = rv$lang))
     hide("page_welcome")
     show("page_audio")
     runjs("window.scrollTo(0,0);")
@@ -636,7 +610,7 @@ server <- function(input, output, session) {
       pts     <- score_clip(ctyp, rt)
       corr    <- correct_clip(ctyp, rt)
       data.frame(
-        timestamp = ts,       username  = rv$username,
+        timestamp = ts,       username  = rv$session_id,
         clip_id   = cid,      clip_type = ctyp,
         position  = i,        rating    = rt,
         nonso     = (rt==5L), familiar  = fam,
@@ -690,43 +664,6 @@ server <- function(input, output, session) {
     )
   })
 
-  # ── Header classifica ──────────────────────────────────────────────────────
-  output$leaderboard_header_ui <- renderUI({
-    req(rv$submitted)
-    h5(LANG[[rv$lang]]$leaderboard, class = "mt-3 text-start")
-  })
-
-  # ── Classifica ─────────────────────────────────────────────────────────────
-  output$leaderboard_table <- renderTable({
-    req(rv$submitted)
-    tryCatch({
-      all_data <- suppressMessages(read_sheet(SHEET_ID, sheet = "Responses"))
-      if (nrow(all_data) == 0) return(data.frame(Nota = "Nessun dato ancora."))
-      all_data %>%
-        mutate(points = as.integer(points), correct = as.logical(correct)) %>%
-        group_by(Username = username) %>%
-        summarise(
-          Score    = sum(points,  na.rm = TRUE),
-          Corrette = paste0(sum(correct, na.rm = TRUE), " / ", N_CLIPS),
-          .groups  = "drop"
-        ) %>%
-        arrange(desc(Score)) %>%
-        mutate(`#` = row_number()) %>%
-        select(`#`, Username, Score, Corrette)
-    }, error = function(e) {
-      data.frame(Nota = "Classifica temporaneamente non disponibile.")
-    })
-  }, striped = TRUE, bordered = TRUE, hover = TRUE, width = "100%")
-
-  # ── Bottone restart ────────────────────────────────────────────────────────
-  output$restart_btn_ui <- renderUI({
-    req(rv$submitted)
-    actionButton("btn_restart", LANG[[rv$lang]]$restart_btn,
-                 class = "btn btn-outline-primary")
-  })
-
-  # ── Restart ────────────────────────────────────────────────────────────────
-  observeEvent(input$btn_restart, session$reload())
 }
 
 shinyApp(ui, server)
