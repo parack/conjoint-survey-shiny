@@ -30,8 +30,8 @@ TR <- list(
               "Probabile","Molto probabile"),
     freq_opts  = c("Mai"="never","Qualche volta al mese"="monthly",
                    "Qualche volta a settimana"="weekly","Ogni giorno"="daily"),
-    aware_opts = c("Si"="yes","No"="no","Non ero sicuro/a"="unsure"),
-    dsp_yn     = c("Si"="yes","No"="no"),
+    aware_opts = c("Sì"="yes","No"="no","Non ero sicuro/a"="unsure"),
+    dsp_yn     = c("Sì"="yes","No"="no"),
 
     A1 = c(
       "Nessuna label AI visibile (solo metadata interni, non accessibili agli utenti)",
@@ -54,16 +54,16 @@ TR <- list(
       "Trovo l'intelligenza artificiale inquietante.",
       "L'intelligenza artificiale potrebbe prendere il controllo delle persone.",
       "Penso che l'intelligenza artificiale sia pericolosa.",
-      "L'intelligenza artificiale puo avere un impatto positivo sul benessere delle persone.",
-      "L'intelligenza artificiale e entusiasmante.",
-      "Gran parte della societa beneficiera di un futuro ricco di intelligenza artificiale.",
+      "L'intelligenza artificiale può avere un impatto positivo sul benessere delle persone.",
+      "L'intelligenza artificiale è entusiasmante.",
+      "Gran parte della società beneficerà di un futuro ricco di intelligenza artificiale.",
       "Vorrei utilizzare l'intelligenza artificiale nel mio lavoro.",
       "Rabbrividisco di disagio quando penso ai futuri utilizzi dell'intelligenza artificiale.",
-      "Persone come me soffriranno se l'intelligenza artificiale verra utilizzata sempre di piu."
+      "Persone come me soffriranno se l'intelligenza artificiale verrà utilizzata sempre di più."
     ),
 
     proxy = c(
-      "Quando ascolto musica in streaming, seleziono la qualita audio piu alta disponibile.",
+      "Quando ascolto musica in streaming, seleziono la qualità audio più alta disponibile.",
       "Riascolto frequentemente gli stessi brani per cogliere dettagli sonori che non avevo notato al primo ascolto.",
       "Di solito ascolto un brano fino alla fine prima di decidere se mi piace, anche quando non mi convince subito.",
       "Uso spesso la funzione di ricerca per trovare artisti o brani specifici, piuttosto che affidarmi alle raccomandazioni della piattaforma.",
@@ -99,7 +99,7 @@ TR <- list(
                   "Premium famiglia / Duo"="premium_fam",
                   "Studente"="student","Altro"="other"),
 
-    err_consent  = "E necessario acconsentire alla partecipazione per continuare.",
+    err_consent  = "È necessario acconsentire alla partecipazione per continuare.",
     err_audio    = "Valuti tutte e 4 le clip prima di procedere.",
     err_gaais    = "Risponda a tutti gli item prima di procedere.",
     err_cbc      = "Selezioni un'opzione prima di procedere.",
@@ -114,11 +114,11 @@ TR <- list(
     privacy_head   = "Informativa sulla privacy e consenso informato",
 
     intro_salute = "Gentile partecipante,",
-    intro_body   = "sono uno studente del Corso di Laurea Magistrale in Management dell'Universita degli Studi di Trento. La invito a partecipare a questo sondaggio, sviluppato nell'ambito della mia tesi magistrale, che ha l'obiettivo di analizzare le preferenze dei consumatori riguardo alle politiche adottate dalle piattaforme di streaming musicale in materia di musica generata dall'intelligenza artificiale.",
+    intro_body   = "sono uno studente del Corso di Laurea Magistrale in Management dell'Università degli Studi di Trento. La invito a partecipare a questo sondaggio, sviluppato nell'ambito della mia tesi magistrale, che ha l'obiettivo di analizzare le preferenze dei consumatori riguardo alle politiche adottate dalle piattaforme di streaming musicale in materia di musica generata dall'intelligenza artificiale.",
 
-    survey_warn  = "Attenzione: non aggiorni la pagina e non utilizzi il tasto 'Indietro' del browser durante la compilazione. Le risposte, una volta inviate, non potranno essere modificate.",
+    survey_warn  = "Attenzione: se possibile, non aggiorni la pagina e non utilizzi il tasto 'Indietro' del browser durante la compilazione. Una volta premuto il tasto Avanti in ogni sezione, le risposte non potranno essere modificate.",
 
-    what_asked_h = "Cosa Le verra chiesto?",
+    what_asked_h = "Cosa Le verrà chiesto?",
     what_asked   = tags$ol(
       tags$li("Svolgere un breve task di ascolto per valutare clip musicali"),
       tags$li("Indicare le Sue opinioni generali sull'intelligenza artificiale"),
@@ -128,7 +128,7 @@ TR <- list(
     ),
 
     c_part_lbl = "Partecipazione:",
-    c_part     = " Volontaria. E libero/a di ritirarsi in qualsiasi momento senza conseguenze.",
+    c_part     = " Volontaria. È libero/a di ritirarsi in qualsiasi momento senza conseguenze.",
     c_data_lbl = "Dati raccolti:",
     c_data     = " Le risposte sono anonime e non riconducibili alla Sua persona. I dati saranno utilizzati esclusivamente per finalita di ricerca accademica e presentati in forma aggregata.",
     c_time_lbl = "Durata stimata:",
@@ -146,54 +146,42 @@ TR <- list(
     badge1        = "Sezione 1 di 5",
     audio_h3      = "Task di Discriminazione Audio",
     audio_hint      = "\U0001F3A7 Consigliamo cuffiette o un ambiente silenzioso",
-    audio_context_q = "Cos'e la musica generata dall'AI?",
+    audio_context_q = "Cos'è la musica generata dall'AI?",
     audio_instr   = tagList(
       "Le presentiamo ", tags$strong("4 brevi clip musicali"),
       ". Per ciascuna traccia, La preghiamo di indicare in che misura ritiene che essa sia stata prodotta tramite l'utilizzo di intelligenza artificiale generativa o da un musicista umano, utilizzando la scala a 4 punti da ",
       tags$em("Sicuramente umana"), " a ", tags$em("Sicuramente AI"),
       ". Qualora non riesca a esprimere un giudizio, selezioni l'opzione ", tags$em("'Non so'"), "."
     ),
-    audio_context = "Ai fini di questo studio, per 'musica generata dall'AI' si intende musica composta e prodotta interamente da sistemi di intelligenza artificiale generativa, senza alcun contributo umano nella composizione, nella scrittura o nella registrazione. Questi sistemi analizzano grandi quantita di musica esistente per apprenderne i pattern (ritmo, armonia, timbro, stile) e generano nuove composizioni originali a partire da prompt testuali o indicazioni dell'utente.",
+    audio_context = "Ai fini di questo studio, per 'musica generata dall'AI' si intende musica composta e prodotta interamente da sistemi di intelligenza artificiale generativa, senza alcun contributo umano nella composizione, nella scrittura o nella registrazione. Questi sistemi analizzano grandi quantità di musica esistente per apprenderne i pattern (ritmo, armonia, timbro, stile) e generano nuove composizioni originali a partire da prompt testuali o indicazioni dell'utente.",
     btn_next = "Avanti",
 
-    badge2        = "Sezione 2 di 5",
-    gaais_h3      = "Atteggiamenti verso l'Intelligenza Artificiale",
-    gaais_context = tagList(
-      tags$p("In questa sezione Le chiediamo le Sue opinioni sull'intelligenza artificiale in senso ampio, non solo quella applicata alla musica. Con \"intelligenza artificiale\" intendiamo qualsiasi sistema capace di svolgere compiti che normalmente richiederebbero l'intelligenza umana: dai sistemi di raccomandazione agli assistenti vocali, dai robot industriali ai software di analisi dei dati."),
-      tags$p("Per ciascuna delle affermazioni seguenti, indichi quanto e d'accordo utilizzando la scala proposta. Non esistono risposte giuste o sbagliate.")
-    ),
+    badge2          = "Sezione 2 di 5",
+    gaais_h3        = "Atteggiamenti verso l'Intelligenza Artificiale",
+    gaais_context_intro = "In questa sezione Le chiediamo le Sue opinioni sull'intelligenza artificiale in senso ampio, non solo quella applicata alla musica.",
+    gaais_context_q     = "Cosa si intende per Intelligenza Artificiale?",
+    gaais_ai_def        = "Con \"intelligenza artificiale\" intendiamo qualsiasi sistema capace di svolgere compiti che normalmente richiederebbero l'intelligenza umana: dai sistemi di raccomandazione agli assistenti vocali, dai robot industriali ai software di analisi dei dati.",
+    gaais_context_scale = "Per ogni affermazione, indichi in che misura si trova d'accordo. Non esistono risposte giuste o sbagliate.",
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
     badge3      = "Sezione 3 di 5",
     framing_h3  = "Politiche AI nei servizi di streaming musicale",
     framing_p1  = "I principali servizi di streaming musicale ospitano un numero crescente di brani generati interamente o in parte dall'intelligenza artificiale. Le piattaforme hanno recentemente avviato le prime iniziative di policy, con approcci molto diversi tra loro.",
 
-    stat_1_num   = "44%",
-    stat_1_label = "degli upload giornalieri su Deezer risulta AI-generated",
-    stat_1_src   = "Deezer Newsroom, apr. 2026",
-    stat_2_num   = "75.000",
-    stat_2_label = "nuovi brani AI caricati ogni giorno su Deezer",
-    stat_2_src   = "Deezer Newsroom, apr. 2026",
-    stat_3_num   = "20%",
-    stat_3_label = "del fatturato streaming globale potrebbe provenire da musica AI entro il 2028",
-    stat_3_src   = "CISAC/PMP, 2025",
-    stat_4_num   = "< 3%",
-    stat_4_label = "degli stream totali proviene da musica AI: molto caricata, ma quasi mai scelta dagli ascoltatori",
-    stat_4_src   = "Deezer Newsroom, apr. 2026",
+    framing_p2  = "I dati più recenti indicano che su Deezer vengono caricati circa 75.000 brani al giorno, il 44% dei quali è generato da sistemi di intelligenza artificiale. Tuttavia, meno del 3% degli stream totali riguarda musica AI: il fenomeno è già rilevante sul piano dell'offerta, ma ancora marginale su quello della domanda (Deezer Newsroom, apr. 2026).",
 
     dsp_policy_h    = "Come si stanno muovendo le piattaforme",
-    dsp_spotify     = "Label volontaria nella sezione credenziali del brano (apr. 2026) - nessuna verifica tecnica automatica",
+    dsp_spotify     = "Label AI volontaria nei credenziali + badge 'Verified by Spotify' sui profili umani verificati; artisti prevalentemente AI esclusi (apr. 2026)",
     dsp_apple       = "Tag di trasparenza volontari per 4 categorie: traccia, artwork, composizione, video (mar. 2026)",
     dsp_deezer      = "Algoritmo brevettato di rilevazione dei contenuti AI; esclusione dalle playlist algoritmiche ed editoriali (da gen. 2025)",
     dsp_amazon      = "Nessuna policy specifica; brani AI accettati senza obbligo di disclosure",
-    dsp_policy_note = "Le iniziative di Spotify e Apple Music si basano su autodichiarazione, senza meccanismi di verifica; Deezer e l'unica piattaforma ad aver implementato rilevamento tecnico automatico.",
+    dsp_policy_note  = "Apple Music si basa su autodichiarazione senza verifica; Spotify ha introdotto una revisione umana con il badge Verified; Deezer è l'unica piattaforma con rilevamento tecnico automatico.",
+    dsp_badge_deezer = "Rilevazione algoritmica",
+    dsp_badge_spotify= "Autodichiarazione",
+    dsp_badge_apple  = "Autodichiarazione",
+    dsp_badge_amazon = "Nessuna iniziativa",
 
-    sq_title    = "Configurazione attuale (punto di riferimento)",
-    sq_intro    = "Per le scelte che seguono, Le chiediamo di ragionare a partire da questa configurazione di riferimento (che rispecchia l'approccio della maggior parte delle piattaforme oggi), valutando le alternative in funzione della Sua disponibilita a pagare:",
-    sq_li1      = tagList("Policy di labeling AI: ", tags$em("Nessuna etichetta consumer-facing")),
-    sq_li2      = tagList("Struttura promozionale: ", tags$em("Musica AI nelle playlist raccomandate")),
-    sq_li3      = tagList("Controllo utente: ", tags$em("Nessun filtro disponibile")),
-    sq_li4      = tagList("Prezzo abbonamento: ", tags$em("11,99 euro/mese")),
+    sq_note     = tagList("Come riferimento: oggi la maggior parte dei servizi di streaming non applica alcuna policy AI specifica e offre abbonamenti a circa ", tags$strong("11,99 €/mese"), "."),
 
     task_h5     = "Come leggere le schede di scelta",
     task_p1     = tagList(
@@ -205,24 +193,24 @@ TR <- list(
     attr_a_desc   = " - Come la piattaforma identifica e comunica agli ascoltatori la presenza di musica generata dall'AI.",
     attr_a_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("Nessuna label:"), " le tracce AI non sono distinguibili da quelle umane.")),
-      tags$li(tagList(tags$strong("Label volontaria:"), " l'etichetta compare solo se dichiarata dal distributore al momento del caricamento.")),
-      tags$li(tagList(tags$strong("Label obbligatoria:"), " la piattaforma verifica automaticamente i contenuti e applica l'etichetta AI, indipendentemente da quanto dichiarato dal distributore."))
+      tags$li(tagList(tags$strong("Label volontaria:"), " l'etichetta compare solo se dichiarata dall'artista o dal distributore al momento del caricamento.")),
+      tags$li(tagList(tags$strong("Label obbligatoria:"), " la piattaforma verifica i contenuti tramite un algoritmo proprietario e applica l'etichetta AI, indipendentemente da quanto dichiarato dall'artista o dal distributore."))
     ),
     attr_b_lbl    = "Struttura promozionale",
-    attr_b_desc   = " - In che misura la musica AI e presente nelle playlist raccomandate dall'algoritmo.",
+    attr_b_desc   = " - In che misura la musica AI è presente nelle playlist raccomandate dall'algoritmo.",
     attr_b_levels = tags$ul(class = "levels-list",
-      tags$li(tagList(tags$strong("Non inclusa:"), " la musica AI non compare nelle playlist raccomandate.")),
-      tags$li(tagList(tags$strong("Inclusa nelle playlist raccomandate e generaliste."))),
-      tags$li(tagList(tags$strong("Inclusa + spazio dedicato:"), " la musica AI e presente nelle playlist raccomandate e dispone di uno spazio editoriale aggiuntivo.",
-        tags$button(type = "button", class = "btn-popover-img", `data-img` = "ai_section_ui.png", "i")))
+      tags$li(tagList(tags$strong("Non inclusa:"), " la musica AI non compare in alcuna playlist raccomandata.")),
+      tags$li(tagList(tags$strong("Inclusa:"), " la musica AI compare nelle playlist raccomandate all'utente (es. Daily Mix) e in quelle generaliste (es. New Music Friday, Top Hits).")),
+      tags$li(tagList(tags$strong("Inclusa + sezione dedicata:"), " come sopra, più una sezione AI-only nella app che l'utente può scegliere di esplorare.",
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "es. \U0001F446")))
     ),
     attr_c_lbl    = "Controllo utente",
     attr_c_desc   = " - Gli strumenti a disposizione per gestire la presenza di musica AI nella propria esperienza.",
     attr_c_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("Nessun controllo:"), " non sono disponibili strumenti per filtrare i contenuti AI.")),
-      tags$li(tagList(tags$strong("Filtro parziale:"), " la musica AI rimane disponibile sulla piattaforma, ma puo essere esclusa dalle playlist personalizzate.")),
+      tags$li(tagList(tags$strong("Filtro parziale:"), " la musica AI rimane disponibile sulla piattaforma, ma può essere esclusa dalle playlist personalizzate.")),
       tags$li(tagList(tags$strong("Filtro completo:"), " blocco totale della musica AI sull'intera piattaforma.",
-        tags$button(type = "button", class = "btn-popover-img", `data-img` = "ai_switch.png", "i")))
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "es. \U0001F446")))
     ),
     attr_d_lbl    = "Prezzo mensile",
     attr_d_desc   = " - Il costo mensile dell'abbonamento.",
@@ -246,7 +234,7 @@ TR <- list(
 
     badge4      = "Sezione 4 di 5",
     proxy_h3    = "Esperienze musicali e percezione dell'AI",
-    proxy_instr = "Di seguito sono elencate alcune affermazioni. Le chiediamo di leggerle attentamente e di indicare quanto e d'accordo o in disaccordo con ciascuna di esse.",
+    proxy_instr = "Di seguito sono elencate alcune affermazioni. Le chiediamo di leggerle attentamente e di indicare quanto è d'accordo o in disaccordo con ciascuna di esse.",
     freq_q      = "Con quale frequenza ascolta musica in streaming?",
     aware_q     = "Prima di questo sondaggio, era a conoscenza del fatto che il Suo servizio di streaming include tracce generate dall'AI?",
     churn_q     = tagList(
@@ -257,20 +245,20 @@ TR <- list(
 
     badge5       = "Sezione 5 di 5",
     demo_h3      = "Dati demografici e utilizzo dei servizi",
-    demo_instr   = "Le ricordiamo che l'indagine e anonima. Le informazioni richieste in questa sezione saranno utilizzate esclusivamente per finalita statistiche e presentate in forma aggregata.",
-    age_lbl      = "Fascia d'eta *",
+    demo_instr   = "Le ricordiamo che l'indagine è anonima. Le informazioni richieste in questa sezione saranno utilizzate esclusivamente per finalità statistiche e presentate in forma aggregata.",
+    age_lbl      = "Fascia d'età *",
     gender_lbl   = "Genere *",
     country_lbl  = "Paese di residenza *",
-    edu_lbl      = "Titolo di studio piu elevato conseguito *",
+    edu_lbl      = "Titolo di studio più elevato conseguito *",
     dsp_h5       = "Utilizzo dei servizi di streaming musicale",
-    dsp_user_q   = "E attualmente abbonato/a o utilizza regolarmente un servizio di streaming musicale? *",
+    dsp_user_q   = "È attualmente abbonato/a o utilizza regolarmente un servizio di streaming musicale? *",
     dsp_svc_lbl  = "Quale servizio utilizza principalmente? *",
     dsp_tier_lbl = "Tipo di abbonamento *",
     btn_submit   = "Invia le risposte",
 
     ty_h2      = "Grazie per la Sua partecipazione!",
     ty_lead    = "Le Sue risposte sono state registrate con successo.",
-    ty_close   = "Puo ora chiudere questa finestra.",
+    ty_close   = "Può ora chiudere questa finestra.",
     ty_contact = "Per informazioni sulla ricerca:"
   ),
 
@@ -381,7 +369,7 @@ TR <- list(
     intro_salute = "Dear participant,",
     intro_body   = "I am a Master's student in Management at the University of Trento. I am inviting you to take part in this survey, developed as part of my Master's thesis, which aims to understand consumer preferences regarding the policies adopted by music streaming platforms in relation to AI-generated music.",
 
-    survey_warn  = "Please note: do not refresh the page or use the browser's Back button during the survey. Once submitted, your answers cannot be changed.",
+    survey_warn  = "Please note: if possible, avoid refreshing the page or using the browser's Back button during the survey. Once you press Next in each section, your answers cannot be changed.",
 
     what_asked_h = "What will be asked of you?",
     what_asked   = tags$ol(
@@ -421,44 +409,32 @@ TR <- list(
     audio_context = "For the purposes of this study, 'AI-generated music' refers to music composed and produced entirely by generative AI systems, without any human input in composition, writing or recording. These systems analyse vast datasets of existing music to learn patterns (rhythm, harmony, timbre and style) and use them to generate new, original compositions from text prompts or user input.",
     btn_next = "Next",
 
-    badge2        = "Section 2 of 5",
-    gaais_h3      = "Attitudes towards Artificial Intelligence",
-    gaais_context = tagList(
-      tags$p("In this section we ask for your views on artificial intelligence broadly, not just AI in music. By \"artificial intelligence\" we mean any system capable of performing tasks that would normally require human intelligence: from recommendation engines and voice assistants to industrial robots and data analysis tools."),
-      tags$p("For each of the following statements, please indicate your level of agreement using the scale provided. There are no right or wrong answers.")
-    ),
+    badge2          = "Section 2 of 5",
+    gaais_h3        = "Attitudes towards Artificial Intelligence",
+    gaais_context_intro = "In this section we ask for your views on artificial intelligence broadly, not just AI in music.",
+    gaais_context_q     = "What do we mean by Artificial Intelligence?",
+    gaais_ai_def        = "By \"artificial intelligence\" we mean any system capable of performing tasks that would normally require human intelligence: from recommendation engines and voice assistants to industrial robots and data analysis tools.",
+    gaais_context_scale = "For each statement, indicate to what extent you agree. There are no right or wrong answers.",
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
     badge3      = "Section 3 of 5",
     framing_h3  = "AI Policies in Music Streaming Services",
     framing_p1  = "The major music streaming services host a growing number of tracks generated entirely or in part by artificial intelligence. Platforms have recently launched their first policy initiatives, with very different approaches.",
 
-    stat_1_num   = "44%",
-    stat_1_label = "of daily uploads on Deezer is AI-generated",
-    stat_1_src   = "Deezer Newsroom, Apr. 2026",
-    stat_2_num   = "75,000",
-    stat_2_label = "new AI tracks uploaded every day on Deezer",
-    stat_2_src   = "Deezer Newsroom, Apr. 2026",
-    stat_3_num   = "20%",
-    stat_3_label = "of global streaming revenue could come from AI music by 2028",
-    stat_3_src   = "CISAC/PMP, 2025",
-    stat_4_num   = "< 3%",
-    stat_4_label = "of total streams come from AI music: massively uploaded, but almost never chosen by listeners",
-    stat_4_src   = "Deezer Newsroom, Apr. 2026",
+    framing_p2  = "Recent data show that around 75,000 tracks are uploaded daily on Deezer, 44% of which are generated by artificial intelligence systems. However, less than 3% of total streams involve AI music: the phenomenon is already significant on the supply side, but remains marginal in terms of listener demand (Deezer Newsroom, Apr. 2026).",
 
     dsp_policy_h    = "How platforms are responding",
-    dsp_spotify     = "Voluntary AI label in song credits section (Apr. 2026) - no automated verification",
+    dsp_spotify     = "Voluntary AI label in song credits + 'Verified by Spotify' badge for human-verified profiles; AI-primary artists excluded (Apr. 2026)",
     dsp_apple       = "Voluntary transparency tags for 4 categories: track, artwork, composition, video (Mar. 2026)",
     dsp_deezer      = "Patented AI-detection algorithm; exclusion from algorithmic and editorial playlists (since Jan. 2025)",
     dsp_amazon      = "No specific policy; AI tracks accepted without disclosure requirement",
-    dsp_policy_note = "Spotify and Apple Music initiatives are based on self-declaration with no verification mechanism; Deezer is the only platform to have implemented automatic technical detection.",
+    dsp_policy_note  = "Apple Music relies on self-declaration with no verification; Spotify has introduced human review via the Verified badge; Deezer is the only platform with automatic technical detection.",
+    dsp_badge_deezer = "Algorithmic detection",
+    dsp_badge_spotify= "Self-declaration",
+    dsp_badge_apple  = "Self-declaration",
+    dsp_badge_amazon = "No initiative",
 
-    sq_title    = "Current configuration (reference point)",
-    sq_intro    = "For the choices that follow, please reason from this reference configuration (which reflects the approach of most platforms today), evaluating alternatives based on your own willingness to pay:",
-    sq_li1      = tagList("AI labelling policy: ", tags$em("No consumer-facing label")),
-    sq_li2      = tagList("Promotional structure: ", tags$em("AI music in recommended playlists")),
-    sq_li3      = tagList("User control: ", tags$em("No filter available")),
-    sq_li4      = tagList("Subscription price: ", tags$em("11.99 euros/month")),
+    sq_note     = tagList("For reference: most streaming services today apply no specific AI policy and offer subscriptions at around ", tags$strong("€11.99/month"), "."),
 
     task_h5     = "How to read the choice cards",
     task_p1     = tagList(
@@ -470,16 +446,16 @@ TR <- list(
     attr_a_desc   = " - How the platform identifies and communicates the presence of AI-generated music to listeners.",
     attr_a_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("No label:"), " AI tracks are indistinguishable from human tracks.")),
-      tags$li(tagList(tags$strong("Voluntary label:"), " the label appears only if declared by the distributor at upload.")),
-      tags$li(tagList(tags$strong("Mandatory label:"), " the platform automatically verifies content and applies the AI label, regardless of what the distributor declares."))
+      tags$li(tagList(tags$strong("Voluntary label:"), " the label appears only if declared by the artist or distributor at upload.")),
+      tags$li(tagList(tags$strong("Mandatory label:"), " the platform verifies content via a proprietary algorithm and applies the AI label, regardless of what the artist or distributor declares."))
     ),
     attr_b_lbl    = "Promotional structure",
     attr_b_desc   = " - The extent to which AI music is present in algorithmically recommended playlists.",
     attr_b_levels = tags$ul(class = "levels-list",
-      tags$li(tagList(tags$strong("Not included:"), " AI music does not appear in recommended playlists.")),
-      tags$li(tagList(tags$strong("Included in recommended and general playlists."))),
-      tags$li(tagList(tags$strong("Included + dedicated space:"), " AI music appears in recommended playlists and has an additional editorial section.",
-        tags$button(type = "button", class = "btn-popover-img", `data-img` = "ai_section_ui.png", "i")))
+      tags$li(tagList(tags$strong("Not included:"), " AI music does not appear in any recommended playlist.")),
+      tags$li(tagList(tags$strong("Included:"), " AI music appears in personalised playlists (e.g. Daily Mix) and general ones (e.g. New Music Friday, Top Hits).")),
+      tags$li(tagList(tags$strong("Included + dedicated section:"), " as above, plus an AI-only section in the app that users can choose to explore.",
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "es. \U0001F446")))
     ),
     attr_c_lbl    = "User control",
     attr_c_desc   = " - The tools available to manage the presence of AI music in your experience.",
@@ -487,7 +463,7 @@ TR <- list(
       tags$li(tagList(tags$strong("No control:"), " no tools are available to filter AI content.")),
       tags$li(tagList(tags$strong("Partial filter:"), " AI music remains available on the platform but can be excluded from personalised playlists.")),
       tags$li(tagList(tags$strong("Full filter:"), " total block of AI music across the entire platform.",
-        tags$button(type = "button", class = "btn-popover-img", `data-img` = "ai_switch.png", "i")))
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "es. \U0001F446")))
     ),
     attr_d_lbl    = "Monthly price",
     attr_d_desc   = " - The monthly cost of the subscription.",
@@ -647,7 +623,7 @@ TR <- list(
     intro_salute = "Chere participante, cher participant,",
     intro_body   = "je suis etudiant en Master Management a l'Universite de Trente. Je vous invite a participer a ce sondage, elabore dans le cadre de mon memoire de master, dont l'objectif est de comprendre les preferences des consommateurs concernant les politiques adoptees par les plateformes de streaming musical en matiere de musique generee par l'IA.",
 
-    survey_warn  = "Attention : ne rafraichissez pas la page et n'utilisez pas le bouton Precedent du navigateur pendant le sondage. Une fois soumises, vos reponses ne pourront pas etre modifiees.",
+    survey_warn  = "Attention : si possible, évitez de rafraîchir la page ou d'utiliser le bouton Précédent du navigateur pendant le sondage. Une fois le bouton Suivant pressé dans chaque section, vos réponses ne pourront plus être modifiées.",
 
     what_asked_h = "Ce qu'on vous demandera ?",
     what_asked   = tags$ol(
@@ -687,44 +663,32 @@ TR <- list(
     audio_context = "Dans le cadre de cette etude, la 'musique generee par l'IA' designe la musique composee et produite entierement par des systemes d'IA generative, sans aucune contribution humaine dans la composition, l'ecriture ou l'enregistrement. Ces systemes analysent de vastes ensembles de musique existante pour en apprendre les patterns (rythme, harmonie, timbre, style) et generent de nouvelles compositions originales a partir d'invites textuelles ou d'indications de l'utilisateur.",
     btn_next = "Suivant",
 
-    badge2        = "Section 2 sur 5",
-    gaais_h3      = "Attitudes envers l'Intelligence Artificielle",
-    gaais_context = tagList(
-      tags$p("Dans cette section, nous vous demandons vos opinions sur l'intelligence artificielle au sens large, pas uniquement dans le domaine musical. Par \"intelligence artificielle\" nous entendons tout systeme capable d'effectuer des taches qui necessiteraient normalement l'intelligence humaine : systemes de recommandation, assistants vocaux, robots industriels, logiciels d'analyse de donnees, et bien d'autres."),
-      tags$p("Pour chacune des affirmations suivantes, indiquez votre niveau d'accord avec l'echelle proposee. Il n'y a pas de bonnes ou de mauvaises reponses.")
-    ),
+    badge2          = "Section 2 sur 5",
+    gaais_h3        = "Attitudes envers l'Intelligence Artificielle",
+    gaais_context_intro = "Dans cette section, nous vous demandons vos opinions sur l'intelligence artificielle au sens large, pas uniquement dans le domaine musical.",
+    gaais_context_q     = "Qu'entend-on par Intelligence Artificielle ?",
+    gaais_ai_def        = "Par \"intelligence artificielle\", nous entendons tout système capable d'effectuer des tâches qui nécessiteraient normalement l'intelligence humaine : systèmes de recommandation, assistants vocaux, robots industriels, logiciels d'analyse de données, et bien d'autres.",
+    gaais_context_scale = "Pour chaque affirmation, indiquez dans quelle mesure vous êtes d'accord. Il n'y a pas de bonnes ou de mauvaises réponses.",
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
     badge3      = "Section 3 sur 5",
     framing_h3  = "Politiques IA dans les services de streaming musical",
     framing_p1  = "Les principaux services de streaming musical hebergent un nombre croissant de titres generes entierement ou en partie par l'intelligence artificielle. Les plateformes ont recemment lance leurs premieres initiatives de politique, avec des approches tres differentes.",
 
-    stat_1_num   = "44%",
-    stat_1_label = "des uploads quotidiens sur Deezer sont generes par l'IA",
-    stat_1_src   = "Deezer Newsroom, avr. 2026",
-    stat_2_num   = "75 000",
-    stat_2_label = "nouveaux titres IA telecharges chaque jour sur Deezer",
-    stat_2_src   = "Deezer Newsroom, avr. 2026",
-    stat_3_num   = "20%",
-    stat_3_label = "du chiffre d'affaires mondial du streaming pourrait provenir de musique IA d'ici 2028",
-    stat_3_src   = "CISAC/PMP, 2025",
-    stat_4_num   = "< 3%",
-    stat_4_label = "des streams totaux proviennent de musique IA : massivement uploadee, mais presque jamais choisie par les auditeurs",
-    stat_4_src   = "Deezer Newsroom, avr. 2026",
+    framing_p2  = "Les données les plus récentes indiquent qu'environ 75 000 titres sont mis en ligne chaque jour sur Deezer, dont 44 % sont générés par des systèmes d'intelligence artificielle. Pourtant, moins de 3 % des écoutes totales concernent la musique IA : le phénomène est déjà significatif du côté de l'offre, mais reste marginal du côté de la demande (Deezer Newsroom, avr. 2026).",
 
     dsp_policy_h    = "Comment les plateformes reagissent",
-    dsp_spotify     = "Label IA volontaire dans les credits du titre (avr. 2026) - aucune verification technique automatique",
+    dsp_spotify     = "Label IA volontaire dans les crédits + badge « Verified by Spotify » sur les profils humains vérifiés ; artistes principalement IA exclus (avr. 2026)",
     dsp_apple       = "Tags de transparence volontaires pour 4 categories : titre, artwork, composition, video (mar. 2026)",
     dsp_deezer      = "Algorithme brevete de detection des contenus IA ; exclusion des playlists algorithmiques et editoriales (depuis janv. 2025)",
     dsp_amazon      = "Aucune politique specifique ; titres IA acceptes sans obligation de declaration",
-    dsp_policy_note = "Les initiatives de Spotify et Apple Music reposent sur l'autodeclaration, sans mecanisme de verification ; Deezer est la seule plateforme a avoir mis en place une detection technique automatique.",
+    dsp_policy_note  = "Apple Music repose sur l'autodéclaration sans vérification ; Spotify a introduit une révision humaine via le badge Verified ; Deezer est la seule plateforme avec détection technique automatique.",
+    dsp_badge_deezer = "Détection algorithmique",
+    dsp_badge_spotify= "Autodéclaration",
+    dsp_badge_apple  = "Autodéclaration",
+    dsp_badge_amazon = "Aucune initiative",
 
-    sq_title    = "Configuration actuelle (point de reference)",
-    sq_intro    = "Pour les choix qui suivent, nous vous demandons de raisonner a partir de cette configuration de reference (qui reflete l'approche de la plupart des plateformes aujourd'hui), en evaluant les alternatives selon votre consentement a payer :",
-    sq_li1      = tagList("Politique de label IA : ", tags$em("Aucun label visible par le consommateur")),
-    sq_li2      = tagList("Structure promotionnelle : ", tags$em("Musique IA dans les playlists recommandees")),
-    sq_li3      = tagList("Controle utilisateur : ", tags$em("Aucun filtre disponible")),
-    sq_li4      = tagList("Prix de l'abonnement : ", tags$em("11,99 euros/mois")),
+    sq_note     = tagList("Pour référence : la plupart des services de streaming n'appliquent aujourd'hui aucune politique IA spécifique et proposent des abonnements à environ ", tags$strong("11,99 €/mois"), "."),
 
     task_h5     = "Comment lire les fiches de choix",
     task_p1     = tagList(
@@ -736,16 +700,16 @@ TR <- list(
     attr_a_desc   = " - Comment la plateforme identifie et communique aux auditeurs la presence de musique generee par l'IA.",
     attr_a_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("Aucun label :"), " les titres IA ne sont pas distinguables des titres humains.")),
-      tags$li(tagList(tags$strong("Label volontaire :"), " l'etiquette n'apparait que si elle est declaree par le distributeur lors du telechargement.")),
-      tags$li(tagList(tags$strong("Label obligatoire :"), " la plateforme verifie automatiquement les contenus et applique le label IA, independamment de ce que declare le distributeur."))
+      tags$li(tagList(tags$strong("Label volontaire :"), " l'étiquette n'apparaît que si elle est déclarée par l'artiste ou le distributeur lors du téléchargement.")),
+      tags$li(tagList(tags$strong("Label obligatoire :"), " la plateforme vérifie les contenus via un algorithme propriétaire et applique le label IA, indépendamment de ce que déclare l'artiste ou le distributeur."))
     ),
     attr_b_lbl    = "Structure promotionnelle",
     attr_b_desc   = " - Dans quelle mesure la musique IA est presente dans les playlists recommandees par l'algorithme.",
     attr_b_levels = tags$ul(class = "levels-list",
-      tags$li(tagList(tags$strong("Non incluse :"), " la musique IA n'apparait pas dans les playlists recommandees.")),
-      tags$li(tagList(tags$strong("Incluse dans les playlists recommandees et generalistes."))),
-      tags$li(tagList(tags$strong("Incluse + espace dedie :"), " la musique IA est presente dans les playlists recommandees et dispose d'un espace editorial supplementaire.",
-        tags$button(type = "button", class = "btn-popover-img", `data-img` = "ai_section_ui.png", "i")))
+      tags$li(tagList(tags$strong("Non incluse :"), " la musique IA n'apparaît dans aucune playlist recommandée.")),
+      tags$li(tagList(tags$strong("Incluse :"), " la musique IA apparaît dans les playlists personnalisées (ex. Daily Mix) et généralistes (ex. New Music Friday, Top Hits).")),
+      tags$li(tagList(tags$strong("Incluse + section dédiée :"), " comme ci-dessus, plus une section IA uniquement dans l'application que l'utilisateur peut choisir d'explorer.",
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "es. \U0001F446")))
     ),
     attr_c_lbl    = "Controle utilisateur",
     attr_c_desc   = " - Les outils disponibles pour gerer la presence de musique IA dans votre experience.",
@@ -753,7 +717,7 @@ TR <- list(
       tags$li(tagList(tags$strong("Aucun controle :"), " aucun outil n'est disponible pour filtrer les contenus IA.")),
       tags$li(tagList(tags$strong("Filtre partiel :"), " la musique IA reste disponible sur la plateforme, mais peut etre exclue des playlists personnalisees.")),
       tags$li(tagList(tags$strong("Filtre complet :"), " blocage total de la musique IA sur l'ensemble de la plateforme.",
-        tags$button(type = "button", class = "btn-popover-img", `data-img` = "ai_switch.png", "i")))
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "es. \U0001F446")))
     ),
     attr_d_lbl    = "Prix mensuel",
     attr_d_desc   = " - Le cout mensuel de l'abonnement.",

@@ -64,8 +64,8 @@ server <- function(input, output, session) {
   session$sendCustomMessage("persistStateInit", list(
     resp_id         = resp_id,
     lang            = .lang,
-    audio_order     = as.list(rv$audio_order),
-    cbc_design_flat = as.list(unlist(lapply(rv$cbc_design, function(df) {
+    audio_order     = as.list(isolate(rv$audio_order)),
+    cbc_design_flat = as.list(unlist(lapply(isolate(rv$cbc_design), function(df) {
       as.integer(unlist(t(df[, c("a1", "a2", "a3", "a4")])))
     })))
   ))

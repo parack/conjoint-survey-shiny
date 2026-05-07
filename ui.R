@@ -109,7 +109,7 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=14"),
+      tags$link(rel = "stylesheet", href = "style.css?v=15"),
       tags$script(src = "survey.js?v=2")
     ),
 
@@ -149,7 +149,12 @@ ui <- function(request) {
         div(class = "survey-header",
           div(class = "page-badge", tr$badge2),
           h3(tr$gaais_h3),
-          div(class = "section-instr", tr$gaais_context)
+          div(class = "section-instr", tr$gaais_context_intro),
+          div(class = "audio-context-box",
+            div(class = "context-q", tags$strong(tr$gaais_context_q)),
+            div(class = "context-a", tr$gaais_ai_def)
+          ),
+          div(class = "section-instr", tr$gaais_context_scale)
         ),
         div(class = "gaais-list",
           lapply(seq_len(nrow(GAAIS_ITEMS)), function(i) {
@@ -177,27 +182,27 @@ ui <- function(request) {
           div(class = "page-badge", tr$badge3),
           h3(tr$framing_h3)
         ),
-        p(class = "text-muted mb-3", tr$framing_p1),
+        p(class = "text-muted mb-2", tr$framing_p1),
+        p(class = "text-muted mb-3", tr$framing_p2),
         div(class = "dsp-policy-box",
           h6(tr$dsp_policy_h),
           tags$table(class = "dsp-table",
             tags$tbody(
-              tags$tr(tags$th("Spotify"),      tags$td(tr$dsp_spotify)),
-              tags$tr(tags$th("Apple Music"),  tags$td(tr$dsp_apple)),
-              tags$tr(tags$th("Deezer"),       tags$td(tr$dsp_deezer)),
-              tags$tr(tags$th("Amazon Music"), tags$td(tr$dsp_amazon))
+              tags$tr(
+                tags$th(tagList("Deezer",        tags$br(), tags$span(class="dsp-badge badge-algo",  tr$dsp_badge_deezer))),
+                tags$td(tr$dsp_deezer)),
+              tags$tr(
+                tags$th(tagList("Spotify",       tags$br(), tags$span(class="dsp-badge badge-self",  tr$dsp_badge_spotify))),
+                tags$td(tr$dsp_spotify)),
+              tags$tr(
+                tags$th(tagList("Apple Music",   tags$br(), tags$span(class="dsp-badge badge-self",  tr$dsp_badge_apple))),
+                tags$td(tr$dsp_apple)),
+              tags$tr(
+                tags$th(tagList("Amazon Music",  tags$br(), tags$span(class="dsp-badge badge-none",  tr$dsp_badge_amazon))),
+                tags$td(tr$dsp_amazon))
             )
           ),
           p(class = "text-muted small mt-2", tr$dsp_policy_note)
-        ),
-        div(class = "stat-cards-row mt-3",
-          lapply(1:4, function(i) {
-            div(class = "stat-card",
-              div(class = "stat-number", tr[[paste0("stat_", i, "_num")]]),
-              div(class = "stat-label",  tr[[paste0("stat_", i, "_label")]]),
-              div(class = "stat-source", tr[[paste0("stat_", i, "_src")]])
-            )
-          })
         ),
         hr(),
         div(class = "framing-task",
@@ -207,8 +212,8 @@ ui <- function(request) {
             div(class = "attr-row-framing attr-row-a",
               tags$span(class = "attr-icon", "•"),
               div(tags$strong(class = "attr-lbl-colored", tr$attr_a_lbl),
-                  tags$button(type = "button", class = "btn-popover-img",
-                              `data-img` = "ai_label.jpg", "i"),
+                  tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;",
+                              `data-img` = "ai_label.jpg", "es. \U0001F446"),
                   tr$attr_a_desc, tr$attr_a_levels)
             ),
             div(class = "attr-row-framing attr-row-b",
@@ -227,17 +232,10 @@ ui <- function(request) {
                   tr$attr_d_desc, tr$attr_d_levels)
             )
           ),
+          div(class = "audio-context-box mt-3",
+            div(class = "context-a", tr$sq_note)
+          ),
           p(class = "mt-3", tr$task_p2)
-        ),
-        div(class = "status-quo-card-blue mt-3",
-          tags$h6(tr$sq_title),
-          p(class = "sq-intro", tr$sq_intro),
-          tags$ul(
-            tags$li(tr$sq_li1),
-            tags$li(tr$sq_li2),
-            tags$li(tr$sq_li3),
-            tags$li(tr$sq_li4)
-          )
         ),
         div(class = "nav-buttons",
           actionButton("btn_framing_next", tr$btn_start_cbc,
