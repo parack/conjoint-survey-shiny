@@ -116,7 +116,7 @@ TR <- list(
     intro_salute = "Gentile partecipante,",
     intro_body   = "sono uno studente del Corso di Laurea Magistrale in Management dell'Università degli Studi di Trento. La invito a partecipare a questo sondaggio, sviluppato nell'ambito della mia tesi magistrale, che ha l'obiettivo di analizzare le preferenze dei consumatori riguardo alle politiche adottate dalle piattaforme di streaming musicale in materia di musica generata dall'intelligenza artificiale.",
 
-    survey_warn  = "Attenzione: non aggiorni la pagina e non utilizzi il tasto 'Indietro' del browser durante la compilazione. Le risposte, una volta inviate, non potranno essere modificate.",
+    survey_warn  = "Attenzione: se possibile, non aggiorni la pagina e non utilizzi il tasto 'Indietro' del browser durante la compilazione. Una volta premuto il tasto Avanti in ogni sezione, le risposte non potranno essere modificate.",
 
     what_asked_h = "Cosa Le verrà chiesto?",
     what_asked   = tags$ol(
@@ -380,7 +380,7 @@ TR <- list(
     intro_salute = "Dear participant,",
     intro_body   = "I am a Master's student in Management at the University of Trento. I am inviting you to take part in this survey, developed as part of my Master's thesis, which aims to understand consumer preferences regarding the policies adopted by music streaming platforms in relation to AI-generated music.",
 
-    survey_warn  = "Please note: do not refresh the page or use the browser's Back button during the survey. Once submitted, your answers cannot be changed.",
+    survey_warn  = "Please note: if possible, avoid refreshing the page or using the browser's Back button during the survey. Once you press Next in each section, your answers cannot be changed.",
 
     what_asked_h = "What will be asked of you?",
     what_asked   = tags$ol(
@@ -645,7 +645,7 @@ TR <- list(
     intro_salute = "Chere participante, cher participant,",
     intro_body   = "je suis etudiant en Master Management a l'Universite de Trente. Je vous invite a participer a ce sondage, elabore dans le cadre de mon memoire de master, dont l'objectif est de comprendre les preferences des consommateurs concernant les politiques adoptees par les plateformes de streaming musical en matiere de musique generee par l'IA.",
 
-    survey_warn  = "Attention : ne rafraichissez pas la page et n'utilisez pas le bouton Precedent du navigateur pendant le sondage. Une fois soumises, vos reponses ne pourront pas etre modifiees.",
+    survey_warn  = "Attention : si possible, évitez de rafraîchir la page ou d'utiliser le bouton Précédent du navigateur pendant le sondage. Une fois le bouton Suivant pressé dans chaque section, vos réponses ne pourront plus être modifiées.",
 
     what_asked_h = "Ce qu'on vous demandera ?",
     what_asked   = tags$ol(
