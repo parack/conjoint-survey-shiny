@@ -226,16 +226,7 @@ ui <- function(request) {
           ),
           p(class = "mt-3", tr$task_p2)
         ),
-        div(class = "status-quo-card-blue mt-3",
-          tags$h6(tr$sq_title),
-          p(class = "sq-intro", tr$sq_intro),
-          tags$ul(
-            tags$li(tr$sq_li1),
-            tags$li(tr$sq_li2),
-            tags$li(tr$sq_li3),
-            tags$li(tr$sq_li4)
-          )
-        ),
+        p(class = "text-muted small fst-italic mt-3", tr$sq_note),
         div(class = "nav-buttons",
           actionButton("btn_framing_next", tr$btn_start_cbc,
                        class = "btn btn-primary btn-lg"))
