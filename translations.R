@@ -182,11 +182,11 @@ TR <- list(
     stat_4_src   = "Deezer Newsroom, apr. 2026",
 
     dsp_policy_h    = "Come si stanno muovendo le piattaforme",
-    dsp_spotify     = "Label AI volontaria nei credenziali del brano (apr. 2026); badge 'Verified by Spotify' sui profili artista con revisione umana — i profili prevalentemente AI non sono idonei alla verifica (apr. 2026)",
+    dsp_spotify     = "Label AI volontaria nei credenziali + badge 'Verified by Spotify' sui profili umani verificati; artisti prevalentemente AI esclusi (apr. 2026)",
     dsp_apple       = "Tag di trasparenza volontari per 4 categorie: traccia, artwork, composizione, video (mar. 2026)",
     dsp_deezer      = "Algoritmo brevettato di rilevazione dei contenuti AI; esclusione dalle playlist algoritmiche ed editoriali (da gen. 2025)",
     dsp_amazon      = "Nessuna policy specifica; brani AI accettati senza obbligo di disclosure",
-    dsp_policy_note = "Le iniziative di Spotify e Apple Music si basano su autodichiarazione, senza meccanismi di verifica; Deezer è l'unica piattaforma ad aver implementato rilevamento tecnico automatico.",
+    dsp_policy_note = "Apple Music si basa su autodichiarazione senza verifica; Spotify ha introdotto una revisione umana con il badge Verified; Deezer è l'unica piattaforma con rilevamento tecnico automatico.",
 
     sq_title    = "Configurazione attuale (punto di riferimento)",
     sq_intro    = "Per le scelte che seguono, Le chiediamo di ragionare a partire da questa configurazione di riferimento (che rispecchia l'approccio della maggior parte delle piattaforme oggi), valutando le alternative in funzione della Sua disponibilità a pagare:",
@@ -447,11 +447,11 @@ TR <- list(
     stat_4_src   = "Deezer Newsroom, Apr. 2026",
 
     dsp_policy_h    = "How platforms are responding",
-    dsp_spotify     = "Voluntary AI label in song credits (Apr. 2026); 'Verified by Spotify' badge on artist profiles via human review — profiles primarily representing AI artists are not eligible (Apr. 2026)",
+    dsp_spotify     = "Voluntary AI label in song credits + 'Verified by Spotify' badge for human-verified profiles; AI-primary artists excluded (Apr. 2026)",
     dsp_apple       = "Voluntary transparency tags for 4 categories: track, artwork, composition, video (Mar. 2026)",
     dsp_deezer      = "Patented AI-detection algorithm; exclusion from algorithmic and editorial playlists (since Jan. 2025)",
     dsp_amazon      = "No specific policy; AI tracks accepted without disclosure requirement",
-    dsp_policy_note = "Spotify and Apple Music initiatives are based on self-declaration with no verification mechanism; Deezer is the only platform to have implemented automatic technical detection.",
+    dsp_policy_note = "Apple Music relies on self-declaration with no verification; Spotify has introduced human review via the Verified badge; Deezer is the only platform with automatic technical detection.",
 
     sq_title    = "Current configuration (reference point)",
     sq_intro    = "For the choices that follow, please reason from this reference configuration (which reflects the approach of most platforms today), evaluating alternatives based on your own willingness to pay:",
@@ -713,11 +713,11 @@ TR <- list(
     stat_4_src   = "Deezer Newsroom, avr. 2026",
 
     dsp_policy_h    = "Comment les plateformes reagissent",
-    dsp_spotify     = "Label IA volontaire dans les crédits du titre (avr. 2026) ; badge « Verified by Spotify » sur les profils artistes avec révision humaine — les profils principalement IA ne sont pas éligibles à la vérification (avr. 2026)",
+    dsp_spotify     = "Label IA volontaire dans les crédits + badge « Verified by Spotify » sur les profils humains vérifiés ; artistes principalement IA exclus (avr. 2026)",
     dsp_apple       = "Tags de transparence volontaires pour 4 categories : titre, artwork, composition, video (mar. 2026)",
     dsp_deezer      = "Algorithme brevete de detection des contenus IA ; exclusion des playlists algorithmiques et editoriales (depuis janv. 2025)",
     dsp_amazon      = "Aucune politique specifique ; titres IA acceptes sans obligation de declaration",
-    dsp_policy_note = "Les initiatives de Spotify et Apple Music reposent sur l'autodeclaration, sans mecanisme de verification ; Deezer est la seule plateforme a avoir mis en place une detection technique automatique.",
+    dsp_policy_note = "Apple Music repose sur l'autodéclaration sans vérification ; Spotify a introduit une révision humaine via le badge Verified ; Deezer est la seule plateforme avec détection technique automatique.",
 
     sq_title    = "Configuration actuelle (point de reference)",
     sq_intro    = "Pour les choix qui suivent, nous vous demandons de raisonner a partir de cette configuration de reference (qui reflete l'approche de la plupart des plateformes aujourd'hui), en evaluant les alternatives selon votre consentement a payer :",
