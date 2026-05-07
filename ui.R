@@ -192,7 +192,7 @@ ui <- function(request) {
                 tags$th(tagList("Deezer",        tags$br(), tags$span(class="dsp-badge badge-algo",  tr$dsp_badge_deezer))),
                 tags$td(tr$dsp_deezer)),
               tags$tr(
-                tags$th(tagList("Spotify",       tags$br(), tags$span(class="dsp-badge badge-human", tr$dsp_badge_spotify))),
+                tags$th(tagList("Spotify",       tags$br(), tags$span(class="dsp-badge badge-self",  tr$dsp_badge_spotify))),
                 tags$td(tr$dsp_spotify)),
               tags$tr(
                 tags$th(tagList("Apple Music",   tags$br(), tags$span(class="dsp-badge badge-self",  tr$dsp_badge_apple))),
@@ -213,7 +213,7 @@ ui <- function(request) {
               tags$span(class = "attr-icon", "•"),
               div(tags$strong(class = "attr-lbl-colored", tr$attr_a_lbl),
                   tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;",
-                              `data-img` = "ai_label.jpg", "\U0001F446"),
+                              `data-img` = "ai_label.jpg", "es. \U0001F446"),
                   tr$attr_a_desc, tr$attr_a_levels)
             ),
             div(class = "attr-row-framing attr-row-b",
