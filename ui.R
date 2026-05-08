@@ -213,7 +213,7 @@ ui <- function(request) {
               tags$span(class = "attr-icon", "•"),
               div(tags$strong(class = "attr-lbl-colored", tr$attr_a_lbl),
                   tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;",
-                              `data-img` = "ai_label.jpg", "es. \U0001F446"),
+                              `data-img` = "ai_label.png", "es. \U0001F446"),
                   tr$attr_a_desc, tr$attr_a_levels)
             ),
             div(class = "attr-row-framing attr-row-b",
@@ -285,7 +285,12 @@ ui <- function(request) {
         conditionalPanel(
           condition = "input.dsp_user === 'yes'",
           sel("dsp_current", tr$dsp_svc_lbl,  tr$dsp_opts),
-          sel("dsp_tier",    tr$dsp_tier_lbl, tr$tier_opts),
+          radioButtons("dsp_tier",
+            label    = tr$dsp_tier_lbl,
+            choices  = tr$tier_opts,
+            selected = character(0),
+            inline   = TRUE
+          ),
           div(class = "gaais-list mt-2",
             div(class = "gaais-item",
               p(class = "item-text", tr$freq_q),
@@ -294,20 +299,23 @@ ui <- function(request) {
             )
           )
         ),
-        div(class = "gaais-list",
-          div(class = "gaais-item",
-            p(class = "item-text", tr$aware_q),
-            div(class = "gaais-btn-group",
-              btn_check_group(tr$aware_opts, "ai_awareness", "ai_aware", extra_lbl_class = "gaais-btn"))
-          )
-        ),
-        div(class = "churn-section mt-3",
-          p(tr$churn_q),
-          div(class = "gaais-btn-group mt-2",
-            btn_check_group(
-              setNames(as.character(1:5), tr$lik5p),
-              name = "churn_intent", id_prefix = "churn",
-              extra_lbl_class = "gaais-btn"
+        conditionalPanel(
+          condition = "input.dsp_user === 'yes'",
+          div(class = "gaais-list",
+            div(class = "gaais-item",
+              p(class = "item-text", tr$aware_q),
+              div(class = "gaais-btn-group",
+                btn_check_group(tr$aware_opts, "ai_awareness", "ai_aware", extra_lbl_class = "gaais-btn"))
+            )
+          ),
+          div(class = "churn-section mt-3",
+            p(tr$churn_q),
+            div(class = "gaais-btn-group mt-2",
+              btn_check_group(
+                setNames(as.character(1:5), tr$lik5p),
+                name = "churn_intent", id_prefix = "churn",
+                extra_lbl_class = "gaais-btn"
+              )
             )
           )
         ),

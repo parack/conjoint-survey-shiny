@@ -2,6 +2,7 @@ library(shiny)
 library(shinyjs)
 library(bslib)
 library(googlesheets4)
+library(jsonlite)
 source("translations.R")   # TR list: IT / EN / FR
 
 gs4_auth(path = "service_account.json")

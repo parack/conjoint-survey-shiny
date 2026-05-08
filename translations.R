@@ -34,12 +34,12 @@ TR <- list(
     dsp_yn     = c("Sì"="yes","No"="no"),
 
     A1 = c(
-      "Nessuna label AI visibile (solo metadata interni, non accessibili agli utenti)",
-      "Label AI volontaria (visibile solo se dichiarata dal distributore all'upload)",
-      "Label AI obbligatoria (garantita dalla piattaforma, indipendente dall'artista)"
+      "Nessuna label AI (le tracce AI non sono identificabili)",
+      "Label AI volontaria (visibile solo se dichiarata dall'artista)",
+      "Label AI obbligatoria (verificata dalla piattaforma)"
     ),
     A2 = c(
-      "Musica AI non inclusa nelle playlist raccomandate",
+      "Musica AI non inclusa in alcuna playlist",
       "Musica AI nelle playlist raccomandate e generaliste",
       "Musica AI nelle playlist raccomandate + spazio dedicato AI aggiuntivo"
     ),
@@ -94,10 +94,7 @@ TR <- list(
     dsp_opts  = c("Spotify"="spotify","Apple Music"="apple",
                   "Amazon Music Unlimited"="amazon","YouTube Music"="youtube",
                   "Tidal"="tidal","Deezer"="deezer","Altro"="other"),
-    tier_opts = c("Gratuito (con pubblicita)"="free",
-                  "Premium individuale"="premium_ind",
-                  "Premium famiglia / Duo"="premium_fam",
-                  "Studente"="student","Altro"="other"),
+    tier_opts = c("Gratuito" = "free", "A pagamento" = "paid"),
 
     err_consent  = "È necessario acconsentire alla partecipazione per continuare.",
     err_audio    = "Valuti tutte e 4 le clip prima di procedere.",
@@ -175,7 +172,7 @@ TR <- list(
     dsp_apple       = "Tag di trasparenza volontari per 4 categorie: traccia, artwork, composizione, video (mar. 2026)",
     dsp_deezer      = "Algoritmo brevettato di rilevazione dei contenuti AI; esclusione dalle playlist algoritmiche ed editoriali (da gen. 2025)",
     dsp_amazon      = "Nessuna policy specifica; brani AI accettati senza obbligo di disclosure",
-    dsp_policy_note  = "Apple Music si basa su autodichiarazione senza verifica; Spotify ha introdotto una revisione umana con il badge Verified; Deezer è l'unica piattaforma con rilevamento tecnico automatico.",
+    dsp_policy_note  = "",
     dsp_badge_deezer = "Rilevazione algoritmica",
     dsp_badge_spotify= "Autodichiarazione",
     dsp_badge_apple  = "Autodichiarazione",
@@ -190,7 +187,7 @@ TR <- list(
       ", che si differenziano per le seguenti caratteristiche:"
     ),
     attr_a_lbl    = "Policy di labeling AI",
-    attr_a_desc   = " - Come la piattaforma identifica e comunica agli ascoltatori la presenza di musica generata dall'AI.",
+    attr_a_desc   = " - Come la piattaforma identifica e comunica agli ascoltatori la presenza di musica AI. Dove prevista, l'etichetta appare come una pill visibile nella schermata di ascolto (es. «AI Generated Content»).",
     attr_a_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("Nessuna label:"), " le tracce AI non sono distinguibili da quelle umane.")),
       tags$li(tagList(tags$strong("Label volontaria:"), " l'etichetta compare solo se dichiarata dall'artista o dal distributore al momento del caricamento.")),
@@ -199,16 +196,16 @@ TR <- list(
     attr_b_lbl    = "Struttura promozionale",
     attr_b_desc   = " - In che misura la musica AI è presente nelle playlist raccomandate dall'algoritmo.",
     attr_b_levels = tags$ul(class = "levels-list",
-      tags$li(tagList(tags$strong("Non inclusa:"), " la musica AI non compare in alcuna playlist raccomandata.")),
+      tags$li(tagList(tags$strong("Non inclusa:"), " la musica AI non compare in alcuna playlist.")),
       tags$li(tagList(tags$strong("Inclusa:"), " la musica AI compare nelle playlist raccomandate all'utente (es. Daily Mix) e in quelle generaliste (es. New Music Friday, Top Hits).")),
-      tags$li(tagList(tags$strong("Inclusa + sezione dedicata:"), " come sopra, più una sezione AI-only nella app che l'utente può scegliere di esplorare.",
+      tags$li(tagList(tags$strong("Inclusa + sezione dedicata:"), " come al punto 2, più una sezione AI-only nella app che l'utente può scegliere di esplorare.",
         tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "es. \U0001F446")))
     ),
     attr_c_lbl    = "Controllo utente",
-    attr_c_desc   = " - Gli strumenti a disposizione per gestire la presenza di musica AI nella propria esperienza.",
+    attr_c_desc   = " - Gli strumenti a disposizione dell'utente per gestire la presenza di musica AI nella propria esperienza.",
     attr_c_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("Nessun controllo:"), " non sono disponibili strumenti per filtrare i contenuti AI.")),
-      tags$li(tagList(tags$strong("Filtro parziale:"), " la musica AI rimane disponibile sulla piattaforma, ma può essere esclusa dalle playlist personalizzate.")),
+      tags$li(tagList(tags$strong("Filtro parziale:"), " la musica AI rimane disponibile e fruibile sulla piattaforma, ma può essere esclusa dalle playlist personalizzate per l'utente.")),
       tags$li(tagList(tags$strong("Filtro completo:"), " blocco totale della musica AI sull'intera piattaforma.",
         tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "es. \U0001F446")))
     ),
@@ -289,12 +286,12 @@ TR <- list(
     dsp_yn     = c("Yes"="yes","No"="no"),
 
     A1 = c(
-      "No visible AI label (internal metadata only, not accessible to users)",
-      "Voluntary AI label (visible only if declared by the distributor at upload)",
-      "Mandatory AI label (guaranteed by the platform, independent of the artist)"
+      "No AI label (AI tracks are not identifiable)",
+      "Voluntary AI label (visible only if declared by the artist)",
+      "Mandatory AI label (verified by the platform)"
     ),
     A2 = c(
-      "AI music not included in recommended playlists",
+      "AI music not included in any playlist",
       "AI music in recommended and general playlists",
       "AI music in recommended playlists + additional dedicated AI space"
     ),
@@ -349,8 +346,7 @@ TR <- list(
     dsp_opts  = c("Spotify"="spotify","Apple Music"="apple",
                   "Amazon Music Unlimited"="amazon","YouTube Music"="youtube",
                   "Tidal"="tidal","Deezer"="deezer","Other"="other"),
-    tier_opts = c("Free (with ads)"="free","Premium individual"="premium_ind",
-                  "Premium family / Duo"="premium_fam","Student"="student","Other"="other"),
+    tier_opts = c("Free" = "free", "Paid" = "paid"),
 
     err_consent  = "You must consent to participate in order to continue.",
     err_audio    = "Please rate all 4 clips before proceeding.",
@@ -428,7 +424,7 @@ TR <- list(
     dsp_apple       = "Voluntary transparency tags for 4 categories: track, artwork, composition, video (Mar. 2026)",
     dsp_deezer      = "Patented AI-detection algorithm; exclusion from algorithmic and editorial playlists (since Jan. 2025)",
     dsp_amazon      = "No specific policy; AI tracks accepted without disclosure requirement",
-    dsp_policy_note  = "Apple Music relies on self-declaration with no verification; Spotify has introduced human review via the Verified badge; Deezer is the only platform with automatic technical detection.",
+    dsp_policy_note  = "",
     dsp_badge_deezer = "Algorithmic detection",
     dsp_badge_spotify= "Self-declaration",
     dsp_badge_apple  = "Self-declaration",
@@ -443,7 +439,7 @@ TR <- list(
       " differing in the following characteristics:"
     ),
     attr_a_lbl    = "AI labelling policy",
-    attr_a_desc   = " - How the platform identifies and communicates the presence of AI-generated music to listeners.",
+    attr_a_desc   = " - How the platform identifies and communicates the presence of AI-generated music to listeners. Where a label is applied, it appears as a visible pill in the listening screen (e.g. «AI Generated Content»).",
     attr_a_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("No label:"), " AI tracks are indistinguishable from human tracks.")),
       tags$li(tagList(tags$strong("Voluntary label:"), " the label appears only if declared by the artist or distributor at upload.")),
@@ -452,16 +448,16 @@ TR <- list(
     attr_b_lbl    = "Promotional structure",
     attr_b_desc   = " - The extent to which AI music is present in algorithmically recommended playlists.",
     attr_b_levels = tags$ul(class = "levels-list",
-      tags$li(tagList(tags$strong("Not included:"), " AI music does not appear in any recommended playlist.")),
+      tags$li(tagList(tags$strong("Not included:"), " AI music does not appear in any playlist.")),
       tags$li(tagList(tags$strong("Included:"), " AI music appears in personalised playlists (e.g. Daily Mix) and general ones (e.g. New Music Friday, Top Hits).")),
-      tags$li(tagList(tags$strong("Included + dedicated section:"), " as above, plus an AI-only section in the app that users can choose to explore.",
+      tags$li(tagList(tags$strong("Included + dedicated section:"), " as per point 2, plus an AI-only section in the app that users can choose to explore.",
         tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "es. \U0001F446")))
     ),
     attr_c_lbl    = "User control",
     attr_c_desc   = " - The tools available to manage the presence of AI music in your experience.",
     attr_c_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("No control:"), " no tools are available to filter AI content.")),
-      tags$li(tagList(tags$strong("Partial filter:"), " AI music remains available on the platform but can be excluded from personalised playlists.")),
+      tags$li(tagList(tags$strong("Partial filter:"), " AI music remains available and accessible on the platform, but can be excluded from the user's personalised playlists.")),
       tags$li(tagList(tags$strong("Full filter:"), " total block of AI music across the entire platform.",
         tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "es. \U0001F446")))
     ),
@@ -543,12 +539,12 @@ TR <- list(
     dsp_yn     = c("Oui"="yes","Non"="no"),
 
     A1 = c(
-      "Aucun label IA visible (metadonnees internes uniquement, inaccessibles aux utilisateurs)",
-      "Label IA volontaire (visible uniquement si declare par le distributeur lors du telechargement)",
-      "Label IA obligatoire (garanti par la plateforme, independamment de l'artiste)"
+      "Aucun label IA (les titres IA ne sont pas identifiables)",
+      "Label IA volontaire (visible uniquement si déclaré par l'artiste)",
+      "Label IA obligatoire (vérifié par la plateforme)"
     ),
     A2 = c(
-      "Musique IA non incluse dans les playlists recommandees",
+      "Musique IA non incluse dans aucune playlist",
       "Musique IA dans les playlists recommandees et generalistes",
       "Musique IA dans les playlists recommandees + espace IA dedie supplementaire"
     ),
@@ -603,8 +599,7 @@ TR <- list(
     dsp_opts  = c("Spotify"="spotify","Apple Music"="apple",
                   "Amazon Music Unlimited"="amazon","YouTube Music"="youtube",
                   "Tidal"="tidal","Deezer"="deezer","Autre"="other"),
-    tier_opts = c("Gratuit (avec publicite)"="free","Premium individuel"="premium_ind",
-                  "Premium famille / Duo"="premium_fam","Etudiant(e)"="student","Autre"="other"),
+    tier_opts = c("Gratuit" = "free", "Payant" = "paid"),
 
     err_consent  = "Vous devez consentir a participer pour continuer.",
     err_audio    = "Veuillez evaluer les 4 clips avant de continuer.",
@@ -682,7 +677,7 @@ TR <- list(
     dsp_apple       = "Tags de transparence volontaires pour 4 categories : titre, artwork, composition, video (mar. 2026)",
     dsp_deezer      = "Algorithme brevete de detection des contenus IA ; exclusion des playlists algorithmiques et editoriales (depuis janv. 2025)",
     dsp_amazon      = "Aucune politique specifique ; titres IA acceptes sans obligation de declaration",
-    dsp_policy_note  = "Apple Music repose sur l'autodéclaration sans vérification ; Spotify a introduit une révision humaine via le badge Verified ; Deezer est la seule plateforme avec détection technique automatique.",
+    dsp_policy_note  = "",
     dsp_badge_deezer = "Détection algorithmique",
     dsp_badge_spotify= "Autodéclaration",
     dsp_badge_apple  = "Autodéclaration",
@@ -697,7 +692,7 @@ TR <- list(
       " differant selon les caracteristiques suivantes :"
     ),
     attr_a_lbl    = "Politique de label IA",
-    attr_a_desc   = " - Comment la plateforme identifie et communique aux auditeurs la presence de musique generee par l'IA.",
+    attr_a_desc   = " - Comment la plateforme identifie et communique aux auditeurs la présence de musique IA. Lorsqu'un label est appliqué, il apparaît comme une pill visible dans l'écran d'écoute (ex. «AI Generated Content»).",
     attr_a_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("Aucun label :"), " les titres IA ne sont pas distinguables des titres humains.")),
       tags$li(tagList(tags$strong("Label volontaire :"), " l'étiquette n'apparaît que si elle est déclarée par l'artiste ou le distributeur lors du téléchargement.")),
@@ -706,16 +701,16 @@ TR <- list(
     attr_b_lbl    = "Structure promotionnelle",
     attr_b_desc   = " - Dans quelle mesure la musique IA est presente dans les playlists recommandees par l'algorithme.",
     attr_b_levels = tags$ul(class = "levels-list",
-      tags$li(tagList(tags$strong("Non incluse :"), " la musique IA n'apparaît dans aucune playlist recommandée.")),
+      tags$li(tagList(tags$strong("Non incluse :"), " la musique IA n'apparaît dans aucune playlist.")),
       tags$li(tagList(tags$strong("Incluse :"), " la musique IA apparaît dans les playlists personnalisées (ex. Daily Mix) et généralistes (ex. New Music Friday, Top Hits).")),
-      tags$li(tagList(tags$strong("Incluse + section dédiée :"), " comme ci-dessus, plus une section IA uniquement dans l'application que l'utilisateur peut choisir d'explorer.",
+      tags$li(tagList(tags$strong("Incluse + section dédiée :"), " comme au point 2, plus une section IA uniquement dans l'application que l'utilisateur peut choisir d'explorer.",
         tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "es. \U0001F446")))
     ),
     attr_c_lbl    = "Controle utilisateur",
     attr_c_desc   = " - Les outils disponibles pour gerer la presence de musique IA dans votre experience.",
     attr_c_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("Aucun controle :"), " aucun outil n'est disponible pour filtrer les contenus IA.")),
-      tags$li(tagList(tags$strong("Filtre partiel :"), " la musique IA reste disponible sur la plateforme, mais peut etre exclue des playlists personnalisees.")),
+      tags$li(tagList(tags$strong("Filtre partiel :"), " la musique IA reste disponible et accessible sur la plateforme, mais peut être exclue des playlists personnalisées de l'utilisateur.")),
       tags$li(tagList(tags$strong("Filtre complet :"), " blocage total de la musique IA sur l'ensemble de la plateforme.",
         tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "es. \U0001F446")))
     ),

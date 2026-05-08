@@ -131,7 +131,9 @@ server <- function(input, output, session) {
     if (!is.null(ans)) {
       if (!is.null(ans$dsp_user))
         updateRadioButtons(session, "dsp_user", selected = ans$dsp_user)
-      for (nm in c("dsp_current", "dsp_tier",
+      if (!is.null(ans$dsp_tier))
+        updateRadioButtons(session, "dsp_tier", selected = ans$dsp_tier)
+      for (nm in c("dsp_current",
                    "demo_age", "demo_gender", "demo_country", "demo_education")) {
         raw_nm <- ans[[nm]]
         if (is.null(raw_nm)) next                # missing key → skip
@@ -392,13 +394,15 @@ server <- function(input, output, session) {
   # PROXY → DEMO
   observeEvent(input$btn_proxy_next, {
     proxy_vals <- sapply(PROXY_ITEMS$code, function(code) input[[code]])
-    churn      <- input$churn_intent
-    # music_freq only required when dsp_user == "yes" (shown conditionally)
-    behav_codes <- if (!is.null(input$dsp_user) && input$dsp_user == "yes")
-                     c("music_freq", "ai_awareness") else "ai_awareness"
-    behav <- sapply(behav_codes, function(x) input[[x]])
-    if (any(sapply(proxy_vals, is.null)) || is.null(churn) || any(sapply(behav, is.null))) {
-      err(tr$err_proxy); return()
+    if (any(sapply(proxy_vals, is.null))) { err(tr$err_proxy); return() }
+    # ai_awareness, churn_intent and music_freq only required when dsp_user == "yes"
+    if (!is.null(input$dsp_user) && input$dsp_user == "yes") {
+      behav_codes <- c("music_freq", "ai_awareness")
+      behav <- sapply(behav_codes, function(x) input[[x]])
+      churn <- input$churn_intent
+      if (any(sapply(behav, is.null)) || is.null(churn)) {
+        err(tr$err_proxy); return()
+      }
     }
     # Validate DSP
     if (is.null(input$dsp_user)) {
@@ -457,9 +461,9 @@ server <- function(input, output, session) {
       data.frame(gaais_pos = rv$gaais_pos, gaais_neg = rv$gaais_neg),
       proxy_df,
       data.frame(
-        churn_intent = as.integer(input$churn_intent),
-        music_freq   = if (!is.null(input$dsp_user) && input$dsp_user == "yes") input$music_freq else "",
-        ai_awareness = input$ai_awareness,
+        churn_intent = if (isTRUE(input$dsp_user == "yes")) as.integer(input$churn_intent) else NA_integer_,
+        music_freq   = if (isTRUE(input$dsp_user == "yes")) input$music_freq   else "",
+        ai_awareness = if (isTRUE(input$dsp_user == "yes")) input$ai_awareness else "",
         dsp_user         = input$dsp_user,
         dsp_current      = if (isTRUE(input$dsp_user == "yes")) input$dsp_current else "",
         dsp_tier         = if (isTRUE(input$dsp_user == "yes")) input$dsp_tier    else "",

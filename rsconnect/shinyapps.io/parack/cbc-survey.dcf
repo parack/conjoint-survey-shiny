@@ -1,0 +1,10 @@
+name: cbc-survey
+title:
+username: parack
+account: parack
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 17238848
+bundleId: 11913424
+url: https://parack.shinyapps.io/cbc-survey/
+version: 1
