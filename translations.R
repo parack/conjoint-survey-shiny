@@ -134,8 +134,8 @@ TR <- list(
 
     contact_h    = "Per informazioni:",
     contact_info = tagList(
-      tags$p("Lorenzo Paravano - lorenzo.paravano@gmail.com"),
-      tags$p("Prof. Diego Giuliani - [email da aggiungere]")
+      tags$p("Lorenzo Paravano - lorenzo.paravano@studenti.unitn.it"),
+      tags$p("Prof. Diego Giuliani - diego.giuliani@unitn.it")
     ),
 
     consent_chk = "Ho letto l'informativa e acconsento volontariamente a partecipare al sondaggio.",
@@ -409,8 +409,8 @@ TR <- list(
 
     contact_h    = "For information:",
     contact_info = tagList(
-      tags$p("Lorenzo Paravano - lorenzo.paravano@gmail.com"),
-      tags$p("Prof. Diego Giuliani - [email to be added]")
+      tags$p("Lorenzo Paravano - lorenzo.paravano@studenti.unitn.it"),
+      tags$p("Prof. Diego Giuliani - diego.giuliani@unitn.it")
     ),
 
     consent_chk = "I have read the privacy notice and voluntarily consent to participate in the survey.",
@@ -685,8 +685,8 @@ TR <- list(
 
     contact_h    = "Pour des informations :",
     contact_info = tagList(
-      tags$p("Lorenzo Paravano - lorenzo.paravano@gmail.com"),
-      tags$p("Prof. Diego Giuliani - [email a ajouter]")
+      tags$p("Lorenzo Paravano - lorenzo.paravano@studenti.unitn.it"),
+      tags$p("Prof. Diego Giuliani - diego.giuliani@unitn.it")
     ),
 
     consent_chk = "J'ai lu l'avis de confidentialite et consens volontairement a participer au sondage.",

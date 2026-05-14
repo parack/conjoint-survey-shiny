@@ -11,6 +11,7 @@ server <- function(input, output, session) {
   # ── Session-level state ────────────────────────────────────────────────────
   ts_start <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
   resp_id  <- paste0("R", format(Sys.time(), "%Y%m%d%H%M%S"), sample(1000L:9999L, 1L))
+  message(sprintf("[SURVEY] %s | SESSION_START  | lang=%s | %s", resp_id, .lang, ts_start))
 
   rv <- reactiveValues(
     page                = if (.has_lang) "intro" else "lang",
@@ -49,6 +50,27 @@ server <- function(input, output, session) {
       sheet_append(ss = SHEET_ID, sheet = sheet, data = data),
       error = function(e) message("[GSheets] ", sheet, ": ", e$message)
     )
+  }
+
+  # ── Structured logger → visible in shinyapps.io Logs tab ──────────────────
+  log_evt <- function(event, detail = "") {
+    message(sprintf("[SURVEY] %s | %-14s | %s | %s",
+      resp_id, event, detail, format(Sys.time(), "%Y-%m-%d %H:%M:%S")))
+  }
+
+  # ── Funnel tracker → writes one row per navigation event to GSheets ────────
+  log_funnel <- function(event, detail = "") {
+    force(detail)   # evaluate in reactive context BEFORE later::later runs
+    later::later(function() {
+      gs_append("Funnel", data.frame(
+        respondent_id = resp_id,
+        lang          = .lang,
+        event         = event,
+        detail        = detail,
+        ts            = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
+        stringsAsFactors = FALSE
+      ))
+    }, delay = 0)
   }
 
   # ── Format a price in the session language ─────────────────────────────────
@@ -313,6 +335,8 @@ server <- function(input, output, session) {
     go_to("audio")
     set_progress(12)
     session$sendCustomMessage("surveyStarted", list())  # activates beforeunload warning
+    log_evt("CONSENT_OK")
+    log_funnel("consent_ok")
   })
 
   # AUDIO → GAAIS
@@ -327,6 +351,8 @@ server <- function(input, output, session) {
     session$sendCustomMessage("persistState", list(d_index = rv$d_index))
     go_to("gaais")
     set_progress(25)
+    log_evt("AUDIO_DONE", sprintf("D=%.2f", rv$d_index))
+    log_funnel("audio_done", sprintf("D=%.2f", rv$d_index))
   })
 
   # GAAIS → FRAMING
@@ -342,6 +368,34 @@ server <- function(input, output, session) {
                                                    gaais_neg = rv$gaais_neg))
     go_to("framing")
     set_progress(38)
+    log_evt("GAAIS_DONE", sprintf("pos=%.1f neg=%.1f", rv$gaais_pos, rv$gaais_neg))
+    log_funnel("gaais_done", sprintf("pos=%.1f neg=%.1f", rv$gaais_pos, rv$gaais_neg))
+
+    # ── Early partial save (audio + GAAIS only) ───────────────────────────────
+    # Written to the same Partial sheet; proxy/CBC/DSP columns left blank.
+    local({
+      audio_r <- sapply(1L:4L, function(i) as.integer(input[[paste0("audio_rating_", i)]]))
+      audio_partial <- setNames(as.data.frame(t(audio_r)), paste0("audio_clip", 1L:4L, "_rating"))
+      audio_type_partial <- setNames(
+        as.data.frame(t(AUDIO_CLIPS$type[rv$audio_order])),
+        paste0("audio_clip", 1L:4L, "_type")
+      )
+      gaais_r <- sapply(GAAIS_ITEMS$code, function(code) as.integer(input[[paste0("gaais_", code)]]))
+      gaais_partial <- setNames(as.data.frame(t(gaais_r)), paste0("gaais_", GAAIS_ITEMS$code))
+      gpos <- rv$gaais_pos
+      gneg <- rv$gaais_neg
+      di   <- rv$d_index
+
+      early_row <- cbind(
+        data.frame(respondent_id = resp_id, lang = .lang,
+                   ts = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
+                   stringsAsFactors = FALSE),
+        audio_partial, audio_type_partial,
+        data.frame(d_index = di, gaais_pos = gpos, gaais_neg = gneg),
+        gaais_partial
+      )
+      later::later(function() gs_append("Partial", early_row), delay = 0)
+    })
   })
 
   # FRAMING → CBC  (no network call — design written at submit)
@@ -349,6 +403,8 @@ server <- function(input, output, session) {
     rv$cbc_task <- 1L
     go_to("cbc")
     set_progress(45)
+    log_evt("FRAMING_OK")
+    log_funnel("framing_ok")
   })
 
   # CBC: advance task or exit to proxy
@@ -360,6 +416,7 @@ server <- function(input, output, session) {
     }
     rv$cbc_choices[t] <- as.integer(choice)
 
+    log_evt("CBC_TASK", sprintf("%d/%d choice=%d", t, N_TASKS, as.integer(choice)))
     if (t < N_TASKS) {
       rv$cbc_task <- t + 1L
       session$sendCustomMessage("persistState", list(cbc_task = t + 1L))
@@ -375,7 +432,7 @@ server <- function(input, output, session) {
         }
       })();")
     } else {
-      # All tasks done — write Survey_Answers once (guard prevents duplicate on reconnect)
+      # All tasks done — write Survey_Answers + Choices once (guard prevents duplicate on reconnect)
       if (!rv$cbc_answers_written) {
         local({
           answers <- as.data.frame(t(rv$cbc_choices))
@@ -383,8 +440,30 @@ server <- function(input, output, session) {
           answers <- cbind(data.frame(respondent_id = resp_id, stringsAsFactors = FALSE), answers)
           later::later(function() gs_append("Survey_Answers", answers), delay = 0)
         })
+        # Write Choices here (not at final submit) so profile data is saved
+        # even if the respondent abandons at the demographics page
+        local({
+          choices_rows <- do.call(rbind, lapply(seq_len(N_TASKS), function(t_idx) {
+            prof <- rv$cbc_design[[t_idx]]
+            do.call(rbind, lapply(seq_len(N_ALTS), function(a) {
+              data.frame(
+                respondent_id = resp_id,
+                task          = t_idx,
+                alt           = a,
+                a1_labeling   = prof$a1[a],
+                a2_promotion  = prof$a2[a],
+                a3_control    = prof$a3[a],
+                a4_price      = prof$a4[a],
+                stringsAsFactors = FALSE
+              )
+            }))
+          }))
+          later::later(function() gs_append("Choices", choices_rows), delay = 0)
+        })
         rv$cbc_answers_written <- TRUE
         session$sendCustomMessage("persistState", list(cbc_answers_written = TRUE))
+        log_evt("CBC_DONE")
+        log_funnel("cbc_done")
       }
       go_to("proxy")
       set_progress(72)
@@ -418,6 +497,44 @@ server <- function(input, output, session) {
     }
     go_to("demo")
     set_progress(85)
+    log_evt("PROXY_DONE", sprintf("dsp_user=%s", input$dsp_user))
+    log_funnel("proxy_done", sprintf("dsp_user=%s", input$dsp_user))
+
+    # ── Intermediate partial save (audio + GAAIS + CBC + proxy) ───────────────
+    # Captures all data except demographics; survives abandonment at demo page.
+    local({
+      audio_r <- sapply(1L:4L, function(i) as.integer(input[[paste0("audio_rating_", i)]]))
+      audio_partial <- setNames(as.data.frame(t(audio_r)), paste0("audio_clip", 1L:4L, "_rating"))
+      audio_type_partial <- setNames(
+        as.data.frame(t(AUDIO_CLIPS$type[rv$audio_order])),
+        paste0("audio_clip", 1L:4L, "_type")
+      )
+      gaais_r <- sapply(GAAIS_ITEMS$code, function(code) as.integer(input[[paste0("gaais_", code)]]))
+      gaais_partial <- setNames(as.data.frame(t(gaais_r)), paste0("gaais_", GAAIS_ITEMS$code))
+      proxy_r <- sapply(PROXY_ITEMS$code, function(code) as.integer(input[[code]]))
+      proxy_partial <- setNames(as.data.frame(t(proxy_r)), PROXY_ITEMS$code)
+      cbc_partial <- setNames(as.data.frame(t(rv$cbc_choices)), paste0("choice_", seq_len(N_TASKS)))
+
+      partial_row <- cbind(
+        data.frame(respondent_id = resp_id, lang = .lang, ts = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
+                   stringsAsFactors = FALSE),
+        audio_partial, audio_type_partial,
+        data.frame(d_index = rv$d_index, gaais_pos = rv$gaais_pos, gaais_neg = rv$gaais_neg),
+        gaais_partial, proxy_partial, cbc_partial,
+        data.frame(
+          churn_intent = if (isTRUE(input$dsp_user == "yes")) as.integer(input$churn_intent) else NA_integer_,
+          music_freq   = if (isTRUE(input$dsp_user == "yes")) input$music_freq   else "",
+          ai_awareness = if (isTRUE(input$dsp_user == "yes")) input$ai_awareness else "",
+          dsp_user    = input$dsp_user,
+          dsp_current = if (isTRUE(input$dsp_user == "yes")) input$dsp_current else "",
+          dsp_tier    = if (isTRUE(input$dsp_user == "yes")) input$dsp_tier    else "",
+          stringsAsFactors = FALSE
+        )
+      )
+      # Sheets API rejects JSON null — replace every NA with ""
+      partial_row[] <- lapply(partial_row, function(x) { x[is.na(x)] <- ""; x })
+      later::later(function() gs_append("Partial", partial_row), delay = 0)
+    })
   })
 
   # DEMO → THANKYOU (final save)
@@ -477,34 +594,17 @@ server <- function(input, output, session) {
 
     ts_complete <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
 
-    # Build Choices rows (one row per alternative per task)
-    choices_rows <- do.call(rbind, lapply(seq_len(N_TASKS), function(t) {
-      prof <- rv$cbc_design[[t]]
-      do.call(rbind, lapply(seq_len(N_ALTS), function(a) {
-        p <- prof[a, ]
-        data.frame(
-          respondent_id = resp_id,
-          task          = t,
-          alt           = a,
-          a1_labeling   = tr$A1[p$a1],
-          a2_promotion  = tr$A2[p$a2],
-          a3_control    = tr$A3[p$a3],
-          a4_price      = A4_PRICES[p$a4],
-          stringsAsFactors = FALSE
-        )
-      }))
-    }))
-
     # Clear localStorage before navigating (prevents restore on future visits)
     session$sendCustomMessage("clearSavedState", list())
 
     # Navigate first, then write all sheets after the flush (non-blocking)
-    # Survey_Answers was already written when the last CBC task was completed
+    # Survey_Answers and Choices were already written at CBC_DONE
     go_to("thankyou", persist = FALSE)
     set_progress(100)
     session$sendCustomMessage("surveyComplete", list())  # disables beforeunload warning
+    log_evt("COMPLETED", sprintf("elapsed=%ds", as.integer(difftime(Sys.time(), as.POSIXct(ts_start), units="secs"))))
+    log_funnel("completed", sprintf("elapsed=%ds", as.integer(difftime(Sys.time(), as.POSIXct(ts_start), units="secs"))))
     later::later(function() {
-      gs_append("Choices",   choices_rows)
       gs_append("Demography", demo_row)
       gs_append("Respondents", data.frame(
         respondent_id      = resp_id,

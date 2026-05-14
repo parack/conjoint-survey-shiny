@@ -1,0 +1,16 @@
+.claude
+.git
+.secrets
+*.Rmd
+*.ipynb
+*.pdf
+*.csv
+setup_sheets.R
+Survey_Design.R
+Survey_Design_Mobile.R
+DataPreProcessing.ipynb
+Analysis.Rmd
+README.md
+pretest
+analysis
+sampling

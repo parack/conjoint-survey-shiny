@@ -22,7 +22,7 @@ The survey is administered in **Italian, English, and French** and consists of 7
 
 ## CBC Design
 
-4 attributes × 3 levels each; 1 prohibited pair (A1=L1 + A2=L3); **72 valid profiles** out of 81; D-optimal design generated with `idefix` (R).
+4 attributes × 3 levels each; 1 prohibited pair (A1=L1 + A2=L3); **72 valid profiles** out of 81; randomised design generated per-respondent (3 profiles sampled without replacement from the valid set for each of the 12 tasks).
 
 | Attribute | Level 1 | Level 2 | Level 3 |
 |---|---|---|---|
@@ -59,6 +59,8 @@ Responses are stored in a private Google Sheet (4 tabs):
 | `Demography` | audio ratings, D-index, GAAIS items + subscales, proxy items, churn intent, DSP usage, demographics |
 | `Survey_Answers` | choice_1 … choice_12 |
 | `Choices` | long format — one row per alternative per task (a1, a2, a3, a4) |
+| `Funnel` | one row per navigation event — step-by-step dropout tracking (event, detail, timestamp) |
+| `Partial` | intermediate snapshots: written after GAAIS (audio + GAAIS) and after Proxy (all except demographics); same `respondent_id` can have two rows — use the latest |
 
 ## Audio Pretest
 
@@ -96,7 +98,7 @@ Before the main survey, a separate Shiny app (`pretest/pretest_app.R`) was used 
 
 **First run:**
 ```r
-source("setup_sheets.R")   # creates the 4 Google Sheets tabs
+source("setup_sheets.R")   # creates/verifies the 6 Google Sheets tabs
 shiny::runApp()
 ```
 

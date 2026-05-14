@@ -44,6 +44,31 @@ headers <- list(
                        gaais_cols, "gaais_pos","gaais_neg",
                        proxy_cols, other_cols)
     setNames(as.data.frame(matrix(character(0), ncol = length(all_cols))), all_cols)
+  },
+
+  # ── Funnel: one row per navigation event (step-by-step dropout tracking) ──
+  Funnel = data.frame(
+    respondent_id = character(),
+    lang          = character(),
+    event         = character(),
+    detail        = character(),
+    ts            = character(),
+    stringsAsFactors = FALSE
+  ),
+
+  # ── Partial: snapshot after proxy section (survives abandonment at demo) ──
+  Partial = {
+    audio_cols  <- c(paste0("audio_clip", 1:4, "_rating"),
+                     paste0("audio_clip", 1:4, "_type"))
+    gaais_cols  <- paste0("gaais_", GAAIS_ITEMS$code)
+    proxy_cols  <- PROXY_ITEMS$code
+    choice_cols <- paste0("choice_", seq_len(N_TASKS))
+    dsp_cols    <- c("churn_intent","music_freq","ai_awareness",
+                     "dsp_user","dsp_current","dsp_tier")
+    all_cols    <- c("respondent_id","lang","ts",
+                     audio_cols, "d_index","gaais_pos","gaais_neg",
+                     gaais_cols, proxy_cols, choice_cols, dsp_cols)
+    setNames(as.data.frame(matrix(character(0), ncol = length(all_cols))), all_cols)
   }
 )
 

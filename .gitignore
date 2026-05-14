@@ -24,5 +24,11 @@ sampling/jamendo_pop_selected.csv
 sampling/jamendo_rock_selected.csv
 sampling/suno_pop_selected.csv
 sampling/suno_rock_selected.csv
-".claude/" 
-"rsconnect/" 
+.claude/
+rsconnect/
+
+# SVG originali scaricati (non referenziati dall'app — usa logo_*.svg)
+www/Deezer*
+www/apple-music-svgrepo-com.svg
+www/icons8-amazon-music.svg
+www/spotify-color-svgrepo-com.svg
