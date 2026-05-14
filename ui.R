@@ -109,7 +109,7 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=15"),
+      tags$link(rel = "stylesheet", href = "style.css?v=17"),
       tags$script(src = "survey.js?v=2")
     ),
 
@@ -189,22 +189,23 @@ ui <- function(request) {
           tags$table(class = "dsp-table",
             tags$tbody(
               tags$tr(
-                tags$th(tagList("Deezer",        tags$br(), tags$span(class="dsp-badge badge-algo",  tr$dsp_badge_deezer))),
+                tags$th(tagList(tags$img(src="logo_deezer.svg",       class="dsp-logo"), "Deezer",       tags$br(), tags$span(class="dsp-badge badge-algo",  tr$dsp_badge_deezer))),
                 tags$td(tr$dsp_deezer)),
               tags$tr(
-                tags$th(tagList("Spotify",       tags$br(), tags$span(class="dsp-badge badge-self",  tr$dsp_badge_spotify))),
+                tags$th(tagList(tags$img(src="logo_spotify.svg",      class="dsp-logo"), "Spotify",      tags$br(), tags$span(class="dsp-badge badge-self",  tr$dsp_badge_spotify))),
                 tags$td(tr$dsp_spotify)),
               tags$tr(
-                tags$th(tagList("Apple Music",   tags$br(), tags$span(class="dsp-badge badge-self",  tr$dsp_badge_apple))),
+                tags$th(tagList(tags$img(src="logo_apple_music.svg",  class="dsp-logo"), "Apple Music",  tags$br(), tags$span(class="dsp-badge badge-self",  tr$dsp_badge_apple))),
                 tags$td(tr$dsp_apple)),
               tags$tr(
-                tags$th(tagList("Amazon Music",  tags$br(), tags$span(class="dsp-badge badge-none",  tr$dsp_badge_amazon))),
+                tags$th(tagList(tags$img(src="logo_amazon_music.svg", class="dsp-logo"), "Amazon Music", tags$br(), tags$span(class="dsp-badge badge-none",  tr$dsp_badge_amazon))),
                 tags$td(tr$dsp_amazon))
             )
           ),
           p(class = "text-muted small mt-2", tr$dsp_policy_note)
         ),
         hr(),
+        p(class = "mt-2 mb-3", tr$framing_bridge),
         div(class = "framing-task",
           h5(tr$task_h5),
           p(tr$task_p1),

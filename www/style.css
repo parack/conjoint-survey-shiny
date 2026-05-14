@@ -429,8 +429,18 @@ body {
 .dsp-table th {
   font-weight: 700;
   color: #1d4ed8;
-  width: 7rem;
+  width: 9.5rem;
+  min-width: 9.5rem;
+  white-space: nowrap;
   vertical-align: top;
+}
+
+.dsp-logo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  margin-right: 0.35em;
+  vertical-align: middle;
 }
 
 .dsp-badge {

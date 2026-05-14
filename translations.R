@@ -84,11 +84,12 @@ TR <- list(
       "Dottorato di ricerca / Post-laurea"         = "phd"
     ),
     country_opts = c(
-      "Italia"="IT","Francia"="FR","Germania"="DE","Spagna"="ES","Portogallo"="PT",
-      "Regno Unito"="GB","Paesi Bassi"="NL","Belgio"="BE","Svizzera"="CH","Austria"="AT",
-      "Polonia"="PL","Romania"="RO","Repubblica Ceca"="CZ","Svezia"="SE","Norvegia"="NO",
-      "Danimarca"="DK","Finlandia"="FI","Grecia"="GR","Ungheria"="HU","Croazia"="HR",
-      "Stati Uniti"="US","Canada"="CA","Australia"="AU","Brasile"="BR","Argentina"="AR",
+      "Italia"="IT",
+      "Argentina"="AR","Australia"="AU","Austria"="AT","Belgio"="BE","Brasile"="BR",
+      "Canada"="CA","Croazia"="HR","Danimarca"="DK","Finlandia"="FI","Francia"="FR",
+      "Germania"="DE","Grecia"="GR","Norvegia"="NO","Paesi Bassi"="NL","Polonia"="PL",
+      "Portogallo"="PT","Regno Unito"="GB","Repubblica Ceca"="CZ","Romania"="RO",
+      "Spagna"="ES","Stati Uniti"="US","Svezia"="SE","Svizzera"="CH","Ungheria"="HU",
       "Altro"="OT"
     ),
     dsp_opts  = c("Spotify"="spotify","Apple Music"="apple",
@@ -150,22 +151,39 @@ TR <- list(
       tags$em("Sicuramente umana"), " a ", tags$em("Sicuramente AI"),
       ". Qualora non riesca a esprimere un giudizio, selezioni l'opzione ", tags$em("'Non so'"), "."
     ),
-    audio_context = "Ai fini di questo studio, per 'musica generata dall'AI' si intende musica composta e prodotta interamente da sistemi di intelligenza artificiale generativa, senza alcun contributo umano nella composizione, nella scrittura o nella registrazione. Questi sistemi analizzano grandi quantità di musica esistente per apprenderne i pattern (ritmo, armonia, timbro, stile) e generano nuove composizioni originali a partire da prompt testuali o indicazioni dell'utente.",
+    audio_context = tagList(
+      "Ai fini di questo studio, per 'musica generata dall'AI' si intende musica ",
+      tags$strong("composta e prodotta interamente da sistemi di intelligenza artificiale generativa"),
+      ", ", tags$strong("senza alcun contributo umano"),
+      " nella composizione, nella scrittura o nella registrazione. Questi sistemi analizzano grandi quantità di musica esistente per apprenderne i pattern (ritmo, armonia, timbro, stile) e generano nuove composizioni originali a partire da prompt testuali o indicazioni dell'utente."
+    ),
     btn_next = "Avanti",
 
     badge2          = "Sezione 2 di 5",
     gaais_h3        = "Atteggiamenti verso l'Intelligenza Artificiale",
     gaais_context_intro = "In questa sezione Le chiediamo le Sue opinioni sull'intelligenza artificiale in senso ampio, non solo quella applicata alla musica.",
     gaais_context_q     = "Cosa si intende per Intelligenza Artificiale?",
-    gaais_ai_def        = "Con \"intelligenza artificiale\" intendiamo qualsiasi sistema capace di svolgere compiti che normalmente richiederebbero l'intelligenza umana: dai sistemi di raccomandazione agli assistenti vocali, dai robot industriali ai software di analisi dei dati.",
+    gaais_ai_def        = tagList(
+      "Con \"intelligenza artificiale\" intendiamo ",
+      tags$strong("qualsiasi sistema capace di svolgere compiti che normalmente richiederebbero l'intelligenza umana"),
+      ": dai sistemi di raccomandazione agli assistenti vocali, dai robot industriali ai software di analisi dei dati."
+    ),
     gaais_context_scale = "Per ogni affermazione, indichi in che misura si trova d'accordo. Non esistono risposte giuste o sbagliate.",
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
     badge3      = "Sezione 3 di 5",
     framing_h3  = "Politiche AI nei servizi di streaming musicale",
-    framing_p1  = "I principali servizi di streaming musicale ospitano un numero crescente di brani generati interamente o in parte dall'intelligenza artificiale. Le piattaforme hanno recentemente avviato le prime iniziative di policy, con approcci molto diversi tra loro.",
+    framing_p1  = "",
 
-    framing_p2  = "I dati più recenti indicano che su Deezer vengono caricati circa 75.000 brani al giorno, il 44% dei quali è generato da sistemi di intelligenza artificiale. Tuttavia, meno del 3% degli stream totali riguarda musica AI: il fenomeno è già rilevante sul piano dell'offerta, ma ancora marginale su quello della domanda (Deezer Newsroom, apr. 2026).",
+    framing_p2  = tagList(
+      "I principali servizi di streaming musicale ospitano un numero crescente di brani generati interamente o in parte dall'intelligenza artificiale. I dati più recenti mostrano che la presenza di musica AI nei cataloghi è già su scala industriale: ",
+      tags$strong("oltre un terzo"), " degli upload mensili su Apple Music e circa il ",
+      tags$strong("44%"), " di quelli su Deezer è generato dall'intelligenza artificiale.",
+      " Il consumo resta tuttavia marginale: ",
+      tags$strong("meno dello 0,5%"), " degli stream su Apple Music e ",
+      tags$strong("meno del 3%"), " su Deezer riguarda musica AI",
+      " (Billboard, 2026; Deezer Newsroom, apr. 2026)."
+    ),
 
     dsp_policy_h    = "Come si stanno muovendo le piattaforme",
     dsp_spotify     = "Label AI volontaria nei credenziali + badge 'Verified by Spotify' sui profili umani verificati; artisti prevalentemente AI esclusi (apr. 2026)",
@@ -180,6 +198,7 @@ TR <- list(
 
     sq_note     = tagList("Come riferimento: oggi la maggior parte dei servizi di streaming non applica alcuna policy AI specifica e offre abbonamenti a circa ", tags$strong("11,99 €/mese"), "."),
 
+    framing_bridge = "A partire da questo contesto, Le chiediamo di esprimere le Sue preferenze attraverso una serie di scelte tra configurazioni di abbonamento differenziate.",
     task_h5     = "Come leggere le schede di scelta",
     task_p1     = tagList(
       "Nelle pagine seguenti Le verranno presentate ", tags$strong("12 situazioni ipotetiche"),
@@ -214,7 +233,11 @@ TR <- list(
     attr_d_levels = tags$p(class = "levels-list",
       tagList("Tre livelli possibili: ", tags$strong("9,99"), " / ", tags$strong("11,99"), " / ", tags$strong("13,99"), " euro al mese.")
     ),
-    task_p2       = "Ogni scheda rappresenta una situazione di scelta a se stante. Le configurazioni mostrate sono le sole alternative disponibili in quel momento: non le confronti con quelle di schede diverse. Scelga la configurazione che preferirebbe adottare come piano di abbonamento.",
+    task_p2       = tagList(
+      "Le 3 alternative differiscono per policy AI e prezzo. ",
+      tags$strong("Selezioni la configurazione che preferirebbe realmente adottare"),
+      " cliccando sulla scheda corrispondente, poi prema «Avanti»."
+    ),
     btn_start_cbc = "Inizia le scelte",
 
     cbc_badge = "Sezione 3 di 5",
@@ -233,7 +256,7 @@ TR <- list(
     proxy_h3    = "Esperienze musicali e percezione dell'AI",
     proxy_instr = "Di seguito sono elencate alcune affermazioni. Le chiediamo di leggerle attentamente e di indicare quanto è d'accordo o in disaccordo con ciascuna di esse.",
     freq_q      = "Con quale frequenza ascolta musica in streaming?",
-    aware_q     = "Prima di questo sondaggio, era a conoscenza del fatto che il Suo servizio di streaming include tracce generate dall'AI?",
+    aware_q     = "Prima di questo sondaggio, era a conoscenza del fatto che il Suo servizio di streaming include tracce generate interamente dall'AI?",
     churn_q     = tagList(
       "Se il servizio di streaming che utilizza non introducesse alcuna ",
       tags$strong("politica di trasparenza"),
@@ -336,11 +359,12 @@ TR <- list(
       "PhD / Post-graduate"   = "phd"
     ),
     country_opts = c(
-      "Italy"="IT","France"="FR","Germany"="DE","Spain"="ES","Portugal"="PT",
-      "United Kingdom"="GB","Netherlands"="NL","Belgium"="BE","Switzerland"="CH","Austria"="AT",
-      "Poland"="PL","Romania"="RO","Czech Republic"="CZ","Sweden"="SE","Norway"="NO",
-      "Denmark"="DK","Finland"="FI","Greece"="GR","Hungary"="HU","Croatia"="HR",
-      "United States"="US","Canada"="CA","Australia"="AU","Brazil"="BR","Argentina"="AR",
+      "Italy"="IT",
+      "Argentina"="AR","Australia"="AU","Austria"="AT","Belgium"="BE","Brazil"="BR",
+      "Canada"="CA","Croatia"="HR","Czech Republic"="CZ","Denmark"="DK","Finland"="FI",
+      "France"="FR","Germany"="DE","Greece"="GR","Hungary"="HU","Netherlands"="NL",
+      "Norway"="NO","Poland"="PL","Portugal"="PT","Romania"="RO","Spain"="ES",
+      "Sweden"="SE","Switzerland"="CH","United Kingdom"="GB","United States"="US",
       "Other"="OT"
     ),
     dsp_opts  = c("Spotify"="spotify","Apple Music"="apple",
@@ -402,22 +426,39 @@ TR <- list(
       tags$em("Definitely human"), " to ", tags$em("Definitely AI"),
       ". If you are unable to form a judgement, please select the option ", tags$em("'Don't know'"), "."
     ),
-    audio_context = "For the purposes of this study, 'AI-generated music' refers to music composed and produced entirely by generative AI systems, without any human input in composition, writing or recording. These systems analyse vast datasets of existing music to learn patterns (rhythm, harmony, timbre and style) and use them to generate new, original compositions from text prompts or user input.",
+    audio_context = tagList(
+      "For the purposes of this study, 'AI-generated music' refers to music ",
+      tags$strong("composed and produced entirely by generative AI systems"),
+      ", ", tags$strong("without any human input"),
+      " in composition, writing or recording. These systems analyse vast datasets of existing music to learn patterns (rhythm, harmony, timbre and style) and generate new, original compositions from text prompts or user input."
+    ),
     btn_next = "Next",
 
     badge2          = "Section 2 of 5",
     gaais_h3        = "Attitudes towards Artificial Intelligence",
     gaais_context_intro = "In this section we ask for your views on artificial intelligence broadly, not just AI in music.",
     gaais_context_q     = "What do we mean by Artificial Intelligence?",
-    gaais_ai_def        = "By \"artificial intelligence\" we mean any system capable of performing tasks that would normally require human intelligence: from recommendation engines and voice assistants to industrial robots and data analysis tools.",
+    gaais_ai_def        = tagList(
+      "By \"artificial intelligence\" we mean ",
+      tags$strong("any system capable of performing tasks that would normally require human intelligence"),
+      ": from recommendation engines and voice assistants to industrial robots and data analysis tools."
+    ),
     gaais_context_scale = "For each statement, indicate to what extent you agree. There are no right or wrong answers.",
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
     badge3      = "Section 3 of 5",
     framing_h3  = "AI Policies in Music Streaming Services",
-    framing_p1  = "The major music streaming services host a growing number of tracks generated entirely or in part by artificial intelligence. Platforms have recently launched their first policy initiatives, with very different approaches.",
+    framing_p1  = "",
 
-    framing_p2  = "Recent data show that around 75,000 tracks are uploaded daily on Deezer, 44% of which are generated by artificial intelligence systems. However, less than 3% of total streams involve AI music: the phenomenon is already significant on the supply side, but remains marginal in terms of listener demand (Deezer Newsroom, Apr. 2026).",
+    framing_p2  = tagList(
+      "The major music streaming services host a growing number of tracks generated entirely or in part by artificial intelligence. Recent data show that AI music in streaming catalogues is already at industrial scale: ",
+      tags$strong("more than a third"), " of monthly uploads on Apple Music and around ",
+      tags$strong("44%"), " of those on Deezer are generated by artificial intelligence.",
+      " Consumption remains marginal, however: ",
+      tags$strong("less than 0.5%"), " of streams on Apple Music and ",
+      tags$strong("less than 3%"), " on Deezer involve AI music",
+      " (Billboard, 2026; Deezer Newsroom, Apr. 2026)."
+    ),
 
     dsp_policy_h    = "How platforms are responding",
     dsp_spotify     = "Voluntary AI label in song credits + 'Verified by Spotify' badge for human-verified profiles; AI-primary artists excluded (Apr. 2026)",
@@ -432,6 +473,7 @@ TR <- list(
 
     sq_note     = tagList("For reference: most streaming services today apply no specific AI policy and offer subscriptions at around ", tags$strong("€11.99/month"), "."),
 
+    framing_bridge = "Based on this context, we ask you to express your preferences through a series of choices between differentiated subscription configurations.",
     task_h5     = "How to read the choice cards",
     task_p1     = tagList(
       "On the following pages you will see ", tags$strong("12 hypothetical situations"),
@@ -466,7 +508,11 @@ TR <- list(
     attr_d_levels = tags$p(class = "levels-list",
       tagList("Three possible levels: ", tags$strong("9.99"), " / ", tags$strong("11.99"), " / ", tags$strong("13.99"), " euros per month.")
     ),
-    task_p2       = "Each card represents a standalone choice situation. The configurations shown are the only alternatives available at that moment: do not compare them with those on other cards. Choose the configuration you would prefer to adopt as your subscription plan.",
+    task_p2       = tagList(
+      "The 3 alternatives differ in AI policy and price. ",
+      tags$strong("Select the configuration you would genuinely prefer to adopt"),
+      " by clicking on the corresponding card, then press «Next»."
+    ),
     btn_start_cbc = "Start choices",
 
     cbc_badge = "Section 3 of 5",
@@ -485,7 +531,7 @@ TR <- list(
     proxy_h3    = "Music experiences and AI perception",
     proxy_instr = "Below are a number of statements. Please read each one carefully and indicate how much you agree or disagree with each of them.",
     freq_q      = "How often do you listen to streaming music?",
-    aware_q     = "Before this survey, were you aware that your streaming service includes AI-generated tracks?",
+    aware_q     = "Before this survey, were you aware that your streaming service includes tracks generated entirely by AI?",
     churn_q     = tagList(
       "If the streaming service you use were to introduce ",
       tags$strong("no transparency policy"),
@@ -589,11 +635,12 @@ TR <- list(
       "Doctorat / Post-diplome"           = "phd"
     ),
     country_opts = c(
-      "Italie"="IT","France"="FR","Allemagne"="DE","Espagne"="ES","Portugal"="PT",
-      "Royaume-Uni"="GB","Pays-Bas"="NL","Belgique"="BE","Suisse"="CH","Autriche"="AT",
-      "Pologne"="PL","Roumanie"="RO","Republique tcheque"="CZ","Suede"="SE","Norvege"="NO",
-      "Danemark"="DK","Finlande"="FI","Grece"="GR","Hongrie"="HU","Croatie"="HR",
-      "Etats-Unis"="US","Canada"="CA","Australie"="AU","Bresil"="BR","Argentine"="AR",
+      "Italie"="IT",
+      "Allemagne"="DE","Argentine"="AR","Australie"="AU","Autriche"="AT","Belgique"="BE",
+      "Brésil"="BR","Canada"="CA","Croatie"="HR","Danemark"="DK","Espagne"="ES",
+      "États-Unis"="US","Finlande"="FI","France"="FR","Grèce"="GR","Hongrie"="HU",
+      "Norvège"="NO","Pays-Bas"="NL","Pologne"="PL","Portugal"="PT","République tchèque"="CZ",
+      "Roumanie"="RO","Royaume-Uni"="GB","Suède"="SE","Suisse"="CH",
       "Autre"="OT"
     ),
     dsp_opts  = c("Spotify"="spotify","Apple Music"="apple",
@@ -655,22 +702,39 @@ TR <- list(
       tags$em("Surement humaine"), " a ", tags$em("Surement IA"),
       ". Si vous n'etes pas en mesure de formuler un jugement, selectionnez l'option ", tags$em("'Je ne sais pas'"), "."
     ),
-    audio_context = "Dans le cadre de cette etude, la 'musique generee par l'IA' designe la musique composee et produite entierement par des systemes d'IA generative, sans aucune contribution humaine dans la composition, l'ecriture ou l'enregistrement. Ces systemes analysent de vastes ensembles de musique existante pour en apprendre les patterns (rythme, harmonie, timbre, style) et generent de nouvelles compositions originales a partir d'invites textuelles ou d'indications de l'utilisateur.",
+    audio_context = tagList(
+      "Dans le cadre de cette étude, la 'musique générée par l'IA' désigne la musique ",
+      tags$strong("composée et produite entièrement par des systèmes d'IA générative"),
+      ", ", tags$strong("sans aucune contribution humaine"),
+      " dans la composition, l'écriture ou l'enregistrement. Ces systèmes analysent de vastes ensembles de musique existante pour en apprendre les patterns (rythme, harmonie, timbre, style) et génèrent de nouvelles compositions originales à partir d'invites textuelles ou d'indications de l'utilisateur."
+    ),
     btn_next = "Suivant",
 
     badge2          = "Section 2 sur 5",
     gaais_h3        = "Attitudes envers l'Intelligence Artificielle",
     gaais_context_intro = "Dans cette section, nous vous demandons vos opinions sur l'intelligence artificielle au sens large, pas uniquement dans le domaine musical.",
     gaais_context_q     = "Qu'entend-on par Intelligence Artificielle ?",
-    gaais_ai_def        = "Par \"intelligence artificielle\", nous entendons tout système capable d'effectuer des tâches qui nécessiteraient normalement l'intelligence humaine : systèmes de recommandation, assistants vocaux, robots industriels, logiciels d'analyse de données, et bien d'autres.",
+    gaais_ai_def        = tagList(
+      "Par \"intelligence artificielle\", nous entendons ",
+      tags$strong("tout système capable d'effectuer des tâches qui nécessiteraient normalement l'intelligence humaine"),
+      " : systèmes de recommandation, assistants vocaux, robots industriels, logiciels d'analyse de données, et bien d'autres."
+    ),
     gaais_context_scale = "Pour chaque affirmation, indiquez dans quelle mesure vous êtes d'accord. Il n'y a pas de bonnes ou de mauvaises réponses.",
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
     badge3      = "Section 3 sur 5",
     framing_h3  = "Politiques IA dans les services de streaming musical",
-    framing_p1  = "Les principaux services de streaming musical hebergent un nombre croissant de titres generes entierement ou en partie par l'intelligence artificielle. Les plateformes ont recemment lance leurs premieres initiatives de politique, avec des approches tres differentes.",
+    framing_p1  = "",
 
-    framing_p2  = "Les données les plus récentes indiquent qu'environ 75 000 titres sont mis en ligne chaque jour sur Deezer, dont 44 % sont générés par des systèmes d'intelligence artificielle. Pourtant, moins de 3 % des écoutes totales concernent la musique IA : le phénomène est déjà significatif du côté de l'offre, mais reste marginal du côté de la demande (Deezer Newsroom, avr. 2026).",
+    framing_p2  = tagList(
+      "Les principaux services de streaming musical hébergent un nombre croissant de titres générés entièrement ou en partie par l'intelligence artificielle. Les données les plus récentes montrent que la présence de musique IA dans les catalogues est déjà à l'échelle industrielle : ",
+      tags$strong("plus d'un tiers"), " des mises en ligne mensuelles sur Apple Music et environ ",
+      tags$strong("44 %"), " de celles sur Deezer sont générées par l'intelligence artificielle.",
+      " La consommation reste cependant marginale : ",
+      tags$strong("moins de 0,5 %"), " des écoutes sur Apple Music et ",
+      tags$strong("moins de 3 %"), " sur Deezer concernent la musique IA",
+      " (Billboard, 2026 ; Deezer Newsroom, avr. 2026)."
+    ),
 
     dsp_policy_h    = "Comment les plateformes reagissent",
     dsp_spotify     = "Label IA volontaire dans les crédits + badge « Verified by Spotify » sur les profils humains vérifiés ; artistes principalement IA exclus (avr. 2026)",
@@ -685,6 +749,7 @@ TR <- list(
 
     sq_note     = tagList("Pour référence : la plupart des services de streaming n'appliquent aujourd'hui aucune politique IA spécifique et proposent des abonnements à environ ", tags$strong("11,99 €/mois"), "."),
 
+    framing_bridge = "Sur la base de ce contexte, nous vous demandons d'exprimer vos préférences à travers une série de choix entre des configurations d'abonnement différenciées.",
     task_h5     = "Comment lire les fiches de choix",
     task_p1     = tagList(
       "Dans les pages suivantes, vous verrez ", tags$strong("12 situations hypothetiques"),
@@ -719,7 +784,11 @@ TR <- list(
     attr_d_levels = tags$p(class = "levels-list",
       tagList("Trois niveaux possibles : ", tags$strong("9,99"), " / ", tags$strong("11,99"), " / ", tags$strong("13,99"), " euros par mois.")
     ),
-    task_p2       = "Chaque fiche represente une situation de choix a part entiere. Les configurations presentees sont les seules alternatives disponibles a ce moment : ne les comparez pas avec celles des autres fiches. Choisissez la configuration que vous prefereriez adopter comme plan d'abonnement.",
+    task_p2       = tagList(
+      "Les 3 alternatives diffèrent par leur politique IA et leur prix. ",
+      tags$strong("Sélectionnez la configuration que vous préféreriez réellement adopter"),
+      " en cliquant sur la fiche correspondante, puis appuyez sur «Suivant»."
+    ),
     btn_start_cbc = "Commencer les choix",
 
     cbc_badge = "Section 3 sur 5",
@@ -738,7 +807,7 @@ TR <- list(
     proxy_h3    = "Experiences musicales et perception de l'IA",
     proxy_instr = "Vous trouverez ci-dessous plusieurs affirmations. Nous vous demandons de les lire attentivement et d'indiquer dans quelle mesure vous etes d'accord ou en desaccord avec chacune d'elles.",
     freq_q      = "A quelle frequence ecoutez-vous de la musique en streaming ?",
-    aware_q     = "Avant ce sondage, saviez-vous que votre service de streaming inclut des titres generes par l'IA ?",
+    aware_q     = "Avant ce sondage, saviez-vous que votre service de streaming inclut des titres générés entièrement par l'IA ?",
     churn_q     = tagList(
       "Si le service de streaming que vous utilisez n'introduisait aucune ",
       tags$strong("politique de transparence"),
