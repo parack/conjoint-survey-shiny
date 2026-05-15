@@ -51,7 +51,7 @@ This yields 4 quadrants: *Unaware Resistant* (I/R), *Unaware Indifferent* (I/I),
 
 ## Data Collection
 
-Responses are stored in a private Google Sheet (4 tabs):
+Responses are stored in a private Google Sheet (6 tabs):
 
 | Tab | Content |
 |---|---|
@@ -69,10 +69,14 @@ Before the main survey, a separate Shiny app (`pretest/pretest_app.R`) was used 
 | File | Content |
 |---|---|
 | `pretest/pretest_app.R` | Shiny app used to collect pretest ratings |
+| `pretest/analysis_pretest.R` | Analysis script for pretest results |
 | `pretest/clips_metadata.csv` | Full list of 20 candidate clips with source and metadata |
 | `pretest/clip_stats_results.csv` | Detection rates and discrimination scores per clip |
 | `pretest/detection_rate_plot.png` | Visual summary of pretest results |
 | `pretest/sample_tracks.R` | Reproducible sampling script (set.seed(57)) |
+| `pretest/crop_audio.R` | Audio clip trimming script |
+| `pretest/jamendo.py` | Script to query and download candidates from Jamendo API |
+| `pretest/style.css` | CSS for the pretest Shiny app |
 | `pretest/data/` | Candidate and selected track lists for Jamendo and Suno |
 
 ## Repository Structure
@@ -85,9 +89,8 @@ Before the main survey, a separate Shiny app (`pretest/pretest_app.R`) was used 
 ├── translations.R      # IT / EN / FR text
 ├── setup_sheets.R      # One-time Google Sheets initialisation
 ├── www/                # Static assets (CSS, JS, images, audio clips)
-├── pretest/            # Clip selection: pretest app, scripts, results
-│   └── data/           # Candidate and selected track CSVs
-└── analysis/           # Analysis scripts (Mixed MNL, SSAM, scenario analysis)
+└── pretest/            # Clip selection: pretest app, scripts, results
+    └── data/           # Candidate and selected track CSVs
 ```
 
 ## Setup

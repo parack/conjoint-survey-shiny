@@ -231,3 +231,25 @@ $(document).on('click', function(e) {
     $('.btn-popover-img').removeClass('pop-open');
   }
 });
+
+// ── Share: copy survey link to clipboard ──────────────────────────────────
+function copySurveyLink(btn) {
+  var url = document.getElementById('share_url_box').value;
+  navigator.clipboard.writeText(url).then(function() {
+    var $btn = $(btn);
+    var copied = $btn.attr('data-copied') || 'Copied!';
+    var orig   = $btn.attr('data-orig-html') || $btn.html();
+    $btn.attr('data-orig-html', orig);
+    $btn.html('<i class="fa fa-check"></i> ' + copied);
+    $btn.removeClass('btn-outline-secondary').addClass('btn-success');
+    setTimeout(function() {
+      $btn.html(orig);
+      $btn.removeClass('btn-success').addClass('btn-outline-secondary');
+    }, 2500);
+  }).catch(function() {
+    // Fallback for older browsers
+    var box = document.getElementById('share_url_box');
+    box.select();
+    document.execCommand('copy');
+  });
+}

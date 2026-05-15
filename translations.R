@@ -22,7 +22,7 @@ TR <- list(
     ),
     clip_lbl   = "Clip",
     clip_rated = "Valutata",
-    audio_msg  = "Il tuo browser non supporta la riproduzione audio.",
+    audio_msg  = "Il browser non supporta la riproduzione audio.",
 
     lik5  = c("Fortemente in disaccordo","In disaccordo","Neutrale",
               "D'accordo","Fortemente d'accordo"),
@@ -118,30 +118,30 @@ TR <- list(
 
     what_asked_h = "Cosa Le verrà chiesto?",
     what_asked   = tags$ol(
-      tags$li("Svolgere un breve task di ascolto per valutare clip musicali"),
       tags$li("Indicare le Sue opinioni generali sull'intelligenza artificiale"),
       tags$li("Effettuare scelte tra diverse configurazioni di abbonamento a un servizio di streaming"),
+      tags$li("Svolgere un breve task di ascolto per valutare clip musicali"),
       tags$li("Rispondere a domande sulle Sue abitudini di ascolto e sulla percezione della musica AI"),
       tags$li("Fornire alcune informazioni demografiche")
     ),
 
     c_part_lbl = "Partecipazione:",
-    c_part     = " Volontaria. È libero/a di ritirarsi in qualsiasi momento senza conseguenze.",
+    c_part     = " Volontaria. È libero/a di ritirarsi in qualsiasi momento chiudendo la pagina, senza conseguenze.",
     c_data_lbl = "Dati raccolti:",
-    c_data     = " Le risposte sono anonime e non riconducibili alla Sua persona. I dati saranno utilizzati esclusivamente per finalita di ricerca accademica e presentati in forma aggregata.",
+    c_data     = " Le risposte sono raccolte in forma anonima (nessun dato identificativo: nome, email o IP) e utilizzate esclusivamente per finalità di ricerca accademica, presentate in forma aggregata. I dati sono conservati tramite Google Sheets per un periodo massimo di 12 mesi dalla conclusione dello studio. Il trattamento avviene sulla base del Suo consenso, ai sensi dell'art. 6.1.a del Regolamento (UE) 2016/679 (GDPR).",
     c_time_lbl = "Durata stimata:",
     c_time     = " 10-15 minuti.",
 
     contact_h    = "Per informazioni:",
     contact_info = tagList(
-      tags$p("Lorenzo Paravano - lorenzo.paravano@studenti.unitn.it"),
-      tags$p("Prof. Diego Giuliani - diego.giuliani@unitn.it")
+      tags$p("Titolare del trattamento: Lorenzo Paravano — lorenzo.paravano@studenti.unitn.it"),
+      tags$p("Relatore: Prof. Diego Giuliani — diego.giuliani@unitn.it")
     ),
 
-    consent_chk = "Ho letto l'informativa e acconsento volontariamente a partecipare al sondaggio.",
+    consent_chk = "Dichiaro di avere almeno 18 anni e acconsento alla partecipazione e al trattamento dei dati per le finalità indicate.",
     btn_start   = "Inizia",
 
-    badge1        = "Sezione 1 di 5",
+    badge1        = "Sezione 3 di 5",
     audio_h3      = "Task di Discriminazione Audio",
     audio_hint      = "\U0001F3A7 Consigliamo cuffiette o un ambiente silenzioso",
     audio_context_q = "Cos'è la musica generata dall'AI?",
@@ -159,7 +159,7 @@ TR <- list(
     ),
     btn_next = "Avanti",
 
-    badge2          = "Sezione 2 di 5",
+    badge2          = "Sezione 1 di 5",
     gaais_h3        = "Atteggiamenti verso l'Intelligenza Artificiale",
     gaais_context_intro = "In questa sezione Le chiediamo le Sue opinioni sull'intelligenza artificiale in senso ampio, non solo quella applicata alla musica.",
     gaais_context_q     = "Cosa si intende per Intelligenza Artificiale?",
@@ -171,7 +171,7 @@ TR <- list(
     gaais_context_scale = "Per ogni affermazione, indichi in che misura si trova d'accordo. Non esistono risposte giuste o sbagliate.",
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
-    badge3      = "Sezione 3 di 5",
+    badge3      = "Sezione 2 di 5",
     framing_h3  = "Politiche AI nei servizi di streaming musicale",
     framing_p1  = "",
 
@@ -240,7 +240,7 @@ TR <- list(
     ),
     btn_start_cbc = "Inizia le scelte",
 
-    cbc_badge = "Sezione 3 di 5",
+    cbc_badge = "Sezione 2 di 5",
     cbc_q     = "Quale di queste configurazioni di abbonamento preferirebbe?",
     cbc_instr = tagList(
       "Le 3 alternative differiscono per policy AI e prezzo. ",
@@ -252,7 +252,7 @@ TR <- list(
     cbc_a3lbl      = "Controllo utente",
     cbc_instr_cont = "Valuti questa scheda indipendentemente dalle scelte effettuate in precedenza.",
 
-    badge4      = "Sezione 4 di 5",
+    badge4      = "Sezione 4 di 5",   # proxy: rimane sezione 4
     proxy_h3    = "Esperienze musicali e percezione dell'AI",
     proxy_instr = "Di seguito sono elencate alcune affermazioni. Le chiediamo di leggerle attentamente e di indicare quanto è d'accordo o in disaccordo con ciascuna di esse.",
     freq_q      = "Con quale frequenza ascolta musica in streaming?",
@@ -279,7 +279,13 @@ TR <- list(
     ty_h2      = "Grazie per la Sua partecipazione!",
     ty_lead    = "Le Sue risposte sono state registrate con successo.",
     ty_close   = "Può ora chiudere questa finestra.",
-    ty_contact = "Per informazioni sulla ricerca:"
+    ty_contact = "Per informazioni sulla ricerca:",
+    ty_share_h = "Aiuti la ricerca — condivida il sondaggio",
+    ty_share_p = "La ricerca ha bisogno di almeno 100 partecipanti. Se conosce persone interessate all'argomento, può condividere il link qui sotto.",
+    ty_share_copy  = "Copia link",
+    ty_share_copied = "Copiato!",
+    ty_share_email = "Invia per e-mail",
+    ty_share_wa    = "Condividi su WhatsApp"
   ),
 
   # ══════════════════════════════════════════════════════════════════════════
@@ -393,30 +399,30 @@ TR <- list(
 
     what_asked_h = "What will be asked of you?",
     what_asked   = tags$ol(
-      tags$li("A short listening task to evaluate music clips"),
       tags$li("Your general opinions on artificial intelligence"),
       tags$li("Choices between different streaming subscription configurations"),
+      tags$li("A short listening task to evaluate music clips"),
       tags$li("Questions about your listening habits and perception of AI music"),
       tags$li("Some demographic information")
     ),
 
     c_part_lbl = "Participation:",
-    c_part     = " Voluntary. You are free to withdraw at any time without consequences.",
+    c_part     = " Voluntary. You are free to withdraw at any time by closing the page, without any consequences.",
     c_data_lbl = "Data collected:",
-    c_data     = " Responses are anonymous and cannot be traced back to you. Data will be used exclusively for academic research purposes and presented in aggregated form.",
+    c_data     = " Responses are collected anonymously (no identifying data: name, email or IP address) and used exclusively for academic research purposes, presented in aggregated form. Data are stored via Google Sheets for a maximum of 12 months from the conclusion of the study. Processing is based on your consent, pursuant to Art. 6.1.a of Regulation (EU) 2016/679 (GDPR).",
     c_time_lbl = "Estimated duration:",
     c_time     = " 10-15 minutes.",
 
     contact_h    = "For information:",
     contact_info = tagList(
-      tags$p("Lorenzo Paravano - lorenzo.paravano@studenti.unitn.it"),
-      tags$p("Prof. Diego Giuliani - diego.giuliani@unitn.it")
+      tags$p("Data controller: Lorenzo Paravano — lorenzo.paravano@studenti.unitn.it"),
+      tags$p("Thesis supervisor: Prof. Diego Giuliani — diego.giuliani@unitn.it")
     ),
 
-    consent_chk = "I have read the privacy notice and voluntarily consent to participate in the survey.",
+    consent_chk = "I declare that I am at least 18 years old and consent to participation and to the processing of my data for the purposes indicated.",
     btn_start   = "Start",
 
-    badge1        = "Section 1 of 5",
+    badge1        = "Section 3 of 5",
     audio_h3      = "Audio Discrimination Task",
     audio_hint      = "\U0001F3A7 Headphones or a quiet setting recommended",
     audio_context_q = "What is AI-generated music?",
@@ -434,7 +440,7 @@ TR <- list(
     ),
     btn_next = "Next",
 
-    badge2          = "Section 2 of 5",
+    badge2          = "Section 1 of 5",
     gaais_h3        = "Attitudes towards Artificial Intelligence",
     gaais_context_intro = "In this section we ask for your views on artificial intelligence broadly, not just AI in music.",
     gaais_context_q     = "What do we mean by Artificial Intelligence?",
@@ -446,7 +452,7 @@ TR <- list(
     gaais_context_scale = "For each statement, indicate to what extent you agree. There are no right or wrong answers.",
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
-    badge3      = "Section 3 of 5",
+    badge3      = "Section 2 of 5",
     framing_h3  = "AI Policies in Music Streaming Services",
     framing_p1  = "",
 
@@ -493,7 +499,7 @@ TR <- list(
       tags$li(tagList(tags$strong("Not included:"), " AI music does not appear in any playlist.")),
       tags$li(tagList(tags$strong("Included:"), " AI music appears in personalised playlists (e.g. Daily Mix) and general ones (e.g. New Music Friday, Top Hits).")),
       tags$li(tagList(tags$strong("Included + dedicated section:"), " as per point 2, plus an AI-only section in the app that users can choose to explore.",
-        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "es. \U0001F446")))
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "e.g. \U0001F446")))
     ),
     attr_c_lbl    = "User control",
     attr_c_desc   = " - The tools available to manage the presence of AI music in your experience.",
@@ -501,7 +507,7 @@ TR <- list(
       tags$li(tagList(tags$strong("No control:"), " no tools are available to filter AI content.")),
       tags$li(tagList(tags$strong("Partial filter:"), " AI music remains available and accessible on the platform, but can be excluded from the user's personalised playlists.")),
       tags$li(tagList(tags$strong("Full filter:"), " total block of AI music across the entire platform.",
-        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "es. \U0001F446")))
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "e.g. \U0001F446")))
     ),
     attr_d_lbl    = "Monthly price",
     attr_d_desc   = " - The monthly cost of the subscription.",
@@ -515,7 +521,7 @@ TR <- list(
     ),
     btn_start_cbc = "Start choices",
 
-    cbc_badge = "Section 3 of 5",
+    cbc_badge = "Section 2 of 5",
     cbc_q     = "Which of these subscription configurations would you prefer?",
     cbc_instr = tagList(
       "The 3 alternatives differ in AI policy and price. ",
@@ -554,7 +560,13 @@ TR <- list(
     ty_h2      = "Thank you for your participation!",
     ty_lead    = "Your answers have been successfully recorded.",
     ty_close   = "You can now close this window.",
-    ty_contact = "For information about the research:"
+    ty_contact = "For information about the research:",
+    ty_share_h = "Support the research — share the survey",
+    ty_share_p = "This research needs at least 100 participants. If you know people who might be interested, feel free to share the link below.",
+    ty_share_copy   = "Copy link",
+    ty_share_copied = "Copied!",
+    ty_share_email  = "Share by e-mail",
+    ty_share_wa     = "Share on WhatsApp"
   ),
 
   # ══════════════════════════════════════════════════════════════════════════
@@ -566,22 +578,22 @@ TR <- list(
     per_month   = "/mois",
 
     audio_ch = c(
-      "Surement IA"          = "4",
+      "Sûrement IA"          = "4",
       "Probablement IA"      = "3",
       "Probablement humaine" = "2",
-      "Surement humaine"     = "1",
+      "Sûrement humaine"     = "1",
       "Je ne sais pas"       = "5"
     ),
     clip_lbl   = "Clip",
-    clip_rated = "Evaluee",
+    clip_rated = "Évaluée",
     audio_msg  = "Votre navigateur ne prend pas en charge la lecture audio.",
 
-    lik5  = c("Tout a fait en desaccord","En desaccord","Neutre",
-              "D'accord","Tout a fait d'accord"),
-    lik5p = c("Pas du tout probable","Peu probable","Neutre","Probable","Tres probable"),
+    lik5  = c("Tout à fait en désaccord","En désaccord","Neutre",
+              "D'accord","Tout à fait d'accord"),
+    lik5p = c("Pas du tout probable","Peu probable","Neutre","Probable","Très probable"),
     freq_opts  = c("Jamais"="never","Quelques fois par mois"="monthly",
                    "Quelques fois par semaine"="weekly","Chaque jour"="daily"),
-    aware_opts = c("Oui"="yes","Non"="no","Je n'etais pas sur(e)"="unsure"),
+    aware_opts = c("Oui"="yes","Non"="no","Je n'étais pas sûr(e)"="unsure"),
     dsp_yn     = c("Oui"="yes","Non"="no"),
 
     A1 = c(
@@ -591,48 +603,48 @@ TR <- list(
     ),
     A2 = c(
       "Musique IA non incluse dans aucune playlist",
-      "Musique IA dans les playlists recommandees et generalistes",
-      "Musique IA dans les playlists recommandees + espace IA dedie supplementaire"
+      "Musique IA dans les playlists recommandées et généralistes",
+      "Musique IA dans les playlists recommandées + espace IA dédié supplémentaire"
     ),
     A3 = c(
-      "Aucun controle utilisateur sur la musique IA",
-      "Filtre partiel : exclusion de la musique IA des playlists personnalisees",
+      "Aucun contrôle utilisateur sur la musique IA",
+      "Filtre partiel : exclusion de la musique IA des playlists personnalisées",
       "Filtre complet : blocage total de la musique IA sur la plateforme"
     ),
 
     gaais = c(
-      "Je suis interesse(e) a utiliser des systemes d'intelligence artificielle dans ma vie quotidienne.",
-      "Je trouve l'intelligence artificielle inquietante.",
-      "L'intelligence artificielle pourrait prendre le controle des personnes.",
+      "Je suis intéressé(e) à utiliser des systèmes d'intelligence artificielle dans ma vie quotidienne.",
+      "Je trouve l'intelligence artificielle inquiétante.",
+      "L'intelligence artificielle pourrait prendre le contrôle des personnes.",
       "Je pense que l'intelligence artificielle est dangereuse.",
-      "L'intelligence artificielle peut avoir un impact positif sur le bien-etre des personnes.",
+      "L'intelligence artificielle peut avoir un impact positif sur le bien-être des personnes.",
       "L'intelligence artificielle est passionnante.",
-      "Une grande partie de la societe beneficiera d'un avenir riche en intelligence artificielle.",
+      "Une grande partie de la société bénéficiera d'un avenir riche en intelligence artificielle.",
       "Je voudrais utiliser l'intelligence artificielle dans mon travail.",
       "Je frissonne d'inconfort en pensant aux utilisations futures de l'intelligence artificielle.",
-      "Des personnes comme moi souffriront si l'intelligence artificielle est utilisee de plus en plus."
+      "Des personnes comme moi souffriront si l'intelligence artificielle est utilisée de plus en plus."
     ),
 
     proxy = c(
-      "Quand j'ecoute de la musique en streaming, je selectionne la qualite audio la plus elevee disponible.",
-      "Je reecoute frequemment les memes titres pour saisir des details sonores que je n'avais pas remarques a la premiere ecoute.",
-      "J'ecoute generalement un titre jusqu'a la fin avant de decider si je l'aime, meme quand il ne me convainc pas immediatement.",
-      "J'utilise souvent la fonction de recherche pour trouver des artistes ou des titres specifiques, plutot que de me fier aux recommandations de la plateforme.",
-      "Je prefere que la musique que j'ecoute ait ete selectionnee par une personne plutot que par un algorithme (p. ex. playlists editoriales plutot que Discover Weekly ou Daily Mix).",
-      "Si j'etais certain(e) qu'un artiste produit de la musique generee entierement par l'IA, je le bloquerais sur ma plateforme de streaming."
+      "Quand j'écoute de la musique en streaming, je sélectionne la qualité audio la plus élevée disponible.",
+      "Je réécoute fréquemment les mêmes titres pour saisir des détails sonores que je n'avais pas remarqués à la première écoute.",
+      "J'écoute généralement un titre jusqu'à la fin avant de décider si je l'aime, même quand il ne me convainc pas immédiatement.",
+      "J'utilise souvent la fonction de recherche pour trouver des artistes ou des titres spécifiques, plutôt que de me fier aux recommandations de la plateforme.",
+      "Je préfère que la musique que j'écoute ait été sélectionnée par une personne plutôt que par un algorithme (p. ex. playlists éditoriales plutôt que Discover Weekly ou Daily Mix).",
+      "Si j'étais certain(e) qu'un artiste produit de la musique générée entièrement par l'IA, je le bloquerais sur ma plateforme de streaming."
     ),
 
     sel_placeholder = "-- Selectionner --",
     age_opts    = c("18-24","25-34","35-44","45-54","55-64","65+"),
     gender_opts = c("Homme"="man","Femme"="woman",
-                    "Non-binaire / Troisieme genre"="nonbinary",
-                    "Prefere ne pas preciser"="no_answer"),
+                    "Non-binaire / Troisième genre"="nonbinary",
+                    "Préfère ne pas préciser"="no_answer"),
     edu_opts    = c(
-      "Brevet des colleges"               = "middle",
-      "Baccalaureat / Diplome de lycee"   = "highschool",
+      "Brevet des collèges"               = "middle",
+      "Baccalauréat / Diplôme de lycée"   = "highschool",
       "Licence (Bac+3)"                   = "bachelor",
-      "Master / Diplome d'ingenieur"      = "master",
-      "Doctorat / Post-diplome"           = "phd"
+      "Master / Diplôme d'ingénieur"      = "master",
+      "Doctorat / Post-diplôme"           = "phd"
     ),
     country_opts = c(
       "Italie"="IT",
@@ -648,59 +660,59 @@ TR <- list(
                   "Tidal"="tidal","Deezer"="deezer","Autre"="other"),
     tier_opts = c("Gratuit" = "free", "Payant" = "paid"),
 
-    err_consent  = "Vous devez consentir a participer pour continuer.",
-    err_audio    = "Veuillez evaluer les 4 clips avant de continuer.",
-    err_gaais    = "Veuillez repondre a tous les items avant de continuer.",
-    err_cbc      = "Veuillez selectionner une option avant de continuer.",
-    err_proxy    = "Veuillez repondre a tous les items avant de continuer.",
-    err_demo_req = "Veuillez remplir tous les champs demographiques obligatoires (*).",
+    err_consent  = "Vous devez consentir à participer pour continuer.",
+    err_audio    = "Veuillez évaluer les 4 clips avant de continuer.",
+    err_gaais    = "Veuillez répondre à tous les items avant de continuer.",
+    err_cbc      = "Veuillez sélectionner une option avant de continuer.",
+    err_proxy    = "Veuillez répondre à tous les items avant de continuer.",
+    err_demo_req = "Veuillez remplir tous les champs démographiques obligatoires (*).",
     err_dsp_user = "Veuillez indiquer si vous utilisez un service de streaming musical.",
     err_dsp_svc  = "Veuillez indiquer le service de streaming que vous utilisez principalement.",
     err_dsp_tier = "Veuillez indiquer votre type d'abonnement.",
 
-    intro_title    = "La musique generee par l'IA dans les services de streaming",
-    intro_title2   = "Sondage sur les preferences des consommateurs",
-    privacy_head   = "Avis de confidentialite et consentement eclaire",
+    intro_title    = "La musique générée par l'IA dans les services de streaming",
+    intro_title2   = "Sondage sur les préférences des consommateurs",
+    privacy_head   = "Avis de confidentialité et consentement éclairé",
 
-    intro_salute = "Chere participante, cher participant,",
-    intro_body   = "je suis etudiant en Master Management a l'Universite de Trente. Je vous invite a participer a ce sondage, elabore dans le cadre de mon memoire de master, dont l'objectif est de comprendre les preferences des consommateurs concernant les politiques adoptees par les plateformes de streaming musical en matiere de musique generee par l'IA.",
+    intro_salute = "Chère participante, cher participant,",
+    intro_body   = "je suis étudiant en Master Management à l'Université de Trente. Je vous invite à participer à ce sondage, élaboré dans le cadre de mon mémoire de master, dont l'objectif est de comprendre les préférences des consommateurs concernant les politiques adoptées par les plateformes de streaming musical en matière de musique générée par l'IA.",
 
     survey_warn  = "Attention : si possible, évitez de rafraîchir la page ou d'utiliser le bouton Précédent du navigateur pendant le sondage. Une fois le bouton Suivant pressé dans chaque section, vos réponses ne pourront plus être modifiées.",
 
     what_asked_h = "Ce qu'on vous demandera ?",
     what_asked   = tags$ol(
-      tags$li("Realiser une courte tache d'ecoute pour evaluer des extraits musicaux"),
       tags$li("Indiquer vos opinions generales sur l'intelligence artificielle"),
       tags$li("Effectuer des choix entre differentes configurations d'abonnement a un service de streaming"),
+      tags$li("Realiser une courte tache d'ecoute pour evaluer des extraits musicaux"),
       tags$li("Repondre a des questions sur vos habitudes d'ecoute et votre perception de la musique IA"),
       tags$li("Fournir quelques informations demographiques")
     ),
 
     c_part_lbl = "Participation :",
-    c_part     = " Volontaire. Vous etes libre de vous retirer a tout moment sans consequences.",
-    c_data_lbl = "Donnees collectees :",
-    c_data     = " Les reponses sont anonymes et ne peuvent pas etre reliees a votre personne. Les donnees seront utilisees exclusivement a des fins de recherche academique et presentees sous forme agregee.",
-    c_time_lbl = "Duree estimee :",
+    c_part     = " Volontaire. Vous êtes libre de vous retirer à tout moment en fermant la page, sans conséquences.",
+    c_data_lbl = "Données collectées :",
+    c_data     = " Les réponses sont collectées de manière anonyme (aucune donnée identificatrice : nom, e-mail ou adresse IP) et utilisées exclusivement à des fins de recherche académique, présentées sous forme agrégée. Les données sont conservées via Google Sheets pour une durée maximale de 12 mois à compter de la conclusion de l'étude. Le traitement est effectué sur la base de votre consentement, conformément à l'art. 6.1.a du Règlement (UE) 2016/679 (RGPD).",
+    c_time_lbl = "Durée estimée :",
     c_time     = " 10-15 minutes.",
 
     contact_h    = "Pour des informations :",
     contact_info = tagList(
-      tags$p("Lorenzo Paravano - lorenzo.paravano@studenti.unitn.it"),
-      tags$p("Prof. Diego Giuliani - diego.giuliani@unitn.it")
+      tags$p("Responsable du traitement : Lorenzo Paravano — lorenzo.paravano@studenti.unitn.it"),
+      tags$p("Directeur de thèse : Prof. Diego Giuliani — diego.giuliani@unitn.it")
     ),
 
-    consent_chk = "J'ai lu l'avis de confidentialite et consens volontairement a participer au sondage.",
+    consent_chk = "Je déclare avoir au moins 18 ans et consens à la participation et au traitement de mes données aux fins indiquées.",
     btn_start   = "Commencer",
 
-    badge1        = "Section 1 sur 5",
-    audio_h3      = "Tache de discrimination audio",
-    audio_hint      = "\U0001F3A7 Casque ou environnement calme recommande",
-    audio_context_q = "Qu'est-ce que la musique generee par l'IA ?",
+    badge1        = "Section 3 sur 5",
+    audio_h3      = "Tâche de discrimination audio",
+    audio_hint      = "\U0001F3A7 Casque ou environnement calme recommandé",
+    audio_context_q = "Qu'est-ce que la musique générée par l'IA ?",
     audio_instr   = tagList(
-      "Nous vous presentons ", tags$strong("4 courts extraits musicaux"),
-      ". Pour chaque piste, veuillez indiquer dans quelle mesure vous pensez qu'elle a ete produite par l'intelligence artificielle generative ou par un musicien humain, en utilisant l'echelle a 4 points de ",
-      tags$em("Surement humaine"), " a ", tags$em("Surement IA"),
-      ". Si vous n'etes pas en mesure de formuler un jugement, selectionnez l'option ", tags$em("'Je ne sais pas'"), "."
+      "Nous vous présentons ", tags$strong("4 courts extraits musicaux"),
+      ". Pour chaque piste, veuillez indiquer dans quelle mesure vous pensez qu'elle a été produite par l'intelligence artificielle générative ou par un musicien humain, en utilisant l'échelle à 4 points de ",
+      tags$em("Sûrement humaine"), " à ", tags$em("Sûrement IA"),
+      ". Si vous n'êtes pas en mesure de formuler un jugement, sélectionnez l'option ", tags$em("'Je ne sais pas'"), "."
     ),
     audio_context = tagList(
       "Dans le cadre de cette étude, la 'musique générée par l'IA' désigne la musique ",
@@ -710,7 +722,7 @@ TR <- list(
     ),
     btn_next = "Suivant",
 
-    badge2          = "Section 2 sur 5",
+    badge2          = "Section 1 sur 5",
     gaais_h3        = "Attitudes envers l'Intelligence Artificielle",
     gaais_context_intro = "Dans cette section, nous vous demandons vos opinions sur l'intelligence artificielle au sens large, pas uniquement dans le domaine musical.",
     gaais_context_q     = "Qu'entend-on par Intelligence Artificielle ?",
@@ -722,7 +734,7 @@ TR <- list(
     gaais_context_scale = "Pour chaque affirmation, indiquez dans quelle mesure vous êtes d'accord. Il n'y a pas de bonnes ou de mauvaises réponses.",
 
     # ── Framing (Section 3) ────────────────────────────────────────────────
-    badge3      = "Section 3 sur 5",
+    badge3      = "Section 2 sur 5",
     framing_h3  = "Politiques IA dans les services de streaming musical",
     framing_p1  = "",
 
@@ -736,11 +748,11 @@ TR <- list(
       " (Billboard, 2026 ; Deezer Newsroom, avr. 2026)."
     ),
 
-    dsp_policy_h    = "Comment les plateformes reagissent",
+    dsp_policy_h    = "Comment les plateformes réagissent",
     dsp_spotify     = "Label IA volontaire dans les crédits + badge « Verified by Spotify » sur les profils humains vérifiés ; artistes principalement IA exclus (avr. 2026)",
-    dsp_apple       = "Tags de transparence volontaires pour 4 categories : titre, artwork, composition, video (mar. 2026)",
-    dsp_deezer      = "Algorithme brevete de detection des contenus IA ; exclusion des playlists algorithmiques et editoriales (depuis janv. 2025)",
-    dsp_amazon      = "Aucune politique specifique ; titres IA acceptes sans obligation de declaration",
+    dsp_apple       = "Tags de transparence volontaires pour 4 catégories : titre, artwork, composition, vidéo (mar. 2026)",
+    dsp_deezer      = "Algorithme breveté de détection des contenus IA ; exclusion des playlists algorithmiques et éditoriales (depuis janv. 2025)",
+    dsp_amazon      = "Aucune politique spécifique ; titres IA acceptés sans obligation de déclaration",
     dsp_policy_note  = "",
     dsp_badge_deezer = "Détection algorithmique",
     dsp_badge_spotify= "Autodéclaration",
@@ -752,9 +764,9 @@ TR <- list(
     framing_bridge = "Sur la base de ce contexte, nous vous demandons d'exprimer vos préférences à travers une série de choix entre des configurations d'abonnement différenciées.",
     task_h5     = "Comment lire les fiches de choix",
     task_p1     = tagList(
-      "Dans les pages suivantes, vous verrez ", tags$strong("12 situations hypothetiques"),
-      ". Chacune presente ", tags$strong("3 configurations alternatives d'abonnement"),
-      " differant selon les caracteristiques suivantes :"
+      "Dans les pages suivantes, vous verrez ", tags$strong("12 situations hypothétiques"),
+      ". Chacune présente ", tags$strong("3 configurations alternatives d'abonnement"),
+      " différant selon les caractéristiques suivantes :"
     ),
     attr_a_lbl    = "Politique de label IA",
     attr_a_desc   = " - Comment la plateforme identifie et communique aux auditeurs la présence de musique IA. Lorsqu'un label est appliqué, il apparaît comme une pill visible dans l'écran d'écoute (ex. «AI Generated Content»).",
@@ -764,23 +776,23 @@ TR <- list(
       tags$li(tagList(tags$strong("Label obligatoire :"), " la plateforme vérifie les contenus via un algorithme propriétaire et applique le label IA, indépendamment de ce que déclare l'artiste ou le distributeur."))
     ),
     attr_b_lbl    = "Structure promotionnelle",
-    attr_b_desc   = " - Dans quelle mesure la musique IA est presente dans les playlists recommandees par l'algorithme.",
+    attr_b_desc   = " - Dans quelle mesure la musique IA est présente dans les playlists recommandées par l'algorithme.",
     attr_b_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("Non incluse :"), " la musique IA n'apparaît dans aucune playlist.")),
       tags$li(tagList(tags$strong("Incluse :"), " la musique IA apparaît dans les playlists personnalisées (ex. Daily Mix) et généralistes (ex. New Music Friday, Top Hits).")),
       tags$li(tagList(tags$strong("Incluse + section dédiée :"), " comme au point 2, plus une section IA uniquement dans l'application que l'utilisateur peut choisir d'explorer.",
-        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "es. \U0001F446")))
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "ex. \U0001F446")))
     ),
-    attr_c_lbl    = "Controle utilisateur",
-    attr_c_desc   = " - Les outils disponibles pour gerer la presence de musique IA dans votre experience.",
+    attr_c_lbl    = "Contrôle utilisateur",
+    attr_c_desc   = " - Les outils disponibles pour gérer la présence de musique IA dans votre expérience.",
     attr_c_levels = tags$ul(class = "levels-list",
-      tags$li(tagList(tags$strong("Aucun controle :"), " aucun outil n'est disponible pour filtrer les contenus IA.")),
+      tags$li(tagList(tags$strong("Aucun contrôle :"), " aucun outil n'est disponible pour filtrer les contenus IA.")),
       tags$li(tagList(tags$strong("Filtre partiel :"), " la musique IA reste disponible et accessible sur la plateforme, mais peut être exclue des playlists personnalisées de l'utilisateur.")),
       tags$li(tagList(tags$strong("Filtre complet :"), " blocage total de la musique IA sur l'ensemble de la plateforme.",
-        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "es. \U0001F446")))
+        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "ex. \U0001F446")))
     ),
     attr_d_lbl    = "Prix mensuel",
-    attr_d_desc   = " - Le cout mensuel de l'abonnement.",
+    attr_d_desc   = " - Le coût mensuel de l'abonnement.",
     attr_d_levels = tags$p(class = "levels-list",
       tagList("Trois niveaux possibles : ", tags$strong("9,99"), " / ", tags$strong("11,99"), " / ", tags$strong("13,99"), " euros par mois.")
     ),
@@ -791,45 +803,51 @@ TR <- list(
     ),
     btn_start_cbc = "Commencer les choix",
 
-    cbc_badge = "Section 3 sur 5",
-    cbc_q     = "Laquelle de ces configurations d'abonnement prefereriez-vous ?",
+    cbc_badge = "Section 2 sur 5",
+    cbc_q     = "Laquelle de ces configurations d'abonnement préféreriez-vous ?",
     cbc_instr = tagList(
-      "Les 3 alternatives different par la politique IA et le prix. ",
-      "Selectionnez la configuration que vous adopteriez reellement."
+      "Les 3 alternatives diffèrent par la politique IA et le prix. ",
+      "Sélectionnez la configuration que vous adopteriez réellement."
     ),
     cbc_opt        = "Option",
     cbc_a1lbl      = "Politique de label IA",
     cbc_a2lbl      = "Structure promotionnelle",
-    cbc_a3lbl      = "Controle utilisateur",
-    cbc_instr_cont = "Evaluez cette fiche independamment de vos choix precedents.",
+    cbc_a3lbl      = "Contrôle utilisateur",
+    cbc_instr_cont = "Évaluez cette fiche indépendamment de vos choix précédents.",
 
     badge4      = "Section 4 sur 5",
-    proxy_h3    = "Experiences musicales et perception de l'IA",
-    proxy_instr = "Vous trouverez ci-dessous plusieurs affirmations. Nous vous demandons de les lire attentivement et d'indiquer dans quelle mesure vous etes d'accord ou en desaccord avec chacune d'elles.",
-    freq_q      = "A quelle frequence ecoutez-vous de la musique en streaming ?",
+    proxy_h3    = "Expériences musicales et perception de l'IA",
+    proxy_instr = "Vous trouverez ci-dessous plusieurs affirmations. Nous vous demandons de les lire attentivement et d'indiquer dans quelle mesure vous êtes d'accord ou en désaccord avec chacune d'elles.",
+    freq_q      = "À quelle fréquence écoutez-vous de la musique en streaming ?",
     aware_q     = "Avant ce sondage, saviez-vous que votre service de streaming inclut des titres générés entièrement par l'IA ?",
     churn_q     = tagList(
       "Si le service de streaming que vous utilisez n'introduisait aucune ",
       tags$strong("politique de transparence"),
-      " sur la musique generee par l'IA au cours des 12 prochains mois, dans quelle mesure seriez-vous enclin(e) a resilier ou changer votre abonnement ?"
+      " sur la musique générée par l'IA au cours des 12 prochains mois, dans quelle mesure seriez-vous enclin(e) à résilier ou changer votre abonnement ?"
     ),
 
     badge5       = "Section 5 sur 5",
-    demo_h3      = "Donnees demographiques et utilisation des services",
-    demo_instr   = "Nous vous rappelons que l'enquete est anonyme. Les informations demandees dans cette section seront utilisees exclusivement a des fins statistiques et presentees sous forme agregee.",
-    age_lbl      = "Tranche d'age *",
+    demo_h3      = "Données démographiques et utilisation des services",
+    demo_instr   = "Nous vous rappelons que l'enquête est anonyme. Les informations demandées dans cette section seront utilisées exclusivement à des fins statistiques et présentées sous forme agrégée.",
+    age_lbl      = "Tranche d'âge *",
     gender_lbl   = "Genre *",
-    country_lbl  = "Pays de residence *",
-    edu_lbl      = "Diplome le plus eleve obtenu *",
+    country_lbl  = "Pays de résidence *",
+    edu_lbl      = "Diplôme le plus élevé obtenu *",
     dsp_h5       = "Utilisation des services de streaming musical",
-    dsp_user_q   = "Etes-vous actuellement abonne(e) a ou utilisez-vous regulierement un service de streaming musical ? *",
+    dsp_user_q   = "Êtes-vous actuellement abonné(e) à ou utilisez-vous régulièrement un service de streaming musical ? *",
     dsp_svc_lbl  = "Quel service utilisez-vous principalement ? *",
     dsp_tier_lbl = "Type d'abonnement *",
-    btn_submit   = "Soumettre les reponses",
+    btn_submit   = "Soumettre les réponses",
 
     ty_h2      = "Merci de votre participation !",
-    ty_lead    = "Vos reponses ont ete enregistrees avec succes.",
-    ty_close   = "Vous pouvez maintenant fermer cette fenetre.",
-    ty_contact = "Pour des informations sur la recherche :"
+    ty_lead    = "Vos réponses ont été enregistrées avec succès.",
+    ty_close   = "Vous pouvez maintenant fermer cette fenêtre.",
+    ty_contact = "Pour des informations sur la recherche :",
+    ty_share_h = "Soutenez la recherche — partagez le sondage",
+    ty_share_p = "Cette recherche a besoin d'au moins 100 participants. Si vous connaissez des personnes susceptibles d'être intéressées, n'hésitez pas à partager le lien ci-dessous.",
+    ty_share_copy   = "Copier le lien",
+    ty_share_copied = "Copié !",
+    ty_share_email  = "Partager par e-mail",
+    ty_share_wa     = "Partager sur WhatsApp"
   )
 )

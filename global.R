@@ -28,7 +28,9 @@ generate_cbc_design <- function(n_tasks = N_TASKS, n_alts = N_ALTS) {
       idx  <- sample(nrow(valid), n_alts, replace = FALSE)
       prof <- valid[idx, ]
       rownames(prof) <- NULL
-      if (nrow(unique(prof)) == n_alts) { tasks[[t]] <- prof; break }
+      # Require unique (a1,a2,a3) triples: prevents dominated alternatives
+      # where two profiles share the same governance attributes but differ only on price.
+      if (nrow(unique(prof[, c("a1","a2","a3")])) == n_alts) { tasks[[t]] <- prof; break }
     }
   }
   tasks
@@ -45,11 +47,14 @@ GAAIS_ITEMS <- data.frame(
   stringsAsFactors = FALSE
 )
 
-# ── Proxy items (P1–P6: sonic engagement / algorithmic autonomy / block) ───────
+# ── Proxy items (P1–P6) ──────────────────────────────────────────────────────
+# Two subscales, each a proxy for one SSAM dimension:
+#   proxy_d       (P1–P3): sonic discrimination proxy → D-index
+#   proxy_gaais_neg (P4–P6): semantic AI resistance proxy → gaais_neg
 # Item texts are in TR[[lang]]$proxy.
 PROXY_ITEMS <- data.frame(
   code     = c("proxy_p1","proxy_p2","proxy_p3","proxy_p4","proxy_p5","proxy_p6"),
-  subscale = c("engagement","engagement","engagement","autonomy","autonomy","block"),
+  subscale = c("proxy_d","proxy_d","proxy_d","proxy_gaais_neg","proxy_gaais_neg","proxy_gaais_neg"),
   stringsAsFactors = FALSE
 )
 

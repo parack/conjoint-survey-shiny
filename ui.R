@@ -109,8 +109,8 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=17"),
-      tags$script(src = "survey.js?v=2")
+      tags$link(rel = "stylesheet", href = "style.css?v=18"),
+      tags$script(src = "survey.js?v=3")
     ),
 
     # ── Progress bar ──────────────────────────────────────────────────────────
@@ -356,7 +356,34 @@ ui <- function(request) {
         h2(tr$ty_h2),
         p(class = "lead", tr$ty_lead),
         hr(),
-        p(tr$ty_close),
+
+        # ── Share section ───────────────────────────────────────────────────
+        div(class = "share-section",
+          h6(class = "share-title", icon("share-nodes"), " ", tr$ty_share_h),
+          div(class = "share-url-row",
+            tags$input(type = "text", id = "share_url_box", readOnly = TRUE,
+                       class = "form-control form-control-sm share-url-input",
+                       value = "https://parlor.shinyapps.io/AI_music_governance_cbc_survey/"),
+            tags$button(type = "button", id = "btn_copy_link",
+                        class = "btn btn-outline-secondary btn-sm share-copy-btn",
+                        onclick = "copySurveyLink(this)",
+                        `data-label` = tr$ty_share_copy,
+                        `data-copied` = tr$ty_share_copied,
+                        icon("copy"), " ", tr$ty_share_copy)
+          ),
+          div(class = "share-btn-row mt-2",
+            tags$a(class = "btn btn-share-wa btn-sm",
+                   href = "https://api.whatsapp.com/send?text=https%3A%2F%2Fparlor.shinyapps.io%2FAI_music_governance_cbc_survey%2F",
+                   target = "_blank", rel = "noopener",
+                   icon("whatsapp"), " ", tr$ty_share_wa),
+            tags$a(class = "btn btn-share-email btn-sm",
+                   href = paste0("mailto:?body=https%3A%2F%2Fparlor.shinyapps.io%2FAI_music_governance_cbc_survey%2F"),
+                   icon("envelope"), " ", tr$ty_share_email)
+          )
+        ),
+
+        p(class = "text-muted small mt-3", tr$ty_close),
+        hr(),
         div(class = "text-muted small",
           p(tr$ty_contact),
           tr$contact_info

@@ -176,14 +176,14 @@ server <- function(input, output, session) {
       return()
     }
 
-    restorable <- c("audio", "gaais", "framing", "cbc", "proxy", "demo")
+    restorable <- c("gaais", "framing", "cbc", "audio", "proxy", "demo")
     if (target %in% restorable) {
       go_to(target, persist = FALSE)   # navigation already saved; don't double-write
-      base_pct <- c(audio = 12L, gaais = 25L, framing = 38L,
-                    cbc   = 45L, proxy = 72L, demo    = 85L)[[target]]
+      base_pct <- c(gaais = 15L, framing = 28L, cbc = 40L,
+                    audio = 65L, proxy   = 72L, demo = 85L)[[target]]
       if (target == "cbc") {
         tasks_done <- sum(rv$cbc_choices > 0L)
-        base_pct   <- 45L + round((tasks_done / N_TASKS) * 25L)
+        base_pct   <- 40L + round((tasks_done / N_TASKS) * 25L)
       }
       set_progress(base_pct)
     }
@@ -327,19 +327,19 @@ server <- function(input, output, session) {
   # Navigation handlers
   # ═══════════════════════════════════════════════════════════════════════════
 
-  # INTRO → AUDIO
+  # INTRO → GAAIS  (audio task moved after CBC to avoid task-induced priming on WTP)
   observeEvent(input$btn_intro_next, {
     if (!isTRUE(input$consent_check)) {
       err(tr$err_consent); return()
     }
-    go_to("audio")
-    set_progress(12)
+    go_to("gaais")
+    set_progress(15)
     session$sendCustomMessage("surveyStarted", list())  # activates beforeunload warning
     log_evt("CONSENT_OK")
     log_funnel("consent_ok")
   })
 
-  # AUDIO → GAAIS
+  # AUDIO → PROXY  (audio task now runs after CBC)
   observeEvent(input$btn_audio_next, {
     ratings <- sapply(1L:4L, function(i) input[[paste0("audio_rating_", i)]])
     if (any(sapply(ratings, is.null))) {
@@ -349,10 +349,44 @@ server <- function(input, output, session) {
     ordered_types <- AUDIO_CLIPS$type[rv$audio_order]
     rv$d_index    <- compute_d_index(ratings_int, ordered_types)
     session$sendCustomMessage("persistState", list(d_index = rv$d_index))
-    go_to("gaais")
-    set_progress(25)
+    go_to("proxy")
+    set_progress(72)
     log_evt("AUDIO_DONE", sprintf("D=%.2f", rv$d_index))
     log_funnel("audio_done", sprintf("D=%.2f", rv$d_index))
+
+    # ── Partial save after audio: GAAIS + CBC + audio + D-index (proxy/DSP blank) ──
+    # Captures data for respondents who abandon before completing the proxy section.
+    local({
+      audio_r <- sapply(1L:4L, function(i) as.integer(input[[paste0("audio_rating_", i)]]))
+      audio_partial <- setNames(as.data.frame(t(audio_r)), paste0("audio_clip", 1L:4L, "_rating"))
+      audio_type_partial <- setNames(
+        as.data.frame(t(AUDIO_CLIPS$type[rv$audio_order])),
+        paste0("audio_clip", 1L:4L, "_type")
+      )
+      gaais_r <- sapply(GAAIS_ITEMS$code, function(code) as.integer(input[[paste0("gaais_", code)]]))
+      gaais_partial <- setNames(as.data.frame(t(gaais_r)), paste0("gaais_", GAAIS_ITEMS$code))
+      cbc_partial <- setNames(as.data.frame(t(rv$cbc_choices)), paste0("choice_", seq_len(N_TASKS)))
+      di <- rv$d_index; gpos <- rv$gaais_pos; gneg <- rv$gaais_neg
+      proxy_empty <- setNames(
+        as.data.frame(matrix("", nrow = 1, ncol = nrow(PROXY_ITEMS))),
+        PROXY_ITEMS$code
+      )
+      dsp_empty <- data.frame(
+        churn_intent = "", music_freq = "", ai_awareness = "",
+        dsp_user = "", dsp_current = "", dsp_tier = "",
+        stringsAsFactors = FALSE
+      )
+      audio_row <- cbind(
+        data.frame(respondent_id = resp_id, lang = .lang,
+                   ts = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
+                   stringsAsFactors = FALSE),
+        audio_partial, audio_type_partial,
+        data.frame(d_index = di, gaais_pos = gpos, gaais_neg = gneg),
+        gaais_partial, proxy_empty, cbc_partial, dsp_empty
+      )
+      audio_row[] <- lapply(audio_row, function(x) { x[is.na(x)] <- ""; x })
+      later::later(function() gs_append("Partial", audio_row), delay = 0)
+    })
   })
 
   # GAAIS → FRAMING
@@ -367,42 +401,17 @@ server <- function(input, output, session) {
     session$sendCustomMessage("persistState", list(gaais_pos = rv$gaais_pos,
                                                    gaais_neg = rv$gaais_neg))
     go_to("framing")
-    set_progress(38)
+    set_progress(28)
     log_evt("GAAIS_DONE", sprintf("pos=%.1f neg=%.1f", rv$gaais_pos, rv$gaais_neg))
     log_funnel("gaais_done", sprintf("pos=%.1f neg=%.1f", rv$gaais_pos, rv$gaais_neg))
 
-    # ── Early partial save (audio + GAAIS only) ───────────────────────────────
-    # Written to the same Partial sheet; proxy/CBC/DSP columns left blank.
-    local({
-      audio_r <- sapply(1L:4L, function(i) as.integer(input[[paste0("audio_rating_", i)]]))
-      audio_partial <- setNames(as.data.frame(t(audio_r)), paste0("audio_clip", 1L:4L, "_rating"))
-      audio_type_partial <- setNames(
-        as.data.frame(t(AUDIO_CLIPS$type[rv$audio_order])),
-        paste0("audio_clip", 1L:4L, "_type")
-      )
-      gaais_r <- sapply(GAAIS_ITEMS$code, function(code) as.integer(input[[paste0("gaais_", code)]]))
-      gaais_partial <- setNames(as.data.frame(t(gaais_r)), paste0("gaais_", GAAIS_ITEMS$code))
-      gpos <- rv$gaais_pos
-      gneg <- rv$gaais_neg
-      di   <- rv$d_index
-
-      early_row <- cbind(
-        data.frame(respondent_id = resp_id, lang = .lang,
-                   ts = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
-                   stringsAsFactors = FALSE),
-        audio_partial, audio_type_partial,
-        data.frame(d_index = di, gaais_pos = gpos, gaais_neg = gneg),
-        gaais_partial
-      )
-      later::later(function() gs_append("Partial", early_row), delay = 0)
-    })
   })
 
   # FRAMING → CBC  (no network call — design written at submit)
   observeEvent(input$btn_framing_next, {
     rv$cbc_task <- 1L
     go_to("cbc")
-    set_progress(45)
+    set_progress(40)
     log_evt("FRAMING_OK")
     log_funnel("framing_ok")
   })
@@ -420,7 +429,7 @@ server <- function(input, output, session) {
     if (t < N_TASKS) {
       rv$cbc_task <- t + 1L
       session$sendCustomMessage("persistState", list(cbc_task = t + 1L))
-      set_progress(45L + round((t / N_TASKS) * 25L))
+      set_progress(40L + round((t / N_TASKS) * 25L))
       runjs("setTimeout(function(){ document.body.scrollTop=0; document.documentElement.scrollTop=0; }, 120);")
       # Re-enable the Next button immediately (spinner was set by client-side JS)
       runjs("(function(){
@@ -453,20 +462,60 @@ server <- function(input, output, session) {
                 a1_labeling   = prof$a1[a],
                 a2_promotion  = prof$a2[a],
                 a3_control    = prof$a3[a],
-                a4_price      = prof$a4[a],
+                a4_price      = A4_PRICES[prof$a4[a]],
                 stringsAsFactors = FALSE
               )
             }))
           }))
+          # Coerce to character to avoid Italian locale decimal comma in Sheets (e.g. 13,99)
+          choices_rows[] <- lapply(choices_rows, function(x) { x[is.na(x)] <- ""; x })
           later::later(function() gs_append("Choices", choices_rows), delay = 0)
+        })
+        # Partial save after CBC: GAAIS + CBC choices; audio fields empty (task not yet done)
+        # Audio task now runs after CBC to avoid task-induced priming on WTP responses.
+        # Captures data for respondents who abandon before completing the audio/proxy section.
+        local({
+          # Audio not yet completed — fill with empty strings to maintain column alignment
+          audio_partial <- setNames(
+            as.data.frame(matrix("", nrow = 1, ncol = 4L)),
+            paste0("audio_clip", 1L:4L, "_rating")
+          )
+          audio_type_partial <- setNames(
+            as.data.frame(matrix("", nrow = 1, ncol = 4L)),
+            paste0("audio_clip", 1L:4L, "_type")
+          )
+          gaais_r <- sapply(GAAIS_ITEMS$code, function(code) as.integer(input[[paste0("gaais_", code)]]))
+          gaais_partial <- setNames(as.data.frame(t(gaais_r)), paste0("gaais_", GAAIS_ITEMS$code))
+          cbc_partial <- setNames(as.data.frame(t(rv$cbc_choices)), paste0("choice_", seq_len(N_TASKS)))
+          gpos <- rv$gaais_pos; gneg <- rv$gaais_neg
+          # Build ALL 48 columns in correct order — sheet_append aligns by position
+          proxy_empty <- setNames(
+            as.data.frame(matrix("", nrow = 1, ncol = nrow(PROXY_ITEMS))),
+            PROXY_ITEMS$code
+          )
+          dsp_empty <- data.frame(
+            churn_intent = "", music_freq = "", ai_awareness = "",
+            dsp_user = "", dsp_current = "", dsp_tier = "",
+            stringsAsFactors = FALSE
+          )
+          cbc_row <- cbind(
+            data.frame(respondent_id = resp_id, lang = .lang,
+                       ts = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
+                       stringsAsFactors = FALSE),
+            audio_partial, audio_type_partial,
+            data.frame(d_index = "", gaais_pos = gpos, gaais_neg = gneg),
+            gaais_partial, proxy_empty, cbc_partial, dsp_empty
+          )
+          cbc_row[] <- lapply(cbc_row, function(x) { x[is.na(x)] <- ""; x })
+          later::later(function() gs_append("Partial", cbc_row), delay = 0)
         })
         rv$cbc_answers_written <- TRUE
         session$sendCustomMessage("persistState", list(cbc_answers_written = TRUE))
         log_evt("CBC_DONE")
         log_funnel("cbc_done")
       }
-      go_to("proxy")
-      set_progress(72)
+      go_to("audio")
+      set_progress(65)
     }
   })
 
@@ -591,6 +640,9 @@ server <- function(input, output, session) {
         stringsAsFactors = FALSE
       )
     )
+
+    # Coerce numerics to character to avoid Italian locale decimal separator in Sheets
+    demo_row[] <- lapply(demo_row, function(x) { x[is.na(x)] <- ""; x })
 
     ts_complete <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
 
