@@ -109,7 +109,7 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=18"),
+      tags$link(rel = "stylesheet", href = "style.css?v=21"),
       tags$script(src = "survey.js?v=3")
     ),
 
@@ -284,24 +284,28 @@ ui <- function(request) {
           inline   = TRUE
         ),
         conditionalPanel(
-          condition = "input.dsp_user === 'yes'",
+          condition = "input.dsp_user === 'yes' || input.dsp_user === 'yes_free'",
           sel("dsp_current", tr$dsp_svc_lbl,  tr$dsp_opts),
-          radioButtons("dsp_tier",
-            label    = tr$dsp_tier_lbl,
-            choices  = tr$tier_opts,
-            selected = character(0),
-            inline   = TRUE
+          div(class = "gaais-item mt-2",
+            p(class = "item-text", tr$switching_past_q),
+            div(class = "radio-v-group",
+              btn_check_group(tr$switching_past_opts, "switching_past", "sp",
+                              extra_lbl_class = "btn-radio-v")
+            )
           ),
-          div(class = "gaais-list mt-2",
-            div(class = "gaais-item",
-              p(class = "item-text", tr$freq_q),
-              div(class = "gaais-btn-group",
-                btn_check_group(tr$freq_opts, "music_freq", "music_freq", extra_lbl_class = "gaais-btn"))
+          conditionalPanel(
+            condition = "input.switching_past === 'yes_switched'",
+            div(class = "gaais-item mt-1",
+              p(class = "item-text", tr$switching_reason_q),
+              div(class = "radio-v-group",
+                btn_check_group(tr$switching_reason_opts, "switching_reason", "sr",
+                                extra_lbl_class = "btn-radio-v")
+              )
             )
           )
         ),
         conditionalPanel(
-          condition = "input.dsp_user === 'yes'",
+          condition = "input.dsp_user === 'yes' || input.dsp_user === 'yes_free'",
           div(class = "gaais-list",
             div(class = "gaais-item",
               p(class = "item-text", tr$aware_q),
@@ -338,8 +342,8 @@ ui <- function(request) {
           column(6, sel("demo_gender", tr$gender_lbl, tr$gender_opts))
         ),
         fluidRow(
-          column(6, sel("demo_country",   tr$country_lbl, tr$country_opts)),
-          column(6, sel("demo_education", tr$edu_lbl,     tr$edu_opts))
+          column(6, sel("demo_country", tr$country_lbl, tr$country_opts)),
+          column(6, sel("demo_role",    tr$role_lbl,    tr$role_opts))
         ),
         div(class = "submit-section mt-3",
           actionButton("btn_demo_submit", tr$btn_submit,
@@ -382,7 +386,7 @@ ui <- function(request) {
           )
         ),
 
-        p(class = "text-muted small mt-3", tr$ty_close),
+        p(class = "small mt-3", style = "color:#2563eb;", tr$ty_close),
         hr(),
         div(class = "text-muted small",
           p(tr$ty_contact),

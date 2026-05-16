@@ -153,10 +153,9 @@ server <- function(input, output, session) {
     if (!is.null(ans)) {
       if (!is.null(ans$dsp_user))
         updateRadioButtons(session, "dsp_user", selected = ans$dsp_user)
-      if (!is.null(ans$dsp_tier))
-        updateRadioButtons(session, "dsp_tier", selected = ans$dsp_tier)
+
       for (nm in c("dsp_current",
-                   "demo_age", "demo_gender", "demo_country", "demo_education")) {
+                   "demo_age", "demo_gender", "demo_country", "demo_role")) {
         raw_nm <- ans[[nm]]
         if (is.null(raw_nm)) next                # missing key → skip
         coerced <- as.character(raw_nm)
@@ -189,8 +188,8 @@ server <- function(input, output, session) {
     }
 
     # Re-check btn-check inputs (audio ratings, GAAIS, proxy) via JS
-    native_inputs <- c("dsp_user", "dsp_current", "dsp_tier",
-                       "demo_age", "demo_gender", "demo_country", "demo_education")
+    native_inputs <- c("dsp_user", "dsp_current",
+                       "demo_age", "demo_gender", "demo_country", "demo_role")
     if (!is.null(ans)) {
       btn_ans <- ans[!names(ans) %in% native_inputs]
       for (nm in names(btn_ans)) {
@@ -372,8 +371,8 @@ server <- function(input, output, session) {
         PROXY_ITEMS$code
       )
       dsp_empty <- data.frame(
-        churn_intent = "", music_freq = "", ai_awareness = "",
-        dsp_user = "", dsp_current = "", dsp_tier = "",
+        churn_intent = "", switching_past = "", switching_reason = "",
+        ai_awareness = "", dsp_user = "", dsp_current = "", dsp_tier = "",
         stringsAsFactors = FALSE
       )
       audio_row <- cbind(
@@ -488,14 +487,14 @@ server <- function(input, output, session) {
           gaais_partial <- setNames(as.data.frame(t(gaais_r)), paste0("gaais_", GAAIS_ITEMS$code))
           cbc_partial <- setNames(as.data.frame(t(rv$cbc_choices)), paste0("choice_", seq_len(N_TASKS)))
           gpos <- rv$gaais_pos; gneg <- rv$gaais_neg
-          # Build ALL 48 columns in correct order — sheet_append aligns by position
+          # Build ALL 49 columns in correct order — sheet_append aligns by position
           proxy_empty <- setNames(
             as.data.frame(matrix("", nrow = 1, ncol = nrow(PROXY_ITEMS))),
             PROXY_ITEMS$code
           )
           dsp_empty <- data.frame(
-            churn_intent = "", music_freq = "", ai_awareness = "",
-            dsp_user = "", dsp_current = "", dsp_tier = "",
+            churn_intent = "", switching_past = "", switching_reason = "",
+            ai_awareness = "", dsp_user = "", dsp_current = "", dsp_tier = "",
             stringsAsFactors = FALSE
           )
           cbc_row <- cbind(
@@ -523,12 +522,16 @@ server <- function(input, output, session) {
   observeEvent(input$btn_proxy_next, {
     proxy_vals <- sapply(PROXY_ITEMS$code, function(code) input[[code]])
     if (any(sapply(proxy_vals, is.null))) { err(tr$err_proxy); return() }
-    # ai_awareness, churn_intent and music_freq only required when dsp_user == "yes"
-    if (!is.null(input$dsp_user) && input$dsp_user == "yes") {
-      behav_codes <- c("music_freq", "ai_awareness")
-      behav <- sapply(behav_codes, function(x) input[[x]])
-      churn <- input$churn_intent
-      if (any(sapply(behav, is.null)) || is.null(churn)) {
+    # switching_past, ai_awareness, churn_intent only required when dsp_user is paid or free
+    if (!is.null(input$dsp_user) && input$dsp_user %in% c("yes", "yes_free")) {
+      if (is.null(input$switching_past) || input$switching_past == "") {
+        err(tr$err_switching_past); return()
+      }
+      if (input$switching_past == "yes_switched" &&
+          (is.null(input$switching_reason) || input$switching_reason == "")) {
+        err(tr$err_switching_reason); return()
+      }
+      if (is.null(input$ai_awareness) || is.null(input$churn_intent)) {
         err(tr$err_proxy); return()
       }
     }
@@ -536,12 +539,9 @@ server <- function(input, output, session) {
     if (is.null(input$dsp_user)) {
       err(tr$err_dsp_user); return()
     }
-    if (input$dsp_user == "yes") {
+    if (input$dsp_user %in% c("yes", "yes_free")) {
       if (is.null(input$dsp_current) || input$dsp_current == "") {
         err(tr$err_dsp_svc); return()
-      }
-      if (is.null(input$dsp_tier) || input$dsp_tier == "") {
-        err(tr$err_dsp_tier); return()
       }
     }
     go_to("demo")
@@ -571,12 +571,15 @@ server <- function(input, output, session) {
         data.frame(d_index = rv$d_index, gaais_pos = rv$gaais_pos, gaais_neg = rv$gaais_neg),
         gaais_partial, proxy_partial, cbc_partial,
         data.frame(
-          churn_intent = if (isTRUE(input$dsp_user == "yes")) as.integer(input$churn_intent) else NA_integer_,
-          music_freq   = if (isTRUE(input$dsp_user == "yes")) input$music_freq   else "",
-          ai_awareness = if (isTRUE(input$dsp_user == "yes")) input$ai_awareness else "",
-          dsp_user    = input$dsp_user,
-          dsp_current = if (isTRUE(input$dsp_user == "yes")) input$dsp_current else "",
-          dsp_tier    = if (isTRUE(input$dsp_user == "yes")) input$dsp_tier    else "",
+          churn_intent    = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) as.integer(input$churn_intent) else NA_integer_,
+          switching_past  = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$switching_past   else "",
+          switching_reason= if (isTRUE(input$dsp_user %in% c("yes", "yes_free")) &&
+                                isTRUE(input$switching_past == "yes_switched"))
+                              input$switching_reason else "",
+          ai_awareness    = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$ai_awareness else "",
+          dsp_user        = input$dsp_user,
+          dsp_current     = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$dsp_current else "",
+          dsp_tier        = switch(input$dsp_user, yes = "paid", yes_free = "free", ""),
           stringsAsFactors = FALSE
         )
       )
@@ -591,7 +594,7 @@ server <- function(input, output, session) {
 
     # ── Validate demographics ────────────────────────────────────────────────
     if (input$demo_age == "" || input$demo_gender == "" ||
-        input$demo_education == "" || input$demo_country == "") {
+        input$demo_role == "" || input$demo_country == "") {
       err(tr$err_demo_req); return()
     }
 
@@ -627,15 +630,18 @@ server <- function(input, output, session) {
       data.frame(gaais_pos = rv$gaais_pos, gaais_neg = rv$gaais_neg),
       proxy_df,
       data.frame(
-        churn_intent = if (isTRUE(input$dsp_user == "yes")) as.integer(input$churn_intent) else NA_integer_,
-        music_freq   = if (isTRUE(input$dsp_user == "yes")) input$music_freq   else "",
-        ai_awareness = if (isTRUE(input$dsp_user == "yes")) input$ai_awareness else "",
+        churn_intent     = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) as.integer(input$churn_intent) else NA_integer_,
+        switching_past   = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$switching_past   else "",
+        switching_reason = if (isTRUE(input$dsp_user %in% c("yes", "yes_free")) &&
+                               isTRUE(input$switching_past == "yes_switched"))
+                             input$switching_reason else "",
+        ai_awareness     = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$ai_awareness else "",
         dsp_user         = input$dsp_user,
-        dsp_current      = if (isTRUE(input$dsp_user == "yes")) input$dsp_current else "",
-        dsp_tier         = if (isTRUE(input$dsp_user == "yes")) input$dsp_tier    else "",
+        dsp_current      = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$dsp_current else "",
+        dsp_tier         = switch(input$dsp_user, yes = "paid", yes_free = "free", ""),
         age              = input$demo_age,
         gender           = input$demo_gender,
-        education        = input$demo_education,
+        role             = input$demo_role,
         country          = input$demo_country,
         stringsAsFactors = FALSE
       )

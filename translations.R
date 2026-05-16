@@ -28,10 +28,21 @@ TR <- list(
               "D'accordo","Fortemente d'accordo"),
     lik5p = c("Per nulla probabile","Poco probabile","Neutrale",
               "Probabile","Molto probabile"),
-    freq_opts  = c("Mai"="never","Qualche volta al mese"="monthly",
-                   "Qualche volta a settimana"="weekly","Ogni giorno"="daily"),
+    switching_past_opts = c(
+      "Sì, ho cambiato servizio"                = "yes_switched",
+      "No, sono sempre sullo stesso servizio"   = "no_same",
+      "No, ho iniziato ad abbonarmi di recente" = "no_new"
+    ),
+    switching_reason_opts = c(
+      "Prezzo / offerta più conveniente"                                              = "price",
+      "Catalogo musicale (artisti, brani disponibili)"                               = "catalog",
+      "Funzionalità della piattaforma (interfaccia, qualità audio, ecc.)"            = "features",
+      "Pubblicità invasive"                                                           = "no_ads",
+      "Etica della piattaforma (policy, compensi artisti, musica AI)"                = "policy_dissatisfaction",
+      "Altro"                                                                        = "other"
+    ),
     aware_opts = c("Sì"="yes","No"="no","Non ero sicuro/a"="unsure"),
-    dsp_yn     = c("Sì"="yes","No"="no"),
+    dsp_yn     = c("Sì, a pagamento"="yes", "Sì, gratuito"="yes_free", "No"="no"),
 
     A1 = c(
       "Nessuna label AI (le tracce AI non sono identificabili)",
@@ -76,12 +87,13 @@ TR <- list(
     gender_opts = c("Uomo"="man","Donna"="woman",
                     "Non binario / Terzo genere"="nonbinary",
                     "Preferisco non specificare"="no_answer"),
-    edu_opts    = c(
-      "Licenza media"                              = "middle",
-      "Diploma di scuola superiore"                = "highschool",
-      "Laurea triennale (L)"                       = "bachelor",
-      "Laurea magistrale / Ciclo unico (LM / LMU)" = "master",
-      "Dottorato di ricerca / Post-laurea"         = "phd"
+    role_opts   = c(
+      "Studente"                                    = "student",
+      "Lavoratore dipendente"                       = "employee",
+      "Lavoratore autonomo / Libero professionista" = "self_employed",
+      "In cerca di occupazione"                     = "unemployed",
+      "Pensionato/a"                                = "retired",
+      "Altro"                                       = "other"
     ),
     country_opts = c(
       "Italia"="IT",
@@ -105,7 +117,9 @@ TR <- list(
     err_demo_req = "Compili tutti i campi demografici obbligatori (*).",
     err_dsp_user = "Indichi se utilizza un servizio di streaming musicale.",
     err_dsp_svc  = "Indichi il servizio di streaming che utilizza principalmente.",
-    err_dsp_tier = "Indichi il tipo di abbonamento.",
+    err_dsp_tier         = "Indichi il tipo di abbonamento.",
+    err_switching_past   = "Indichi il suo comportamento di switching negli ultimi 24 mesi.",
+    err_switching_reason = "Indichi il motivo principale del cambio.",
 
     intro_title    = "Musica generata dall'AI nei servizi di streaming",
     intro_title2   = "Sondaggio sulle preferenze dei consumatori",
@@ -255,7 +269,8 @@ TR <- list(
     badge4      = "Sezione 4 di 5",   # proxy: rimane sezione 4
     proxy_h3    = "Esperienze musicali e percezione dell'AI",
     proxy_instr = "Di seguito sono elencate alcune affermazioni. Le chiediamo di leggerle attentamente e di indicare quanto è d'accordo o in disaccordo con ciascuna di esse.",
-    freq_q      = "Con quale frequenza ascolta musica in streaming?",
+    switching_past_q   = "Negli ultimi 24 mesi ha cambiato piattaforma o modificato il piano di abbonamento?",
+    switching_reason_q = "Per quale motivo principale?",
     aware_q     = "Prima di questo sondaggio, era a conoscenza del fatto che il Suo servizio di streaming include tracce generate interamente dall'AI?",
     churn_q     = tagList(
       "Se il servizio di streaming che utilizza non introducesse alcuna ",
@@ -269,7 +284,7 @@ TR <- list(
     age_lbl      = "Fascia d'età *",
     gender_lbl   = "Genere *",
     country_lbl  = "Paese di residenza *",
-    edu_lbl      = "Titolo di studio più elevato conseguito *",
+    role_lbl     = "Ruolo attuale *",
     dsp_h5       = "Utilizzo dei servizi di streaming musicale",
     dsp_user_q   = "È attualmente abbonato/a o utilizza regolarmente un servizio di streaming musicale? *",
     dsp_svc_lbl  = "Quale servizio utilizza principalmente? *",
@@ -309,10 +324,21 @@ TR <- list(
 
     lik5  = c("Strongly disagree","Disagree","Neutral","Agree","Strongly agree"),
     lik5p = c("Not at all likely","Unlikely","Neutral","Likely","Very likely"),
-    freq_opts  = c("Never"="never","A few times a month"="monthly",
-                   "A few times a week"="weekly","Every day"="daily"),
+    switching_past_opts = c(
+      "Yes, I switched service"                  = "yes_switched",
+      "No, I've always been on the same service" = "no_same",
+      "No, I've recently started subscribing"    = "no_new"
+    ),
+    switching_reason_opts = c(
+      "Price / better offer"                                          = "price",
+      "Music catalog (available artists, tracks)"                     = "catalog",
+      "Platform features (interface, audio quality, etc.)"            = "features",
+      "Intrusive advertising"                                         = "no_ads",
+      "Platform ethics (policies, artist payouts, AI music)"          = "policy_dissatisfaction",
+      "Other"                                                         = "other"
+    ),
     aware_opts = c("Yes"="yes","No"="no","I wasn't sure"="unsure"),
-    dsp_yn     = c("Yes"="yes","No"="no"),
+    dsp_yn     = c("Yes, paid"="yes", "Yes, free"="yes_free", "No"="no"),
 
     A1 = c(
       "No AI label (AI tracks are not identifiable)",
@@ -357,12 +383,13 @@ TR <- list(
     gender_opts = c("Man"="man","Woman"="woman",
                     "Non-binary / Third gender"="nonbinary",
                     "Prefer not to say"="no_answer"),
-    edu_opts    = c(
-      "Middle school diploma" = "middle",
-      "High school diploma"   = "highschool",
-      "Bachelor's degree"     = "bachelor",
-      "Master's degree"       = "master",
-      "PhD / Post-graduate"   = "phd"
+    role_opts   = c(
+      "Student"                    = "student",
+      "Employee"                   = "employee",
+      "Self-employed / Freelancer" = "self_employed",
+      "Looking for work"           = "unemployed",
+      "Retired"                    = "retired",
+      "Other"                      = "other"
     ),
     country_opts = c(
       "Italy"="IT",
@@ -386,7 +413,9 @@ TR <- list(
     err_demo_req = "Please fill in all required demographic fields (*).",
     err_dsp_user = "Please indicate whether you use a music streaming service.",
     err_dsp_svc  = "Please indicate the streaming service you use most.",
-    err_dsp_tier = "Please indicate your subscription type.",
+    err_dsp_tier         = "Please indicate your subscription type.",
+    err_switching_past   = "Please indicate your switching behaviour in the last 24 months.",
+    err_switching_reason = "Please indicate the main reason for switching.",
 
     intro_title    = "AI-Generated Music in Streaming Services",
     intro_title2   = "A Survey on Consumer Preferences",
@@ -536,7 +565,8 @@ TR <- list(
     badge4      = "Section 4 of 5",
     proxy_h3    = "Music experiences and AI perception",
     proxy_instr = "Below are a number of statements. Please read each one carefully and indicate how much you agree or disagree with each of them.",
-    freq_q      = "How often do you listen to streaming music?",
+    switching_past_q   = "In the last 24 months, have you switched platform or changed your subscription plan?",
+    switching_reason_q = "What was the main reason?",
     aware_q     = "Before this survey, were you aware that your streaming service includes tracks generated entirely by AI?",
     churn_q     = tagList(
       "If the streaming service you use were to introduce ",
@@ -550,7 +580,7 @@ TR <- list(
     age_lbl      = "Age group *",
     gender_lbl   = "Gender *",
     country_lbl  = "Country of residence *",
-    edu_lbl      = "Highest educational qualification *",
+    role_lbl     = "Current role *",
     dsp_h5       = "Music streaming service usage",
     dsp_user_q   = "Are you currently subscribed to or regularly using a music streaming service? *",
     dsp_svc_lbl  = "Which service do you use most? *",
@@ -591,10 +621,21 @@ TR <- list(
     lik5  = c("Tout à fait en désaccord","En désaccord","Neutre",
               "D'accord","Tout à fait d'accord"),
     lik5p = c("Pas du tout probable","Peu probable","Neutre","Probable","Très probable"),
-    freq_opts  = c("Jamais"="never","Quelques fois par mois"="monthly",
-                   "Quelques fois par semaine"="weekly","Chaque jour"="daily"),
+    switching_past_opts = c(
+      "Oui, j'ai changé de service"                    = "yes_switched",
+      "Non, je suis toujours sur le même service"      = "no_same",
+      "Non, je viens de commencer à m'abonner"         = "no_new"
+    ),
+    switching_reason_opts = c(
+      "Prix / meilleure offre"                                                          = "price",
+      "Catalogue musical (artistes, titres disponibles)"                               = "catalog",
+      "Fonctionnalités de la plateforme (interface, qualité audio, etc.)"              = "features",
+      "Publicités invasives"                                                            = "no_ads",
+      "Éthique de la plateforme (politiques, rémunération des artistes, musique IA)"  = "policy_dissatisfaction",
+      "Autre"                                                                          = "other"
+    ),
     aware_opts = c("Oui"="yes","Non"="no","Je n'étais pas sûr(e)"="unsure"),
-    dsp_yn     = c("Oui"="yes","Non"="no"),
+    dsp_yn     = c("Oui, payant"="yes", "Oui, gratuit"="yes_free", "Non"="no"),
 
     A1 = c(
       "Aucun label IA (les titres IA ne sont pas identifiables)",
@@ -634,17 +675,18 @@ TR <- list(
       "Si j'étais certain(e) qu'un artiste produit de la musique générée entièrement par l'IA, je le bloquerais sur ma plateforme de streaming."
     ),
 
-    sel_placeholder = "-- Selectionner --",
+    sel_placeholder = "-- Sélectionner --",
     age_opts    = c("18-24","25-34","35-44","45-54","55-64","65+"),
     gender_opts = c("Homme"="man","Femme"="woman",
                     "Non-binaire / Troisième genre"="nonbinary",
                     "Préfère ne pas préciser"="no_answer"),
-    edu_opts    = c(
-      "Brevet des collèges"               = "middle",
-      "Baccalauréat / Diplôme de lycée"   = "highschool",
-      "Licence (Bac+3)"                   = "bachelor",
-      "Master / Diplôme d'ingénieur"      = "master",
-      "Doctorat / Post-diplôme"           = "phd"
+    role_opts   = c(
+      "Étudiant·e"                           = "student",
+      "Salarié·e"                            = "employee",
+      "Travailleur·se indépendant·e"         = "self_employed",
+      "En recherche d'emploi"                = "unemployed",
+      "Retraité·e"                           = "retired",
+      "Autre"                                = "other"
     ),
     country_opts = c(
       "Italie"="IT",
@@ -668,7 +710,9 @@ TR <- list(
     err_demo_req = "Veuillez remplir tous les champs démographiques obligatoires (*).",
     err_dsp_user = "Veuillez indiquer si vous utilisez un service de streaming musical.",
     err_dsp_svc  = "Veuillez indiquer le service de streaming que vous utilisez principalement.",
-    err_dsp_tier = "Veuillez indiquer votre type d'abonnement.",
+    err_dsp_tier         = "Veuillez indiquer votre type d'abonnement.",
+    err_switching_past   = "Veuillez indiquer votre comportement de changement au cours des 24 derniers mois.",
+    err_switching_reason = "Veuillez indiquer la raison principale du changement.",
 
     intro_title    = "La musique générée par l'IA dans les services de streaming",
     intro_title2   = "Sondage sur les préférences des consommateurs",
@@ -681,11 +725,11 @@ TR <- list(
 
     what_asked_h = "Ce qu'on vous demandera ?",
     what_asked   = tags$ol(
-      tags$li("Indiquer vos opinions generales sur l'intelligence artificielle"),
-      tags$li("Effectuer des choix entre differentes configurations d'abonnement a un service de streaming"),
-      tags$li("Realiser une courte tache d'ecoute pour evaluer des extraits musicaux"),
-      tags$li("Repondre a des questions sur vos habitudes d'ecoute et votre perception de la musique IA"),
-      tags$li("Fournir quelques informations demographiques")
+      tags$li("Indiquer vos opinions générales sur l'intelligence artificielle"),
+      tags$li("Effectuer des choix entre différentes configurations d'abonnement à un service de streaming"),
+      tags$li("Réaliser une courte tâche d'écoute pour évaluer des extraits musicaux"),
+      tags$li("Répondre à des questions sur vos habitudes d'écoute et votre perception de la musique IA"),
+      tags$li("Fournir quelques informations démographiques")
     ),
 
     c_part_lbl = "Participation :",
@@ -818,7 +862,8 @@ TR <- list(
     badge4      = "Section 4 sur 5",
     proxy_h3    = "Expériences musicales et perception de l'IA",
     proxy_instr = "Vous trouverez ci-dessous plusieurs affirmations. Nous vous demandons de les lire attentivement et d'indiquer dans quelle mesure vous êtes d'accord ou en désaccord avec chacune d'elles.",
-    freq_q      = "À quelle fréquence écoutez-vous de la musique en streaming ?",
+    switching_past_q   = "Au cours des 24 derniers mois, avez-vous changé de plateforme ou modifié votre abonnement ?",
+    switching_reason_q = "Quelle a été la raison principale ?",
     aware_q     = "Avant ce sondage, saviez-vous que votre service de streaming inclut des titres générés entièrement par l'IA ?",
     churn_q     = tagList(
       "Si le service de streaming que vous utilisez n'introduisait aucune ",
@@ -832,7 +877,7 @@ TR <- list(
     age_lbl      = "Tranche d'âge *",
     gender_lbl   = "Genre *",
     country_lbl  = "Pays de résidence *",
-    edu_lbl      = "Diplôme le plus élevé obtenu *",
+    role_lbl     = "Statut professionnel actuel *",
     dsp_h5       = "Utilisation des services de streaming musical",
     dsp_user_q   = "Êtes-vous actuellement abonné(e) à ou utilisez-vous régulièrement un service de streaming musical ? *",
     dsp_svc_lbl  = "Quel service utilisez-vous principalement ? *",

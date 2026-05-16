@@ -37,9 +37,9 @@ headers <- list(
                             rep(c("_rating","_type"), each=4))
     gaais_cols    <- paste0("gaais_", GAAIS_ITEMS$code)
     proxy_cols    <- PROXY_ITEMS$code   # proxy_p1 … proxy_p6
-    other_cols    <- c("churn_intent","music_freq","ai_awareness",
+    other_cols    <- c("churn_intent","switching_past","switching_reason","ai_awareness",
                        "dsp_user","dsp_current","dsp_tier",
-                       "age","gender","education","country")
+                       "age","gender","role","country")
     all_cols      <- c("respondent_id", "lang", audio_cols, "d_index",
                        gaais_cols, "gaais_pos","gaais_neg",
                        proxy_cols, other_cols)
@@ -63,7 +63,7 @@ headers <- list(
     gaais_cols  <- paste0("gaais_", GAAIS_ITEMS$code)
     proxy_cols  <- PROXY_ITEMS$code
     choice_cols <- paste0("choice_", seq_len(N_TASKS))
-    dsp_cols    <- c("churn_intent","music_freq","ai_awareness",
+    dsp_cols    <- c("churn_intent","switching_past","switching_reason","ai_awareness",
                      "dsp_user","dsp_current","dsp_tier")
     all_cols    <- c("respondent_id","lang","ts",
                      audio_cols, "d_index","gaais_pos","gaais_neg",
