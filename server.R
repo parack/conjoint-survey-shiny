@@ -9,8 +9,11 @@ server <- function(input, output, session) {
   tr <- TR[[.lang]]
 
   # ── Session-level state ────────────────────────────────────────────────────
-  ts_start <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
-  resp_id  <- paste0("R", format(Sys.time(), "%Y%m%d%H%M%S"), sample(1000L:9999L, 1L))
+  ts_start_obj <- Sys.time()
+  ts_start <- format(ts_start_obj, "%Y-%m-%d %H:%M:%S")
+  resp_id  <- paste0("R", format(ts_start_obj, "%Y%m%d%H%M%S"), sample(1000L:9999L, 1L))
+  # Tracks the timestamp of the most recent funnel event for per-section duration
+  last_funnel_ts <- ts_start_obj
   message(sprintf("[SURVEY] %s | SESSION_START  | lang=%s | %s", resp_id, .lang, ts_start))
 
   rv <- reactiveValues(
@@ -59,15 +62,22 @@ server <- function(input, output, session) {
   }
 
   # ── Funnel tracker → writes one row per navigation event to GSheets ────────
+  # duration_sec = seconds elapsed since the previous funnel event (or session
+  # start for the first event). Computed at call time, so it captures the time
+  # spent on the section that just ended.
   log_funnel <- function(event, detail = "") {
     force(detail)   # evaluate in reactive context BEFORE later::later runs
+    ts_now  <- Sys.time()
+    dur_sec <- as.integer(difftime(ts_now, last_funnel_ts, units = "secs"))
+    last_funnel_ts <<- ts_now
     later::later(function() {
       gs_append("Funnel", data.frame(
         respondent_id = resp_id,
         lang          = .lang,
         event         = event,
         detail        = detail,
-        ts            = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
+        ts            = format(ts_now, "%Y-%m-%d %H:%M:%S"),
+        duration_sec  = dur_sec,
         stringsAsFactors = FALSE
       ))
     }, delay = 0)
@@ -151,8 +161,12 @@ server <- function(input, output, session) {
     # Restore native Shiny inputs (dropdowns, radioButtons)
     ans <- state$answers
     if (!is.null(ans)) {
-      if (!is.null(ans$dsp_user))
-        updateRadioButtons(session, "dsp_user", selected = ans$dsp_user)
+      if (!is.null(ans$ai_tools_acceptable)) {
+        sel <- as.character(ans$ai_tools_acceptable)
+        sel <- sel[nzchar(sel)]
+        if (length(sel) > 0)
+          updateCheckboxGroupInput(session, "ai_tools_acceptable", selected = sel)
+      }
 
       for (nm in c("dsp_current",
                    "demo_age", "demo_gender", "demo_country", "demo_role")) {
@@ -188,7 +202,7 @@ server <- function(input, output, session) {
     }
 
     # Re-check btn-check inputs (audio ratings, GAAIS, proxy) via JS
-    native_inputs <- c("dsp_user", "dsp_current",
+    native_inputs <- c("dsp_current", "ai_tools_acceptable",
                        "demo_age", "demo_gender", "demo_country", "demo_role")
     if (!is.null(ans)) {
       btn_ans <- ans[!names(ans) %in% native_inputs]
@@ -221,6 +235,34 @@ server <- function(input, output, session) {
       ))
     }
   })
+
+  # ── Mutual exclusivity: "Nessuna delle precedenti" vs other AI tool options ──
+  prev_ai_tools <- reactiveVal(character(0))
+  observeEvent(input$ai_tools_acceptable, {
+    curr <- input$ai_tools_acceptable
+    if (is.null(curr)) curr <- character(0)
+    prev <- prev_ai_tools()
+
+    if (length(curr) <= 1) {
+      prev_ai_tools(curr)
+      return()
+    }
+    if ("none" %in% curr) {
+      new_sel <- setdiff(curr, prev)
+      if ("none" %in% new_sel) {
+        # User just clicked "none" → clear all others
+        updateCheckboxGroupInput(session, "ai_tools_acceptable", selected = "none")
+        prev_ai_tools("none")
+      } else {
+        # User clicked a real option while "none" was checked → clear "none"
+        keep <- setdiff(curr, "none")
+        updateCheckboxGroupInput(session, "ai_tools_acceptable", selected = keep)
+        prev_ai_tools(keep)
+      }
+    } else {
+      prev_ai_tools(curr)
+    }
+  }, ignoreInit = TRUE)
 
   # ── Audio clips UI ──────────────────────────────────────────────────────────
   output$audio_clips_ui <- renderUI({
@@ -283,15 +325,15 @@ server <- function(input, output, session) {
             paste(tr$cbc_opt, LETTERS[a])),
         div(class = "attr-row-cbc",
           div(class = "attr-label-cbc attr-lbl-a", tr$cbc_a1lbl),
-          div(class = paste0("attr-value-cbc lv lv-a", p$a1), tr$A1[p$a1])
+          div(class = paste0("attr-value-cbc lv lv-a", p$a1), HTML(tr$A1[p$a1]))
         ),
         div(class = "attr-row-cbc",
           div(class = "attr-label-cbc attr-lbl-b", tr$cbc_a2lbl),
-          div(class = paste0("attr-value-cbc lv lv-b", p$a2), tr$A2[p$a2])
+          div(class = paste0("attr-value-cbc lv lv-b", p$a2), HTML(tr$A2[p$a2]))
         ),
         div(class = "attr-row-cbc",
           div(class = "attr-label-cbc attr-lbl-c", tr$cbc_a3lbl),
-          div(class = paste0("attr-value-cbc lv lv-c", p$a3), tr$A3[p$a3])
+          div(class = paste0("attr-value-cbc lv lv-c", p$a3), HTML(tr$A3[p$a3]))
         ),
         div(class = "price-display", fmt_price(A4_PRICES[p$a4]))
       )
@@ -372,7 +414,8 @@ server <- function(input, output, session) {
       )
       dsp_empty <- data.frame(
         churn_intent = "", switching_past = "", switching_reason = "",
-        ai_awareness = "", dsp_user = "", dsp_current = "", dsp_tier = "",
+        proxy_p6 = "", proxy_p6_raw = "",
+        dsp_user = "", dsp_current = "", dsp_tier = "",
         stringsAsFactors = FALSE
       )
       audio_row <- cbind(
@@ -494,7 +537,8 @@ server <- function(input, output, session) {
           )
           dsp_empty <- data.frame(
             churn_intent = "", switching_past = "", switching_reason = "",
-            ai_awareness = "", dsp_user = "", dsp_current = "", dsp_tier = "",
+            proxy_p6 = "", proxy_p6_raw = "",
+            dsp_user = "", dsp_current = "", dsp_tier = "",
             stringsAsFactors = FALSE
           )
           cbc_row <- cbind(
@@ -522,7 +566,11 @@ server <- function(input, output, session) {
   observeEvent(input$btn_proxy_next, {
     proxy_vals <- sapply(PROXY_ITEMS$code, function(code) input[[code]])
     if (any(sapply(proxy_vals, is.null))) { err(tr$err_proxy); return() }
-    # switching_past, ai_awareness, churn_intent only required when dsp_user is paid or free
+    # ai_tools_acceptable is required for everyone
+    if (is.null(input$ai_tools_acceptable) || length(input$ai_tools_acceptable) == 0) {
+      err(tr$err_proxy); return()
+    }
+    # switching_past, churn_intent only required when dsp_user is paid or free
     if (!is.null(input$dsp_user) && input$dsp_user %in% c("yes", "yes_free")) {
       if (is.null(input$switching_past) || input$switching_past == "") {
         err(tr$err_switching_past); return()
@@ -531,7 +579,7 @@ server <- function(input, output, session) {
           (is.null(input$switching_reason) || input$switching_reason == "")) {
         err(tr$err_switching_reason); return()
       }
-      if (is.null(input$ai_awareness) || is.null(input$churn_intent)) {
+      if (is.null(input$churn_intent)) {
         err(tr$err_proxy); return()
       }
     }
@@ -576,7 +624,16 @@ server <- function(input, output, session) {
           switching_reason= if (isTRUE(input$dsp_user %in% c("yes", "yes_free")) &&
                                 isTRUE(input$switching_past == "yes_switched"))
                               input$switching_reason else "",
-          ai_awareness    = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$ai_awareness else "",
+          proxy_p6 = {
+            sel <- input$ai_tools_acceptable
+            count <- if (is.null(sel) || length(sel) == 0) 0L
+                     else as.integer(length(setdiff(sel, "none")))
+            as.integer(5L - count)  # rescaled Likert 1-5 (5 = max resistance)
+          },
+          proxy_p6_raw = {
+            sel <- input$ai_tools_acceptable
+            if (is.null(sel) || length(sel) == 0) "" else paste(sel, collapse = ",")
+          },
           dsp_user        = input$dsp_user,
           dsp_current     = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$dsp_current else "",
           dsp_tier        = switch(input$dsp_user, yes = "paid", yes_free = "free", ""),
@@ -635,7 +692,16 @@ server <- function(input, output, session) {
         switching_reason = if (isTRUE(input$dsp_user %in% c("yes", "yes_free")) &&
                                isTRUE(input$switching_past == "yes_switched"))
                              input$switching_reason else "",
-        ai_awareness     = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$ai_awareness else "",
+        proxy_p6 = {
+          sel <- input$ai_tools_acceptable
+          count <- if (is.null(sel) || length(sel) == 0) 0L
+                   else as.integer(length(setdiff(sel, "none")))
+          as.integer(5L - count)  # rescaled Likert 1-5 (5 = max resistance)
+        },
+        proxy_p6_raw = {
+          sel <- input$ai_tools_acceptable
+          if (is.null(sel) || length(sel) == 0) "" else paste(sel, collapse = ",")
+        },
         dsp_user         = input$dsp_user,
         dsp_current      = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$dsp_current else "",
         dsp_tier         = switch(input$dsp_user, yes = "paid", yes_free = "free", ""),

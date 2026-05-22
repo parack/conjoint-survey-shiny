@@ -20,7 +20,7 @@ The survey is administered in **Italian, English, and French** and consists of 7
 | 3 | CBC framing — scenario description and status quo definition |
 | 4 | CBC — 12 choice tasks, 3 alternatives, 4 attributes |
 | 5 | Audio discrimination task — 4 clips (2 AI-generated, 2 human; randomised order); D-index computed server-side. Placed *after* the CBC to avoid analytic listening priming WTP for restrictive governance |
-| 6 | Proxy items (6 Likert items: 3 sonic-discrimination proxy, 3 AI-resistance proxy) + DSP usage (platform, tier, switching history, AI awareness, churn intent) |
+| 6 | Proxy items (P1–P5 Likert: 3 sonic-discrimination proxy, 2 AI-resistance proxy) + P6 (AI features acceptability checkbox, 6th proxy item, rescaled to Likert 1–5 and combined into the GAAIS_neg-proxy composite) + DSP usage (platform, tier, switching history, churn intent) |
 | 7 | Demographics (age, gender, country, role) |
 
 ## CBC Design
@@ -60,7 +60,7 @@ Proxy operationalisation: 3-item sonic-discrimination proxy (→ D-index) and 3-
 | `Phase 2 — Structured SSAM heterogeneity (H5a–H5c, H5a'–H5c')` | **Primary (H5a–H5c):** extended MMNL with continuous moderators `gaais_neg_z×A1/A2/A3` and `D_z×A1/A2/A3`, directional Wald tests. **Exploratory (H5a'–H5c'):** median split → 4 SSAM quadrants; individual posterior part-worths from M_final; extended MMNL with interactions `quadrant×A1/A2/A3` (I/I as reference), LRT vs M_final.|
 | `Phase 3 — Robustness checks & supplementary analyses` | AI-trust moderation of A2: `A2×gaais_pos_z`, Wald test. Proxy validation: regression `D ~ proxy-D` and `gaais_neg ~ proxy-GAAIS_neg`; re-estimation of M_final with proxy composites.|
 | `Phase 4 — Policy simulation multi-benchmark` | Configuration × benchmark matrix identifying configurations with non-negative net WTP per operator. Exploratory segment level analysis of configuration-benchmark-pair.|
-| `Phase 5 — External triangulation: stated vs. revealed` | Correlation individual WTP ↔ `churn_intent` by quadrant.  WTP comparison: `ai_awareness = yes` vs. `no`.Behavioural triangulation. |
+| `Phase 5 — External triangulation: stated vs. revealed` | Correlation individual WTP ↔ `churn_intent` by quadrant. Behavioural triangulation via `switching_past` and `policy_dissatisfaction`. Optional moderation by `proxy_p6` (rescaled AI-tools acceptance) or by specific tool dummies from `proxy_p6_raw`. |
 
 ## Data Collection
 
@@ -69,13 +69,15 @@ Responses are stored in a private Google Sheet (6 tabs):
 | Tab | Content |
 |---|---|
 | `Respondents` | respondent_id, language, timestamps, completion flag |
-| `Demography` | audio ratings, D-index, GAAIS items + subscales (pos/neg), proxy items (P1–P6), churn intent, switching_past, switching_reason, ai_awareness, DSP platform, tier (derived from dsp_user), demographics |
+| `Demography` | audio ratings, D-index, GAAIS items + subscales (pos/neg), proxy items (P1–P6: P1–P5 Likert 1–5, P6 numeric 1–5 rescaled from the AI-tools acceptance count, with `proxy_p6_raw` holding the comma-separated granular selection), churn intent, switching_past, switching_reason, DSP platform, tier (derived from dsp_user), demographics |
 | `Survey_Answers` | choice_1 … choice_12 |
 | `Choices` | long format — one row per alternative per task (a1_labeling, a2_promotion, a3_control, a4_price) |
-| `Funnel` | one row per navigation event — step-by-step dropout tracking (event, detail, timestamp) |
+| `Funnel` | one row per navigation event — step-by-step dropout tracking (event, detail, timestamp, `duration_sec` = seconds spent in the section that just ended, computed against the previous event for the same respondent) |
 | `Partial` | three intermediate snapshots for abandonment recovery: **post-CBC** (GAAIS + CBC choices; audio not yet collected), **post-audio** (+ audio ratings + D-index; proxy empty), **post-proxy** (all except demographics). Analysis rule: `slice_max(ts)` per `respondent_id` |
 
-**DSP usage variables**: `dsp_user` distinguishes paid subscribers (`yes`), free-tier users (`yes_free`), and non-users (`no`). `dsp_tier` (`paid`/`free`) is derived server-side from `dsp_user` — not collected as a separate question. `switching_past` and `switching_reason` are collected conditionally on `dsp_user ∈ {yes, yes_free}`.
+**DSP usage variables**: `dsp_user` distinguishes paid subscribers (`yes`), free-tier users (`yes_free`), and non-users (`no`). `dsp_tier` (`paid`/`free`) is derived server-side from `dsp_user` — not collected as a separate question. `switching_past`, `switching_reason`, `churn_intent` are collected conditionally on `dsp_user ∈ {yes, yes_free}`.
+
+**Proxy P6 (AI tools acceptability)**: multi-select on hypothetical AI features (AI DJ, prompted playlists, AI remix/cover, in-app AI generator, or none). Stored as two columns: `proxy_p6` (numeric Likert 1–5, rescaled as `5 - count` where count is the number of features accepted excluding `none`; 5 = max resistance, 1 = all 4 tools accepted) and `proxy_p6_raw` (comma-separated string of selected codes for granular descriptive analysis).
 
 ## Audio Pretest
 

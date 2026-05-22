@@ -30,7 +30,7 @@ body {
 
 .progress-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #1DB954, #17a84a);
+  background: linear-gradient(90deg, #60a5fa, #1e40af);
   transition: width 0.4s ease;
 }
 
@@ -221,8 +221,8 @@ body {
 
 /* ── Global: blue accent for all form controls ──────────────────────────── */
 /* accent-color: fallback for browsers that support it natively */
-input[type="radio"]   { accent-color: #2563eb; }
-input[type="checkbox"]{ accent-color: #2563eb; }
+input[type="radio"]   { accent-color: #2563eb !important; }
+input[type="checkbox"]{ accent-color: #2563eb !important; }
 
 /* Bootstrap 5 radio: override bslib green completely.
    background-image contains the inner white dot SVG (fill=%23fff).
@@ -449,20 +449,21 @@ input[type="checkbox"]{ accent-color: #2563eb; }
   background: #fafafa;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  padding: 1.1rem 1.3rem 0.8rem;
+  padding: 0.9rem 1.1rem 0.7rem;
   margin-bottom: 1rem;
 }
 
 .dsp-policy-box h6 {
+  font-size: 1.05rem;
   font-weight: 700;
   color: #374151;
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.5rem;
 }
 
 .dsp-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.80rem;
+  font-size: 0.92rem;
   line-height: 1.45;
 }
 
@@ -639,6 +640,20 @@ input[type="checkbox"]{ accent-color: #2563eb; }
   padding: 1.25rem 1.5rem;
 }
 
+.framing-task h5 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.survey-page .survey-header h3 {
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 0;
+}
+
 .attr-list {
   margin: 0.75rem 0;
 }
@@ -800,6 +815,7 @@ input[type="checkbox"]{ accent-color: #2563eb; }
   justify-content: center;
   border-radius: 4px;
   background: #dbeafe;
+  color: #1d4ed8;
   border: none;
   font-size: 0.7rem;
   cursor: pointer;
@@ -810,10 +826,74 @@ input[type="checkbox"]{ accent-color: #2563eb; }
   flex-shrink: 0;
   white-space: nowrap;
   transition: background 0.15s;
+  animation: pill-pulse 2.4s ease-in-out infinite;
 }
 .btn-popover-img:hover,
 .btn-popover-img.pop-open {
   background: #bfdbfe;
+  animation: none;
+}
+@keyframes pill-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.30); }
+  50%      { box-shadow: 0 0 0 6px rgba(37, 99, 235, 0); }
+}
+
+/* ── AI tools checkbox group ─────────────────────────────────────────────── */
+.ai-tools-check,
+.ai-tools-check .shiny-input-checkboxgroup,
+.ai-tools-check .shiny-options-group {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.ai-tools-check .checkbox {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+.ai-tools-check .checkbox label {
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: #334155;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  cursor: pointer;
+  width: 100%;
+  max-width: 100%;
+  padding-left: 0;
+  margin: 0;
+}
+.ai-tools-check .checkbox input[type="checkbox"] {
+  margin-top: 0.3rem;
+  margin-left: 0;
+  position: static;
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+}
+.ai-tools-check .checkbox label > span {
+  flex: 1 1 auto;
+  min-width: 0;
+  word-wrap: break-word;
+}
+.ai-tools-none {
+  font-style: italic;
+  color: #64748b;
+}
+
+/* ── Info pill (non-tappable, grey, for citations and meta info) ────────── */
+.info-pill {
+  display: inline-block;
+  background: #e5e7eb;
+  color: #4b5563;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  padding: 0.1em 0.45em;
+  margin: 0 0.2em;
+  vertical-align: middle;
+  line-height: 1.4;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 /* Custom image popup box */
@@ -857,6 +937,25 @@ input[type="checkbox"]{ accent-color: #2563eb; }
 .lang-logo {
   height: 56px;
   width: auto;
+}
+
+/* Intro page logo (above title) */
+.intro-logo-wrap {
+  margin-bottom: 1rem;
+}
+.intro-logo {
+  height: 48px;
+  width: auto;
+}
+
+/* Thank-you page logo (centered at bottom) */
+.thankyou-logo-wrap {
+  margin-top: 1rem;
+}
+.thankyou-logo {
+  height: 44px;
+  width: auto;
+  opacity: 0.85;
 }
 
 /* Level 1: main title */
@@ -921,25 +1020,38 @@ input[type="checkbox"]{ accent-color: #2563eb; }
     font-size: 0.72rem;
   }
 
-  /* Audio buttons: 2-per-row chips on portrait mobile */
+  /* Audio buttons: 1-per-row on portrait mobile to preserve ordinal order
+     (Sicuramente umana → Sicuramente AI) */
   .audio-btn-group {
-    gap: 5px;
+    gap: 4px;
+    flex-direction: column;
   }
   .audio-btn-group label.btn {
-    flex: 1 1 45%;
+    flex: 0 0 auto;
+    width: 100%;
     border-left-width: 1px !important;
     border-radius: 6px !important;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.6rem;
+    text-align: left;
+    justify-content: flex-start;
   }
 
-  /* GAAIS / proxy / churn buttons: 2-per-row chips on portrait mobile */
+  /* GAAIS / proxy / churn buttons: 1-per-row on portrait mobile to preserve
+     ordinal reading order (top = strongly disagree → bottom = strongly agree) */
   .gaais-btn-group {
-    gap: 5px;
+    gap: 4px;
+    flex-direction: column;
   }
   .gaais-btn-group label.gaais-btn {
-    flex: 1 1 45%;
+    flex: 0 0 auto;
+    width: 100%;
     border-left-width: 1px !important;
     border-radius: 6px !important;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.6rem;
+    text-align: left;
+    justify-content: flex-start;
   }
 }
 

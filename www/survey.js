@@ -130,14 +130,25 @@ function validatePage(btnId) {
     }
   } else if (btnId === 'btn_proxy_next') {
     document.querySelectorAll('#page_proxy .gaais-item').forEach(function(item) {
-      if (!item.querySelector('input.btn-check:checked')) { flashInvalid(item); ok = false; }
+      // Likert proxy items use input.btn-check; P6 uses standard type=checkbox
+      var ok1 = item.querySelector('input.btn-check:checked');
+      var ok2 = item.querySelector('input[type="checkbox"]:checked');
+      if (!ok1 && !ok2) { flashInvalid(item); ok = false; }
     });
+    // Validate dsp_current selectInput when dsp_user is paid or free
+    var dspUserChk = document.querySelector('input[name="dsp_user"]:checked');
+    if (dspUserChk && (dspUserChk.value === 'yes' || dspUserChk.value === 'yes_free')) {
+      var dspSel = document.querySelector('select[name="dsp_current"]');
+      if (!dspSel || !dspSel.value) {
+        var container = document.getElementById('dsp_current');
+        flashInvalid(container && container.closest('.shiny-input-container') || container);
+        ok = false;
+      }
+    }
     var churn = document.querySelector('#page_proxy .churn-section');
-    if (churn && !churn.querySelector('input.btn-check:checked')) { flashInvalid(churn); ok = false; }
-    // dsp_user is a Shiny radioButtons widget (form-check-input), not btn-check
-    if (!document.querySelector('input[name="dsp_user"]:checked')) {
-      flashInvalid(document.getElementById('dsp_user'));
-      ok = false;
+    if (churn && churn.offsetParent !== null &&
+        !churn.querySelector('input.btn-check:checked')) {
+      flashInvalid(churn); ok = false;
     }
   }
   return ok;
@@ -194,6 +205,24 @@ $(document).on('change', 'input[name="dsp_user"]', function() {
   s.answers = s.answers || {};
   s.answers['dsp_user'] = $(this).val();
   _persist({answers: s.answers});
+});
+
+// ── AI tools checkbox (P6): toggle item-answered class based on any selection ─
+$(document).on('change', '.ai-tools-check input[type="checkbox"]', function() {
+  var item = $(this).closest('.gaais-item');
+  if (!item.length) return;
+  var anyChecked = item.find('input[type="checkbox"]:checked').length > 0;
+  if (anyChecked) item.addClass('item-answered');
+  else item.removeClass('item-answered');
+});
+
+// ── Select inputs inside .gaais-item (e.g. dsp_current): toggle item-answered ─
+$(document).on('change', '.gaais-item select', function() {
+  var item = $(this).closest('.gaais-item');
+  if (!item.length) return;
+  var v = $(this).val();
+  if (v && v !== '') item.addClass('item-answered');
+  else item.removeClass('item-answered');
 });
 
 // ── Select inputs: save progressively ────────────────────────────────────────

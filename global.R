@@ -49,12 +49,20 @@ GAAIS_ITEMS <- data.frame(
 
 # ── Proxy items (P1–P6) ──────────────────────────────────────────────────────
 # Two subscales, each a proxy for one SSAM dimension:
-#   proxy_d       (P1–P3): sonic discrimination proxy → D-index
+#   proxy_d         (P1–P3): sonic discrimination proxy → D-index (Likert 1–5)
 #   proxy_gaais_neg (P4–P6): semantic AI resistance proxy → gaais_neg
-# Item texts are in TR[[lang]]$proxy.
+#     - P4, P5: Likert 1–5 (rendered via btn_check_group in the proxy loop)
+#     - P6: checkbox on AI features acceptability, NOT rendered in the Likert
+#       loop. Stored as two columns: proxy_p6 (numeric 1–5, rescaled from the
+#       acceptance count: 5 = no tool accepted = max resistance, 1 = all 4
+#       tools accepted = min resistance) and proxy_p6_raw (comma-separated
+#       string of selected tool codes for granular descriptive analysis).
+#       proxy_p6 enters the Cronbach α composite with proxy_p4, proxy_p5.
+# PROXY_ITEMS below lists only the Likert items used by the UI iteration loop.
+# Item texts: TR[[lang]]$proxy. proxy_p6 question/options in TR[[lang]]$ai_tools_*.
 PROXY_ITEMS <- data.frame(
-  code     = c("proxy_p1","proxy_p2","proxy_p3","proxy_p4","proxy_p5","proxy_p6"),
-  subscale = c("proxy_d","proxy_d","proxy_d","proxy_gaais_neg","proxy_gaais_neg","proxy_gaais_neg"),
+  code     = c("proxy_p1","proxy_p2","proxy_p3","proxy_p4","proxy_p5"),
+  subscale = c("proxy_d","proxy_d","proxy_d","proxy_gaais_neg","proxy_gaais_neg"),
   stringsAsFactors = FALSE
 )
 
@@ -73,7 +81,7 @@ AUDIO_CLIPS <- data.frame(
 )
 
 # Choice label vectors are now per-language in TR[[lang]]:
-#   lik5, lik5p, freq_opts, bg_opts, fam_opts, aware_opts, audio_ch
+#   lik5, lik5p, freq_opts, bg_opts, fam_opts, audio_ch
 
 # ── Scoring functions ─────────────────────────────────────────────────────────
 

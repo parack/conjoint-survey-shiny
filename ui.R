@@ -68,6 +68,10 @@ ui <- function(request) {
   page_intro_div <- if (has_lang)
     div(id = "page_intro", class = "survey-page",
       div(class = "survey-container",
+        div(class = "intro-logo-wrap text-center",
+          tags$img(src = "logo_unitrento.jpg", class = "intro-logo",
+                   alt = "Universita di Trento")
+        ),
         div(class = "survey-header text-center",
           h2(class = "intro-h2", tr$intro_title, tags$br(), tr$intro_title2)
         ),
@@ -104,13 +108,13 @@ ui <- function(request) {
     theme = bs_theme(
       version    = 5,
       bootswatch = "flatly",
-      primary    = "#1DB954",
+      primary    = "#2563eb",
       font_scale = 1.05
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=21"),
-      tags$script(src = "survey.js?v=3")
+      tags$link(rel = "stylesheet", href = "style.css?v=32"),
+      tags$script(src = "survey.js?v=5")
     ),
 
     # ── Progress bar ──────────────────────────────────────────────────────────
@@ -213,9 +217,10 @@ ui <- function(request) {
             div(class = "attr-row-framing attr-row-a",
               tags$span(class = "attr-icon", "•"),
               div(tags$strong(class = "attr-lbl-colored", tr$attr_a_lbl),
+                  tr$attr_a_desc,
                   tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;",
-                              `data-img` = "ai_label.png", "es. \U0001F446"),
-                  tr$attr_a_desc, tr$attr_a_levels)
+                              `data-img` = "ai_label.png", tr$attr_a_pill),
+                  tr$attr_a_levels)
             ),
             div(class = "attr-row-framing attr-row-b",
               tags$span(class = "attr-icon", "•"),
@@ -273,24 +278,39 @@ ui <- function(request) {
                 )
               )
             )
-          })
+          }),
+          # Item 6: AI tools acceptability checkbox (behavioural proxy for GAAIS_neg)
+          div(class = "gaais-item",
+            p(class = "item-text", paste0(nrow(PROXY_ITEMS) + 1, ". ", tr$ai_tools_q)),
+            div(class = "ai-tools-check",
+              checkboxGroupInput("ai_tools_acceptable",
+                label = NULL,
+                choiceNames  = tr$ai_tools_opts_html,
+                choiceValues = tr$ai_tools_opts_val,
+                selected = character(0)
+              )
+            )
+          )
         ),
         hr(),
         h5(tr$dsp_h5),
-        radioButtons("dsp_user",
-          label    = tr$dsp_user_q,
-          choices  = tr$dsp_yn,
-          selected = character(0),
-          inline   = TRUE
+        div(class = "gaais-item",
+          p(class = "item-text", tr$dsp_user_q),
+          div(class = "gaais-btn-group",
+            btn_check_group(tr$dsp_yn, "dsp_user", "dsp_user",
+                            extra_lbl_class = "gaais-btn")
+          )
         ),
         conditionalPanel(
           condition = "input.dsp_user === 'yes' || input.dsp_user === 'yes_free'",
-          sel("dsp_current", tr$dsp_svc_lbl,  tr$dsp_opts),
+          div(class = "gaais-item",
+            sel("dsp_current", tr$dsp_svc_lbl,  tr$dsp_opts)
+          ),
           div(class = "gaais-item mt-2",
             p(class = "item-text", tr$switching_past_q),
-            div(class = "radio-v-group",
+            div(class = "gaais-btn-group",
               btn_check_group(tr$switching_past_opts, "switching_past", "sp",
-                              extra_lbl_class = "btn-radio-v")
+                              extra_lbl_class = "gaais-btn")
             )
           ),
           conditionalPanel(
@@ -306,15 +326,8 @@ ui <- function(request) {
         ),
         conditionalPanel(
           condition = "input.dsp_user === 'yes' || input.dsp_user === 'yes_free'",
-          div(class = "gaais-list",
-            div(class = "gaais-item",
-              p(class = "item-text", tr$aware_q),
-              div(class = "gaais-btn-group",
-                btn_check_group(tr$aware_opts, "ai_awareness", "ai_aware", extra_lbl_class = "gaais-btn"))
-            )
-          ),
-          div(class = "churn-section mt-3",
-            p(tr$churn_q),
+          div(class = "gaais-item churn-section mt-3",
+            p(class = "item-text", tr$churn_q),
             div(class = "gaais-btn-group mt-2",
               btn_check_group(
                 setNames(as.character(1:5), tr$lik5p),
@@ -388,6 +401,10 @@ ui <- function(request) {
 
         p(class = "small mt-3", style = "color:#2563eb;", tr$ty_close),
         hr(),
+        div(class = "thankyou-logo-wrap text-center mb-3",
+          tags$img(src = "logo_unitrento.jpg", class = "thankyou-logo",
+                   alt = "Universita di Trento")
+        ),
         div(class = "text-muted small",
           p(tr$ty_contact),
           tr$contact_info

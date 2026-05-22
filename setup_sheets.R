@@ -37,7 +37,8 @@ headers <- list(
                             rep(c("_rating","_type"), each=4))
     gaais_cols    <- paste0("gaais_", GAAIS_ITEMS$code)
     proxy_cols    <- PROXY_ITEMS$code   # proxy_p1 … proxy_p6
-    other_cols    <- c("churn_intent","switching_past","switching_reason","ai_awareness",
+    other_cols    <- c("churn_intent","switching_past","switching_reason",
+                       "proxy_p6","proxy_p6_raw",
                        "dsp_user","dsp_current","dsp_tier",
                        "age","gender","role","country")
     all_cols      <- c("respondent_id", "lang", audio_cols, "d_index",
@@ -47,12 +48,16 @@ headers <- list(
   },
 
   # ── Funnel: one row per navigation event (step-by-step dropout tracking) ──
+  # duration_sec = seconds spent in the section that just ended (= time since
+  # the previous funnel event for the same respondent, or since session start
+  # for the first event).
   Funnel = data.frame(
     respondent_id = character(),
     lang          = character(),
     event         = character(),
     detail        = character(),
     ts            = character(),
+    duration_sec  = integer(),
     stringsAsFactors = FALSE
   ),
 
@@ -63,7 +68,8 @@ headers <- list(
     gaais_cols  <- paste0("gaais_", GAAIS_ITEMS$code)
     proxy_cols  <- PROXY_ITEMS$code
     choice_cols <- paste0("choice_", seq_len(N_TASKS))
-    dsp_cols    <- c("churn_intent","switching_past","switching_reason","ai_awareness",
+    dsp_cols    <- c("churn_intent","switching_past","switching_reason",
+                     "proxy_p6","proxy_p6_raw",
                      "dsp_user","dsp_current","dsp_tier")
     all_cols    <- c("respondent_id","lang","ts",
                      audio_cols, "d_index","gaais_pos","gaais_neg",
