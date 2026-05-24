@@ -43,7 +43,7 @@ TR <- list(
     ),
     dsp_yn     = c("No"="no", "Sì, gratuito"="yes_free", "Sì, a pagamento"="yes"),
 
-    ai_tools_q       = "Quali tra queste funzionalità AI riterrebbe accettabili sulla sua piattaforma di streaming musicale? (Selezioni tutte quelle che ritiene appropriate)",
+    ai_tools_q       = "Quali tra queste funzionalità di AI generativa riterrebbe accettabili sulla sua piattaforma ideale di streaming musicale? (Selezioni tutte quelle che ritiene appropriate)",
     ai_tools_opts_html = list(
       HTML("<strong>AI DJ</strong> &mdash; voce AI che commenta e adatta la selezione musicale alle sue indicazioni in tempo reale"),
       HTML("<strong>Playlist da prompt</strong> &mdash; generate descrivendole a parole (es. &laquo;playlist per una sera con amici&raquo;)"),
@@ -60,13 +60,13 @@ TR <- list(
     ),
     A2 = c(
       "<strong>Non inclusa</strong>: solo tramite ricerca dell'utente",
-      "<strong>Inclusa</strong>: in home page e playlist",
+      "<strong>Inclusa</strong> in playlist e raccomandazioni",
       "<strong>Inclusa + sezione AI dedicata</strong>"
     ),
     A3 = c(
       "<strong>Nessuno</strong>",
-      "<strong>Filtro parziale</strong>: esclusa dalle playlist personalizzate, resta nei risultati di ricerca e nelle playlist generaliste",
-      "<strong>Filtro completo</strong>: blocco totale sulla piattaforma"
+      "<strong>Filtro brani AI</strong>",
+      "<strong>Filtro brani + funzionalità AI</strong>"
     ),
 
     gaais = c(
@@ -209,17 +209,15 @@ TR <- list(
     ),
 
     dsp_policy_h    = tagList("Come si stanno muovendo le piattaforme ", tags$span(class = "info-pill", "giugno 2026")),
-    dsp_spotify     = "Label AI volontaria nei credenziali + badge 'Verified by Spotify' sui profili umani verificati; artisti prevalentemente AI esclusi",
+    dsp_spotify     = "Label AI volontaria dichiarata dall'artista; badge 'Verified by Spotify' sui profili umani verificati; creazione di cover e remix AI a partire da brani del catalogo",
     dsp_apple       = "Tag di trasparenza volontari per 4 categorie: traccia, artwork, composizione, video",
-    dsp_deezer      = "Algoritmo brevettato di rilevazione dei contenuti AI; esclusione dalle playlist algoritmiche ed editoriali",
+    dsp_deezer      = "Rilevazione algoritmica; tag espliciti su tracce/album; esclusione da playlist algoritmiche ed editoriali; tutela attiva dei diritti d'autore e delle royalties degli artisti",
     dsp_amazon      = "Nessuna policy specifica; brani AI accettati senza obbligo di disclosure",
     dsp_policy_note  = "",
     dsp_badge_deezer = "Rilevazione algoritmica",
     dsp_badge_spotify= "Autodichiarazione",
     dsp_badge_apple  = "Autodichiarazione",
     dsp_badge_amazon = "Nessuna iniziativa",
-
-    sq_note     = tagList("Come riferimento: oggi la maggior parte dei servizi di streaming non applica alcuna policy AI specifica e offre abbonamenti a circa ", tags$strong("11,99 €/mese"), "."),
 
     framing_bridge = "A partire da questo contesto, Le chiediamo di esprimere le Sue preferenze attraverso una serie di scelte tra configurazioni di abbonamento differenziate.",
     task_h5     = "Come leggere le schede di scelta",
@@ -236,22 +234,22 @@ TR <- list(
     attr_b_desc   = " - In che misura la musica AI compare nell'esperienza utente.",
     attr_b_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("Non inclusa:"), " solo tramite ricerca dell'utente.")),
-      tags$li(tagList(tags$strong("Inclusa:"), " in home page e playlist.")),
+      tags$li(tagList(tags$strong("Inclusa nelle raccomandazioni:"), " playlist, radio, brani simili, code automatiche.")),
       tags$li(tagList(tags$strong("Inclusa + sezione AI dedicata."),
         tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "es. sezione AI \U0001F446")))
     ),
     attr_c_lbl    = "Controllo utente",
-    attr_c_desc   = " - Strumenti per gestire la presenza di musica AI.",
+    attr_c_desc   = " - Strumenti per gestire la presenza di musica AI e l'uso delle funzionalità AI generative.",
+    attr_c_pill   = "es. filtri AI \U0001F446",
     attr_c_levels = tags$ul(class = "levels-list",
       tags$li(tags$strong("Nessuno.")),
-      tags$li(tagList(tags$strong("Filtro parziale:"), " esclusa dalle playlist personalizzate, resta nei risultati di ricerca e nelle playlist generaliste.")),
-      tags$li(tagList(tags$strong("Filtro completo:"), " blocco totale sulla piattaforma.",
-        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "es. filtro AI \U0001F446")))
+      tags$li(tagList(tags$strong("Filtro brani AI:"), " l'utente può escludere la musica AI dall'esperienza di ascolto.")),
+      tags$li(tagList(tags$strong("Filtro completo:"), " include il filtro brani + disattivazione delle funzionalità AI generative (es. AI DJ, playlist da prompt, remix AI)."))
     ),
     attr_d_lbl    = "Prezzo mensile",
-    attr_d_desc   = " - Il costo mensile dell'abbonamento.",
-    attr_d_levels = tags$p(class = "levels-list",
-      tagList("Tre livelli possibili: ", tags$strong("9,99"), " / ", tags$strong("11,99"), " / ", tags$strong("13,99"), " euro al mese.")
+    attr_d_desc   = HTML(" - Il costo mensile dell'abbonamento. <em>Per riferimento, oggi la maggior parte dei servizi offre abbonamenti individuali a circa <strong>11,99 &euro;/mese</strong>.</em>"),
+    attr_d_levels = tags$ul(class = "levels-list",
+      tags$li(tagList("Tre livelli possibili: ", tags$strong("9,99"), " / ", tags$strong("11,99"), " / ", tags$strong("13,99"), " euro al mese."))
     ),
     task_p2       = "",
     btn_start_cbc = "Inizia le scelte",
@@ -271,8 +269,8 @@ TR <- list(
     switching_past_q   = "Negli ultimi 24 mesi ha cambiato piattaforma o modificato il piano di abbonamento?",
     switching_reason_q = "Per quale motivo principale?",
     churn_q     = tagList(
-      "Se il servizio di streaming che utilizza non introducesse alcuna ",
-      tags$strong("politica di trasparenza"),
+      "Se il servizio di streaming che utilizza non introducesse ",
+      tags$strong("ulteriori politiche di trasparenza"),
       " sulla musica generata dall'AI nei prossimi 12 mesi, quanto sarebbe propenso/a a cancellare o cambiare abbonamento?"
     ),
 
@@ -337,7 +335,7 @@ TR <- list(
     ),
     dsp_yn     = c("No"="no", "Yes, free"="yes_free", "Yes, paid"="yes"),
 
-    ai_tools_q       = "Which of these AI features would you consider acceptable on your music streaming platform? (Select all that apply)",
+    ai_tools_q       = "Which of these generative AI features would you consider acceptable on your ideal music streaming platform? (Select all that apply)",
     ai_tools_opts_html = list(
       HTML("<strong>AI DJ</strong> &mdash; AI voice that comments on and adapts the music selection to your real-time directions"),
       HTML("<strong>Prompted playlists</strong> &mdash; generated by describing them in words (e.g. &laquo;a playlist for an evening with friends&raquo;)"),
@@ -354,13 +352,13 @@ TR <- list(
     ),
     A2 = c(
       "<strong>Not included</strong>: only via user search",
-      "<strong>Included</strong>: in home page and playlists",
+      "<strong>Included</strong> in playlists and recommendations",
       "<strong>Included + dedicated AI section</strong>"
     ),
     A3 = c(
       "<strong>None</strong>",
-      "<strong>Partial filter</strong>: excluded from personalised playlists, remains in search results and general playlists",
-      "<strong>Full filter</strong>: total block on the platform"
+      "<strong>AI tracks filter</strong>",
+      "<strong>AI tracks + features filter</strong>"
     ),
 
     gaais = c(
@@ -432,13 +430,16 @@ TR <- list(
 
     survey_warn  = "Please note: if possible, avoid refreshing the page or using the browser's Back button during the survey. Once you press Next in each section, your answers cannot be changed.",
 
-    what_asked_h = "What will be asked of you?",
-    what_asked   = tags$ol(
-      tags$li("Your general opinions on artificial intelligence"),
-      tags$li("Choices between different streaming subscription configurations"),
-      tags$li("A short listening task to evaluate music clips"),
-      tags$li("Questions about your listening habits and perception of AI music"),
-      tags$li("Some demographic information")
+    what_asked_h = "What will be asked of you:",
+    what_asked   = tagList(
+      tags$p("The survey is organised into 5 sections in which you will be asked to:"),
+      tags$ol(
+        tags$li("Share your general views on artificial intelligence;"),
+        tags$li("Make choices among different music streaming subscription offers;"),
+        tags$li("Complete a brief listening task to evaluate music clips;"),
+        tags$li("Answer questions concerning your listening habits and perception of AI-generated music;"),
+        tags$li("Provide some demographic information.")
+      )
     ),
 
     c_part_lbl = "Participation:",
@@ -503,17 +504,15 @@ TR <- list(
     ),
 
     dsp_policy_h    = tagList("How platforms are responding ", tags$span(class = "info-pill", "June 2026")),
-    dsp_spotify     = "Voluntary AI label in song credits + 'Verified by Spotify' badge for human-verified profiles; AI-primary artists excluded",
+    dsp_spotify     = "Voluntary AI label declared by the artist; 'Verified by Spotify' badge on human-verified profiles; AI cover and remix creation from existing catalogue tracks",
     dsp_apple       = "Voluntary transparency tags for 4 categories: track, artwork, composition, video",
-    dsp_deezer      = "Patented AI-detection algorithm; exclusion from algorithmic and editorial playlists",
+    dsp_deezer      = "Algorithmic detection; explicit tags on tracks/albums; exclusion from algorithmic and editorial playlists; active protection of artists' copyright and royalties",
     dsp_amazon      = "No specific policy; AI tracks accepted without disclosure requirement",
     dsp_policy_note  = "",
     dsp_badge_deezer = "Algorithmic detection",
     dsp_badge_spotify= "Self-declaration",
     dsp_badge_apple  = "Self-declaration",
     dsp_badge_amazon = "No initiative",
-
-    sq_note     = tagList("For reference: most streaming services today apply no specific AI policy and offer subscriptions at around ", tags$strong("€11.99/month"), "."),
 
     framing_bridge = "Based on this context, we ask you to express your preferences through a series of choices between differentiated subscription configurations.",
     task_h5     = "How to read the choice cards",
@@ -530,22 +529,22 @@ TR <- list(
     attr_b_desc   = " - The extent to which AI music appears in the user experience.",
     attr_b_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("Not included:"), " only via user search.")),
-      tags$li(tagList(tags$strong("Included:"), " in home page and playlists.")),
+      tags$li(tagList(tags$strong("Included in recommendations:"), " playlists, radio, similar tracks, automated queues.")),
       tags$li(tagList(tags$strong("Included + dedicated AI section."),
         tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "e.g. AI section \U0001F446")))
     ),
     attr_c_lbl    = "User control",
-    attr_c_desc   = " - Tools to manage the presence of AI music.",
+    attr_c_desc   = " - Tools to manage the presence of AI music and the use of generative AI features.",
+    attr_c_pill   = "e.g. AI filters \U0001F446",
     attr_c_levels = tags$ul(class = "levels-list",
       tags$li(tags$strong("None.")),
-      tags$li(tagList(tags$strong("Partial filter:"), " excluded from personalised playlists, remains in search results and general playlists.")),
-      tags$li(tagList(tags$strong("Full filter:"), " total block on the platform.",
-        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "e.g. AI filter \U0001F446")))
+      tags$li(tagList(tags$strong("AI tracks filter:"), " users can exclude AI music from their listening experience.")),
+      tags$li(tagList(tags$strong("Full filter:"), " includes the tracks filter + disabling of generative AI features (e.g. AI DJ, prompted playlists, AI remixes)."))
     ),
     attr_d_lbl    = "Monthly price",
-    attr_d_desc   = " - The monthly cost of the subscription.",
-    attr_d_levels = tags$p(class = "levels-list",
-      tagList("Three possible levels: ", tags$strong("9.99"), " / ", tags$strong("11.99"), " / ", tags$strong("13.99"), " euros per month.")
+    attr_d_desc   = HTML(" - The monthly cost of the subscription. <em>For reference, most services today offer individual subscriptions at around <strong>&euro;11.99/month</strong>.</em>"),
+    attr_d_levels = tags$ul(class = "levels-list",
+      tags$li(tagList("Three possible levels: ", tags$strong("9.99"), " / ", tags$strong("11.99"), " / ", tags$strong("13.99"), " euros per month."))
     ),
     task_p2       = "",
     btn_start_cbc = "Start choices",
@@ -566,7 +565,7 @@ TR <- list(
     switching_reason_q = "What was the main reason?",
     churn_q     = tagList(
       "If the streaming service you use were to introduce ",
-      tags$strong("no transparency policy"),
+      tags$strong("no additional transparency policy"),
       " on AI-generated music over the next 12 months, how likely would you be to cancel or switch your subscription?"
     ),
 
@@ -632,7 +631,7 @@ TR <- list(
     ),
     dsp_yn     = c("Non"="no", "Oui, gratuit"="yes_free", "Oui, payant"="yes"),
 
-    ai_tools_q       = "Lesquelles de ces fonctionnalités IA jugeriez-vous acceptables sur votre plateforme de streaming musical ? (Sélectionnez toutes celles qui s'appliquent)",
+    ai_tools_q       = "Lesquelles de ces fonctionnalités d'IA générative jugeriez-vous acceptables sur votre plateforme idéale de streaming musical ? (Sélectionnez toutes celles qui s'appliquent)",
     ai_tools_opts_html = list(
       HTML("<strong>AI DJ</strong> &mdash; voix IA qui commente et adapte la sélection musicale à vos indications en temps réel"),
       HTML("<strong>Playlists par prompt</strong> &mdash; générées en les décrivant par des mots (ex. &laquo;une playlist pour une soirée entre amis&raquo;)"),
@@ -649,13 +648,13 @@ TR <- list(
     ),
     A2 = c(
       "<strong>Non incluse</strong> : uniquement via la recherche",
-      "<strong>Incluse</strong> : en page d'accueil et playlists",
+      "<strong>Incluse</strong> dans les playlists et recommandations",
       "<strong>Incluse + section IA dédiée</strong>"
     ),
     A3 = c(
       "<strong>Aucun</strong>",
-      "<strong>Filtre partiel</strong> : exclue des playlists personnalisées, reste dans les résultats de recherche et les playlists généralistes",
-      "<strong>Filtre complet</strong> : blocage total sur la plateforme"
+      "<strong>Filtre titres IA</strong>",
+      "<strong>Filtre titres + fonctionnalités IA</strong>"
     ),
 
     gaais = c(
@@ -727,13 +726,16 @@ TR <- list(
 
     survey_warn  = "Attention : si possible, évitez de rafraîchir la page ou d'utiliser le bouton Précédent du navigateur pendant le sondage. Une fois le bouton Suivant pressé dans chaque section, vos réponses ne pourront plus être modifiées.",
 
-    what_asked_h = "Ce qu'on vous demandera ?",
-    what_asked   = tags$ol(
-      tags$li("Indiquer vos opinions générales sur l'intelligence artificielle"),
-      tags$li("Effectuer des choix entre différentes configurations d'abonnement à un service de streaming"),
-      tags$li("Réaliser une courte tâche d'écoute pour évaluer des extraits musicaux"),
-      tags$li("Répondre à des questions sur vos habitudes d'écoute et votre perception de la musique IA"),
-      tags$li("Fournir quelques informations démographiques")
+    what_asked_h = "Ce qu'il vous sera demandé :",
+    what_asked   = tagList(
+      tags$p("Le questionnaire est divisé en 5 sections dans lesquelles il vous sera demandé de :"),
+      tags$ol(
+        tags$li("Donner votre opinion générale sur l'intelligence artificielle ;"),
+        tags$li("Effectuer des choix entre différentes offres d'abonnement à des services de streaming musical ;"),
+        tags$li("Réaliser une courte tâche d'écoute afin d'évaluer des extraits musicaux ;"),
+        tags$li("Répondre à des questions concernant vos habitudes d'écoute et votre perception de la musique générée par IA ;"),
+        tags$li("Fournir quelques informations démographiques.")
+      )
     ),
 
     c_part_lbl = "Participation :",
@@ -798,17 +800,15 @@ TR <- list(
     ),
 
     dsp_policy_h    = tagList("Comment les plateformes réagissent ", tags$span(class = "info-pill", "juin 2026")),
-    dsp_spotify     = "Label IA volontaire dans les crédits + badge « Verified by Spotify » sur les profils humains vérifiés ; artistes principalement IA exclus",
+    dsp_spotify     = "Label IA volontaire déclaré par l'artiste ; badge « Verified by Spotify » sur les profils humains vérifiés ; création de covers et remix IA à partir de titres du catalogue",
     dsp_apple       = "Tags de transparence volontaires pour 4 catégories : titre, artwork, composition, vidéo",
-    dsp_deezer      = "Algorithme breveté de détection des contenus IA ; exclusion des playlists algorithmiques et éditoriales",
+    dsp_deezer      = "Détection algorithmique ; étiquettes explicites sur titres/albums ; exclusion des playlists algorithmiques et éditoriales ; protection active des droits d'auteur et des revenus des artistes",
     dsp_amazon      = "Aucune politique spécifique ; titres IA acceptés sans obligation de déclaration",
     dsp_policy_note  = "",
     dsp_badge_deezer = "Détection algorithmique",
     dsp_badge_spotify= "Autodéclaration",
     dsp_badge_apple  = "Autodéclaration",
     dsp_badge_amazon = "Aucune initiative",
-
-    sq_note     = tagList("Pour référence : la plupart des services de streaming n'appliquent aujourd'hui aucune politique IA spécifique et proposent des abonnements à environ ", tags$strong("11,99 €/mois"), "."),
 
     framing_bridge = "Sur la base de ce contexte, nous vous demandons d'exprimer vos préférences à travers une série de choix entre des configurations d'abonnement différenciées.",
     task_h5     = "Comment lire les fiches de choix",
@@ -825,22 +825,22 @@ TR <- list(
     attr_b_desc   = " - Dans quelle mesure la musique IA apparaît dans l'expérience utilisateur.",
     attr_b_levels = tags$ul(class = "levels-list",
       tags$li(tagList(tags$strong("Non incluse :"), " uniquement via la recherche.")),
-      tags$li(tagList(tags$strong("Incluse :"), " en page d'accueil et playlists.")),
+      tags$li(tagList(tags$strong("Incluse dans les recommandations :"), " playlists, radio, titres similaires, files d'attente automatiques.")),
       tags$li(tagList(tags$strong("Incluse + section IA dédiée."),
         tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_section_ui.png", "ex. section IA \U0001F446")))
     ),
     attr_c_lbl    = "Contrôle utilisateur",
-    attr_c_desc   = " - Outils pour gérer la présence de musique IA.",
+    attr_c_desc   = " - Outils pour gérer la présence de musique IA et l'usage des fonctionnalités IA génératives.",
+    attr_c_pill   = "ex. filtres IA \U0001F446",
     attr_c_levels = tags$ul(class = "levels-list",
       tags$li(tags$strong("Aucun.")),
-      tags$li(tagList(tags$strong("Filtre partiel :"), " exclue des playlists personnalisées, reste dans les résultats de recherche et les playlists généralistes.")),
-      tags$li(tagList(tags$strong("Filtre complet :"), " blocage total sur la plateforme.",
-        tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;", `data-img` = "ai_switch.png", "ex. filtre IA \U0001F446")))
+      tags$li(tagList(tags$strong("Filtre titres IA :"), " l'utilisateur peut exclure la musique IA de son expérience d'écoute.")),
+      tags$li(tagList(tags$strong("Filtre complet :"), " inclut le filtre titres + désactivation des fonctionnalités IA génératives (ex. AI DJ, playlists par prompt, remix IA)."))
     ),
     attr_d_lbl    = "Prix mensuel",
-    attr_d_desc   = " - Le coût mensuel de l'abonnement.",
-    attr_d_levels = tags$p(class = "levels-list",
-      tagList("Trois niveaux possibles : ", tags$strong("9,99"), " / ", tags$strong("11,99"), " / ", tags$strong("13,99"), " euros par mois.")
+    attr_d_desc   = HTML(" - Le coût mensuel de l'abonnement. <em>Pour référence, la plupart des services proposent aujourd'hui des abonnements individuels à environ <strong>11,99 &euro;/mois</strong>.</em>"),
+    attr_d_levels = tags$ul(class = "levels-list",
+      tags$li(tagList("Trois niveaux possibles : ", tags$strong("9,99"), " / ", tags$strong("11,99"), " / ", tags$strong("13,99"), " euros par mois."))
     ),
     task_p2       = "",
     btn_start_cbc = "Commencer les choix",
@@ -860,8 +860,8 @@ TR <- list(
     switching_past_q   = "Au cours des 24 derniers mois, avez-vous changé de plateforme ou modifié votre abonnement ?",
     switching_reason_q = "Quelle a été la raison principale ?",
     churn_q     = tagList(
-      "Si le service de streaming que vous utilisez n'introduisait aucune ",
-      tags$strong("politique de transparence"),
+      "Si le service de streaming que vous utilisez n'introduisait pas de ",
+      tags$strong("politique de transparence supplémentaire"),
       " sur la musique générée par l'IA au cours des 12 prochains mois, dans quelle mesure seriez-vous enclin(e) à résilier ou changer votre abonnement ?"
     ),
 

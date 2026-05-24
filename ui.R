@@ -113,7 +113,10 @@ ui <- function(request) {
     ),
     useShinyjs(),
     tags$head(
-      tags$link(rel = "stylesheet", href = "style.css?v=32"),
+      tags$title("AI Music Governance — CBC Survey"),
+      tags$link(rel = "icon", type = "image/png", href = "favicon.png"),
+      tags$link(rel = "shortcut icon", href = "favicon.png"),
+      tags$link(rel = "stylesheet", href = "style.css?v=33"),
       tags$script(src = "survey.js?v=5")
     ),
 
@@ -230,16 +233,16 @@ ui <- function(request) {
             div(class = "attr-row-framing attr-row-c",
               tags$span(class = "attr-icon", "•"),
               div(tags$strong(class = "attr-lbl-colored", tr$attr_c_lbl),
-                  tr$attr_c_desc, tr$attr_c_levels)
+                  tr$attr_c_desc,
+                  tags$button(type = "button", class = "btn-popover-img", style = "font-size:0.85rem;",
+                              `data-img` = "ai_switch.png", tr$attr_c_pill),
+                  tr$attr_c_levels)
             ),
             div(class = "attr-row-framing attr-row-d",
               tags$span(class = "attr-icon", "•"),
               div(tags$strong(class = "attr-lbl-colored", tr$attr_d_lbl),
                   tr$attr_d_desc, tr$attr_d_levels)
             )
-          ),
-          div(class = "audio-context-box mt-3",
-            div(class = "context-a", tr$sq_note)
           ),
           p(class = "mt-3", tr$task_p2)
         ),
