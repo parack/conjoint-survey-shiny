@@ -29,12 +29,14 @@ The survey is administered in **Italian, English, and French** and consists of 7
 
 | Attribute | Level 1 | Level 2 | Level 3 |
 |---|---|---|---|
-| A1 — AI Labelling | No consumer-facing label | Voluntary label (self-disclosure) | Mandatory label (platform-verified) |
-| A2 — AI Promotion | Not included in any playlist | Recommended & general playlists | Playlists + dedicated AI space |
-| A3 — User Control | None | Partial filter: opt-out from personalised playlists | Full block: AI tracks removed platform-wide |
-| A4 — Monthly Price | €9.99 | €11.99 | €13.99 |
+| A1 — AI Labelling | No label (artist self-declaration not required) | Voluntary label (declared by the artist) | Mandatory label (verified by the platform via proprietary algorithm) |
+| A2 — AI Promotion | Not included: only via user search | Included in algorithmic recommendations (playlists, radio, similar tracks, automated queues) | Included + dedicated AI section for listening |
+| A3 — User Control | None | AI tracks filter: users can exclude AI music from their listening experience | Full filter: tracks filter + disabling of generative AI features (AI DJ, prompted playlists, AI remixes) |
+| A4 — Monthly Price | €9.99 | €11.99 (≈ market reference for individual tier) | €13.99 |
 
 Status quo benchmark: A1=L1, A2=L2, A3=L1, €11.99/month.
+
+**A3 dual-filter design rationale**: A3=L2 is a content-only filter (orthogonal to A2 because it acts on individual AI tracks regardless of how the platform surfaces them). A3=L3 adds a second filter that disables the platform's generative AI features (AI DJ, prompted playlists, AI remixes), enabling a direct test of the content-to-tool spillover hypothesis (see H6 below). This avoids the A2×A3 degeneracy that arises when filter levels are defined relative to A2's promotion contexts.
 
 ## Segmentation: Sonic-Semantic Acceptance Matrix (SSAM)
 
@@ -50,17 +52,27 @@ This yields 4 quadrants:
 | **Low D (unaware)** | I/I — Unaware Indifferent | I/R — Unaware Resistant |
 | **High D (discriminating)** | D/I — Discriminating Indifferent | D/R — Discriminating Resistant |
 
-Proxy operationalisation: 3-item sonic-discrimination proxy (→ D-index) and 3-item AI-resistance proxy (→ GAAIS_neg) allow DSP-observable behavioural segmentation without psychometric instruments.
+Proxy operationalisation: 3-item sonic-discrimination proxy (P1–P3, Likert 1–5 → D-index) and 3-item AI-resistance proxy (P4–P5 Likert preference for human curation and active block intent + P6 derived from the AI features acceptability checkbox → GAAIS_neg). The composite allows DSP-observable behavioural segmentation without psychometric instruments (DSP-relevant signals: audio quality preference, repeat listening, filter activations, low engagement with platform AI features).
 
 ## Analytical Pipeline
 | Phase | Content |
 |---|---|
-| `Phase 0 — Data preparation & instrument validation` | Data preparation, exclusion of invalid responses, Chronbach test of instruments and convegence test of proxy variables. SSAM creation.|
-| `Phase 1 — Aggregate Mixed MNL stepwise (H1–H4)` | Stepwise estimation via `apollo`: from fixed MNL - progressive introduction of random parameters and behavioural covariates. WTP estimation, H1-H4 Test.|
-| `Phase 2 — Structured SSAM heterogeneity (H5a–H5c, H5a'–H5c')` | **Primary (H5a–H5c):** extended MMNL with continuous moderators `gaais_neg_z×A1/A2/A3` and `D_z×A1/A2/A3`, directional Wald tests. **Exploratory (H5a'–H5c'):** median split → 4 SSAM quadrants; individual posterior part-worths from M_final; extended MMNL with interactions `quadrant×A1/A2/A3` (I/I as reference), LRT vs M_final.|
-| `Phase 3 — Robustness checks & supplementary analyses` | AI-trust moderation of A2: `A2×gaais_pos_z`, Wald test. Proxy validation: regression `D ~ proxy-D` and `gaais_neg ~ proxy-GAAIS_neg`; re-estimation of M_final with proxy composites.|
-| `Phase 4 — Policy simulation multi-benchmark` | Configuration × benchmark matrix identifying configurations with non-negative net WTP per operator. Exploratory segment level analysis of configuration-benchmark-pair.|
-| `Phase 5 — External triangulation: stated vs. revealed` | Correlation individual WTP ↔ `churn_intent` by quadrant. Behavioural triangulation via `switching_past` and `policy_dissatisfaction`. Optional moderation by `proxy_p6` (rescaled AI-tools acceptance) or by specific tool dummies from `proxy_p6_raw`. |
+| `Phase 0 — Data preparation & instrument validation` | Data preparation, exclusion of invalid responses, Cronbach α of instruments and convergent validity of proxy variables vs psychometric scales. **Primary SSAM** built on D-index (audio task) and GAAIS_neg (psychometric scale). **Sensitivity-check SSAM** (planned) built on composite latent indicators: X-axis combining D-index + proxy_d (P1–P3) + self_ability via inverse-variance weighting or CFA factor scores; Y-axis combining GAAIS_neg + proxy_gaais_neg (P4–P6). The two SSAMs are compared at the classification level to assess robustness of segment assignments to measurement choice. |
+| `Phase 1 — Aggregate Mixed MNL stepwise (H1–H4, H6)` | Stepwise estimation via `apollo`: from fixed MNL, progressive introduction of random parameters and behavioural covariates. WTP estimation. **H1–H4** test directional effects on A1, A2, A3 levels. **H6 (exploratory)**: spillover content→tool, tested as β(A3=L3) − β(A3=L2) > 0 — additional WTP for disabling generative AI features beyond content filtering. |
+| `Phase 2 — Structured SSAM heterogeneity (H5a–H5c, H5a'–H5c')` | **Primary (H5a–H5c):** extended MMNL with continuous moderators `gaais_neg_z×A1/A2/A3` and `D_z×A1/A2/A3`, directional Wald tests. **Exploratory (H5a'–H5c'):** median split → 4 SSAM quadrants; individual posterior part-worths from M_final; extended MMNL with interactions `quadrant×A1/A2/A3` (I/I as reference), LRT vs M_final. |
+| `Phase 3 — Robustness checks & supplementary analyses` | AI-trust moderation of A2: `A2×gaais_pos_z`, Wald test. Proxy validation: regression `D ~ proxy-D` and `gaais_neg ~ proxy-GAAIS_neg`; re-estimation of M_final with proxy composites. Convergent validity check between proxy_p6 (numeric) and proxy_p6_raw (granular tool selection). |
+| `Phase 4 — Policy simulation multi-benchmark` | Configuration × benchmark matrix identifying configurations with non-negative net WTP per operator. Exploratory segment level analysis of configuration-benchmark-pair, including addressability criteria (lift, segment size, lower CI > 0, churn_intent comparison). |
+| `Phase 5 — External triangulation: stated vs. revealed` | Correlation individual WTP ↔ `churn_intent` by quadrant. Behavioural triangulation via `switching_past` and `policy_dissatisfaction` share. Optional moderation by `proxy_p6` (rescaled AI-tools acceptance) or by specific tool dummies from `proxy_p6_raw`. |
+
+### Hypothesis H6 (exploratory): content-to-tool spillover
+
+The dual-filter design of A3 (L2 = AI tracks filter only; L3 = tracks + generative AI features filter) enables a direct test of whether resistance to AI content extends to resistance against AI tools:
+
+- **β(A3=L3) − β(A3=L2) > 0** → spillover: users who want to filter AI content *also* want to disable AI tools (resistance generalises across content and tool dimensions)
+- **β(A3=L3) − β(A3=L2) ≈ 0** → no spillover: filtering content is sufficient; users do not place additional value on disabling tools
+- **β(A3=L3) − β(A3=L2) < 0** → reverse: users value content control but want to keep AI tools active (tools appreciated as instruments, content rejected as creators)
+
+This is conceptually parallel to the convergent validity check between the CBC choices and the P6 checkbox (which captures abstract acceptability of individual AI tools, see Data Collection section).
 
 ## Data Collection
 
