@@ -44,7 +44,7 @@ headers <- list(
     proxy6_cols   <- c("proxy_p6","proxy_p6_raw")
     other_cols    <- c("churn_intent","switching_past","switching_reason",
                        "dsp_user","dsp_current","dsp_tier",
-                       "age","gender","role","country")
+                       "year_birth","gender","role","country")
     all_cols      <- c("respondent_id", "lang", audio_cols, "d_index",
                        gaais_cols, "gaais_pos","gaais_neg",
                        proxy_cols, proxy6_cols, other_cols)

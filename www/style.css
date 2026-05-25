@@ -1013,6 +1013,39 @@ input[type="checkbox"]{ accent-color: #2563eb !important; }
     margin-bottom: 0;
   }
 
+  /* DSP policy table: stack rows vertically on portrait mobile.
+     The default 2-column layout forces the description into a narrow strip
+     because TH has min-width: 9.5rem; on narrow viewports we collapse each
+     row to a block: platform name+badge on top, description below. */
+  .dsp-table,
+  .dsp-table tbody,
+  .dsp-table tr {
+    display: block;
+    width: 100%;
+  }
+  .dsp-table tr {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0.4rem 0;
+  }
+  .dsp-table tr:last-child { border-bottom: none; }
+  .dsp-table th,
+  .dsp-table td {
+    display: block;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 0.2rem 0.1rem !important;
+    border-bottom: none !important;
+    white-space: normal !important;
+  }
+  .dsp-table th {
+    padding-bottom: 0.35rem !important;
+  }
+  .dsp-table td {
+    color: #475569;
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
   /* Audio header: wrap badge + chip on narrow screens */
   .audio-header-row {
     flex-wrap: wrap;
@@ -1090,12 +1123,31 @@ input[type="checkbox"]{ accent-color: #2563eb !important; }
 .feedback-btn-row {
   text-align: right;
 }
-.feedback-confirmation {
-  color: #166534;
-  font-size: 0.9rem;
+/* Year of birth hint + invalid-state styling (real-time bounds validation) */
+.year-birth-hint {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+  transition: color 0.15s;
+}
+.year-birth-hint.hint-error {
+  color: #dc2626;
   font-weight: 600;
-  margin-top: 0.65rem;
-  text-align: center;
+}
+.input-invalid {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 0.2rem rgba(220, 38, 38, 0.15) !important;
+}
+
+/* Post-submit state: green pill with confirmation text, permanently locked */
+.btn-feedback-sent,
+.btn-feedback-sent:disabled,
+.btn-feedback-sent[disabled] {
+  background-color: #16a34a !important;
+  border-color:     #15803d !important;
+  color:            #ffffff !important;
+  opacity:          1 !important;
+  cursor:           default !important;
 }
 .share-title {
   font-size: 0.95rem;

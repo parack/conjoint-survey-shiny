@@ -156,6 +156,10 @@ function validatePage(btnId) {
 
 // ── Navigation button handler (spinner + validation gate) ─────────────────────
 $(document).on('click', 'button[id^="btn_"]', function() {
+  // Feedback button has its own server-driven post-submit state (success
+  // label inside the button + permanent disable). Skip the generic
+  // spinner/timeout handler entirely.
+  if (this.id === 'btn_feedback_send') return;
   var btn = $(this);
   if (btn.prop('disabled')) return false;
   // Gate: intro requires consent
@@ -230,6 +234,25 @@ $(document).on('change', '.ai-tools-check input[type="checkbox"]', function() {
   var anyChecked = item.find('input[type="checkbox"]:checked').length > 0;
   if (anyChecked) item.addClass('item-answered');
   else item.removeClass('item-answered');
+});
+
+// ── Year of birth: real-time bounds validation [1940-2010] ────────────────
+// Toggles .input-invalid + .hint-error classes as the user types; the actual
+// hard validation still runs server-side at submit (input$btn_demo_submit).
+document.addEventListener('input', function(e) {
+  if (!e.target || e.target.id !== 'demo_year_birth') return;
+  var raw = e.target.value;
+  if (raw === '') {
+    e.target.classList.remove('input-invalid');
+    var hintEmpty = document.getElementById('year_birth_hint');
+    if (hintEmpty) hintEmpty.classList.remove('hint-error');
+    return;
+  }
+  var v = parseInt(raw, 10);
+  var ok = !isNaN(v) && v >= 1940 && v <= 2010;
+  e.target.classList.toggle('input-invalid', !ok);
+  var hint = document.getElementById('year_birth_hint');
+  if (hint) hint.classList.toggle('hint-error', !ok);
 });
 
 // ── Select inputs inside .gaais-item (e.g. dsp_current): toggle item-answered ─

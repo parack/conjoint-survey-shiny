@@ -21,7 +21,7 @@ The survey is administered in **Italian, English, and French** and consists of 7
 | 4 | CBC — 12 choice tasks, 3 alternatives, 4 attributes |
 | 5 | Audio discrimination task — 4 clips (2 AI-generated, 2 human; randomised order); D-index computed server-side. Placed *after* the CBC to avoid analytic listening priming WTP for restrictive governance |
 | 6 | Proxy items (P1–P5 Likert: 3 sonic-discrimination proxy, 2 AI-resistance proxy) + P6 (AI features acceptability checkbox, 6th proxy item, rescaled to Likert 1–5 and combined into the GAAIS_neg-proxy composite) + DSP usage (platform, tier, switching history, churn intent) |
-| 7 | Demographics (age, gender, country, role) |
+| 7 | Demographics (year of birth, gender, country, role) |
 
 ## CBC Design
 

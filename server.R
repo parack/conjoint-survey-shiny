@@ -38,7 +38,8 @@ server <- function(input, output, session) {
     d_index             = NA_real_,
     gaais_pos           = NA_real_,
     gaais_neg           = NA_real_,
-    cbc_answers_written = FALSE               # guard against duplicate Survey_Answers write
+    cbc_answers_written = FALSE,              # guard against duplicate Survey_Answers write
+    demo_written        = FALSE               # guard against duplicate Demography/Respondents write
   )
 
   # Increment per-clip play counter when JS detects an <audio> play event
@@ -196,12 +197,18 @@ server <- function(input, output, session) {
       }
 
       for (nm in c("dsp_current",
-                   "demo_age", "demo_gender", "demo_country", "demo_role")) {
+                   "demo_gender", "demo_country", "demo_role")) {
         raw_nm <- ans[[nm]]
         if (is.null(raw_nm)) next                # missing key → skip
         coerced <- as.character(raw_nm)
         if (length(coerced) == 0L || !nzchar(coerced)) next  # character(0) or "" → skip
         updateSelectInput(session, nm, selected = coerced)
+      }
+
+      # Restore year_birth (native HTML number input, not selectize)
+      if (!is.null(ans$demo_year_birth) && nzchar(as.character(ans$demo_year_birth))) {
+        runjs(sprintf("(function(){var el=document.getElementById('demo_year_birth');if(el){el.value=%s;}})()",
+                      jsonlite::toJSON(ans$demo_year_birth, auto_unbox = TRUE)))
       }
     }
 
@@ -229,8 +236,8 @@ server <- function(input, output, session) {
     }
 
     # Re-check btn-check inputs (audio ratings, GAAIS, proxy) via JS
-    native_inputs <- c("dsp_current", "ai_tools_acceptable",
-                       "demo_age", "demo_gender", "demo_country", "demo_role")
+    native_inputs <- c("dsp_current", "ai_tools_acceptable", "demo_year_birth",
+                       "demo_gender", "demo_country", "demo_role")
     if (!is.null(ans)) {
       btn_ans <- ans[!names(ans) %in% native_inputs]
       for (nm in names(btn_ans)) {
@@ -699,10 +706,22 @@ server <- function(input, output, session) {
 
   # DEMO → THANKYOU (final save)
   observeEvent(input$btn_demo_submit, {
+    # Idempotency guard: a double-click on the submit button (or any rapid
+    # double-trigger) must not produce two rows in Demography/Respondents
+    # for the same respondent_id. Short-circuit if the final save has
+    # already been written.
+    if (isTRUE(rv$demo_written)) return()
 
     # ── Validate demographics ────────────────────────────────────────────────
-    if (input$demo_age == "" || input$demo_gender == "" ||
-        input$demo_role == "" || input$demo_country == "") {
+    # Year of birth: must be integer in [1940, 2010]. Upper bound corresponds
+    # to ~16 years old in 2026 (GDPR minimum consent age in some jurisdictions);
+    # post-hoc age binning for adults-only analyses is done in Phase 0.
+    yob_raw <- input$demo_year_birth
+    yob_int <- suppressWarnings(as.integer(yob_raw))
+    if (is.null(yob_raw) || is.na(yob_int) || yob_int < 1940L || yob_int > 2010L) {
+      err(tr$err_year_birth); return()
+    }
+    if (input$demo_gender == "" || input$demo_role == "" || input$demo_country == "") {
       err(tr$err_demo_req); return()
     }
 
@@ -764,7 +783,7 @@ server <- function(input, output, session) {
         dsp_user         = input$dsp_user,
         dsp_current      = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$dsp_current else "",
         dsp_tier         = switch(input$dsp_user, yes = "paid", yes_free = "free", ""),
-        age              = input$demo_age,
+        year_birth       = yob_int,
         gender           = input$demo_gender,
         role             = input$demo_role,
         country          = input$demo_country,
@@ -776,6 +795,10 @@ server <- function(input, output, session) {
     demo_row[] <- lapply(demo_row, function(x) { x[is.na(x)] <- ""; x })
 
     ts_complete <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
+
+    # Mark the write as in-flight BEFORE the async append. The earlier
+    # short-circuit check now blocks any retrigger of this observer.
+    rv$demo_written <- TRUE
 
     # Clear localStorage before navigating (prevents restore on future visits)
     session$sendCustomMessage("clearSavedState", list())
@@ -821,11 +844,17 @@ server <- function(input, output, session) {
       ))
     }, delay = 0)
     log_evt("FEEDBACK", sprintf("len=%d", nchar(txt)))
+    # Replace button label with the success message, swap to green, and lock
+    # it for the rest of the session (prevents accidental double-submit).
     runjs("(function(){
-      var c = document.getElementById('feedback_confirmation');
-      if (c) c.style.display = 'block';
       var b = document.getElementById('btn_feedback_send');
-      if (b) b.disabled = true;
+      if (b) {
+        var lbl = b.getAttribute('data-sent-label') || 'Sent';
+        b.innerHTML = '<i class=\"fa fa-check\"></i> ' + lbl;
+        b.classList.remove('btn-primary');
+        b.classList.add('btn-feedback-sent');
+        b.disabled = true;
+      }
       var t = document.getElementById('feedback_text');
       if (t) t.disabled = true;
     })()")

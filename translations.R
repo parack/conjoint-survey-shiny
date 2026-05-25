@@ -91,7 +91,6 @@ TR <- list(
     ),
 
     sel_placeholder = "-- Seleziona --",
-    age_opts    = c("18-24","25-34","35-44","45-54","55-64","65+"),
     gender_opts = c("Uomo"="man","Donna"="woman",
                     "Non binario / Terzo genere"="nonbinary",
                     "Preferisco non specificare"="no_answer"),
@@ -277,7 +276,10 @@ TR <- list(
     badge5       = "Sezione 5 di 5",
     demo_h3      = "Dati demografici e utilizzo dei servizi",
     demo_instr   = "Le ricordiamo che l'indagine è anonima. Le informazioni richieste in questa sezione saranno utilizzate esclusivamente per finalità statistiche e presentate in forma aggregata.",
-    age_lbl      = "Fascia d'età *",
+    year_birth_lbl         = "Anno di nascita *",
+    year_birth_placeholder = "es. 1995",
+    year_birth_hint        = "Anno valido: 1940–2010",
+    err_year_birth         = "Indichi un anno di nascita valido (tra 1940 e 2010).",
     gender_lbl   = "Genere *",
     country_lbl  = "Paese di residenza *",
     role_lbl     = "Ruolo attuale *",
@@ -297,9 +299,9 @@ TR <- list(
     ty_share_copied = "Copiato!",
     ty_share_email = "Invia per e-mail",
     ty_share_wa    = "Condividi su WhatsApp",
-    feedback_h           = "Lascia un commento (opzionale)",
-    feedback_placeholder = "Suggerimenti, problemi tecnici, riflessioni...",
-    feedback_btn         = "Invia commento",
+    feedback_h           = "Problemi riscontrati o feedback? (opzionale)",
+    feedback_placeholder = "Bug, difficoltà di compilazione, suggerimenti...",
+    feedback_btn         = "Invia",
     feedback_sent        = "Grazie per il Suo feedback!"
   ),
 
@@ -387,7 +389,6 @@ TR <- list(
     ),
 
     sel_placeholder = "-- Select --",
-    age_opts    = c("18-24","25-34","35-44","45-54","55-64","65+"),
     gender_opts = c("Man"="man","Woman"="woman",
                     "Non-binary / Third gender"="nonbinary",
                     "Prefer not to say"="no_answer"),
@@ -576,7 +577,10 @@ TR <- list(
     badge5       = "Section 5 of 5",
     demo_h3      = "Demographics and service usage",
     demo_instr   = "Please note that this survey is anonymous. The information requested in this section will be used exclusively for statistical purposes and presented in aggregated form.",
-    age_lbl      = "Age group *",
+    year_birth_lbl         = "Year of birth *",
+    year_birth_placeholder = "e.g. 1995",
+    year_birth_hint        = "Valid year: 1940–2010",
+    err_year_birth         = "Please indicate a valid year of birth (between 1940 and 2010).",
     gender_lbl   = "Gender *",
     country_lbl  = "Country of residence *",
     role_lbl     = "Current role *",
@@ -596,9 +600,9 @@ TR <- list(
     ty_share_copied = "Copied!",
     ty_share_email  = "Share by e-mail",
     ty_share_wa     = "Share on WhatsApp",
-    feedback_h           = "Leave a comment (optional)",
-    feedback_placeholder = "Suggestions, technical issues, reflections...",
-    feedback_btn         = "Send comment",
+    feedback_h           = "Issues or feedback? (optional)",
+    feedback_placeholder = "Bugs, completion difficulties, suggestions...",
+    feedback_btn         = "Send",
     feedback_sent        = "Thanks for your feedback!"
   ),
 
@@ -687,7 +691,6 @@ TR <- list(
     ),
 
     sel_placeholder = "-- Sélectionner --",
-    age_opts    = c("18-24","25-34","35-44","45-54","55-64","65+"),
     gender_opts = c("Homme"="man","Femme"="woman",
                     "Non-binaire / Troisième genre"="nonbinary",
                     "Préfère ne pas préciser"="no_answer"),
@@ -876,7 +879,10 @@ TR <- list(
     badge5       = "Section 5 sur 5",
     demo_h3      = "Données démographiques et utilisation des services",
     demo_instr   = "Nous vous rappelons que l'enquête est anonyme. Les informations demandées dans cette section seront utilisées exclusivement à des fins statistiques et présentées sous forme agrégée.",
-    age_lbl      = "Tranche d'âge *",
+    year_birth_lbl         = "Année de naissance *",
+    year_birth_placeholder = "ex. 1995",
+    year_birth_hint        = "Année valide : 1940–2010",
+    err_year_birth         = "Veuillez indiquer une année de naissance valide (entre 1940 et 2010).",
     gender_lbl   = "Genre *",
     country_lbl  = "Pays de résidence *",
     role_lbl     = "Statut professionnel actuel *",
@@ -896,9 +902,9 @@ TR <- list(
     ty_share_copied = "Copié !",
     ty_share_email  = "Partager par e-mail",
     ty_share_wa     = "Partager sur WhatsApp",
-    feedback_h           = "Laissez un commentaire (facultatif)",
-    feedback_placeholder = "Suggestions, problèmes techniques, réflexions...",
-    feedback_btn         = "Envoyer le commentaire",
-    feedback_sent        = "Merci pour votre commentaire !"
+    feedback_h           = "Problèmes ou retour d'expérience ? (facultatif)",
+    feedback_placeholder = "Bugs, difficultés de complétion, suggestions...",
+    feedback_btn         = "Envoyer",
+    feedback_sent        = "Merci pour votre retour !"
   )
 )

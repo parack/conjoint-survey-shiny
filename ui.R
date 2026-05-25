@@ -116,8 +116,27 @@ ui <- function(request) {
       tags$title("AI Music Governance — CBC Survey"),
       tags$link(rel = "icon", type = "image/png", href = "favicon.png"),
       tags$link(rel = "shortcut icon", href = "favicon.png"),
-      tags$link(rel = "stylesheet", href = "style.css?v=34"),
-      tags$script(src = "survey.js?v=6")
+
+      # ── Open Graph (WhatsApp / Telegram / Facebook / LinkedIn previews) ──
+      tags$meta(property = "og:type",        content = "website"),
+      tags$meta(property = "og:url",         content = "https://parlor.shinyapps.io/AI_music_governance_cbc_survey/"),
+      tags$meta(property = "og:title",       content = "AI nello streaming musicale: la sua opinione conta"),
+      tags$meta(property = "og:description", content = "Sondaggio anonimo (~10 min) — tesi UniTrento sull'AI nello streaming."),
+      tags$meta(property = "og:image",       content = "https://parlor.shinyapps.io/AI_music_governance_cbc_survey/preview.png?v=1"),
+      tags$meta(property = "og:image:width",  content = "1200"),
+      tags$meta(property = "og:image:height", content = "630"),
+      tags$meta(property = "og:locale",      content = "it_IT"),
+      tags$meta(property = "og:locale:alternate", content = "en_US"),
+      tags$meta(property = "og:locale:alternate", content = "fr_FR"),
+
+      # ── Twitter Card (X, alcuni client di chat) ───────────────────────────
+      tags$meta(name = "twitter:card",        content = "summary_large_image"),
+      tags$meta(name = "twitter:title",       content = "AI nello streaming musicale: la sua opinione conta"),
+      tags$meta(name = "twitter:description", content = "Sondaggio anonimo (~10 min) — tesi UniTrento sull'AI nello streaming."),
+      tags$meta(name = "twitter:image",       content = "https://parlor.shinyapps.io/AI_music_governance_cbc_survey/preview.png?v=1"),
+
+      tags$link(rel = "stylesheet", href = "style.css?v=37"),
+      tags$script(src = "survey.js?v=8")
     ),
 
     # ── Progress bar ──────────────────────────────────────────────────────────
@@ -354,7 +373,20 @@ ui <- function(request) {
           p(tr$demo_instr)
         ),
         fluidRow(
-          column(6, sel("demo_age",    tr$age_lbl,    tr$age_opts)),
+          column(6,
+            tags$label(`for` = "demo_year_birth", class = "control-label", tr$year_birth_lbl),
+            tags$input(id = "demo_year_birth", type = "number",
+                       class = "form-control",
+                       min  = "1940",
+                       max  = "2010",
+                       step = "1",
+                       inputmode      = "numeric",
+                       placeholder    = tr$year_birth_placeholder,
+                       autocomplete   = "off",
+                       `aria-describedby` = "year_birth_hint"),
+            tags$small(id = "year_birth_hint", class = "form-text year-birth-hint",
+                       tr$year_birth_hint)
+          ),
           column(6, sel("demo_gender", tr$gender_lbl, tr$gender_opts))
         ),
         fluidRow(
@@ -375,6 +407,7 @@ ui <- function(request) {
         div(class = "thankyou-icon", icon("circle-check")),
         h2(tr$ty_h2),
         p(class = "lead", tr$ty_lead),
+        p(class = "small mt-2", style = "color:#2563eb;", tr$ty_close),
         hr(),
 
         # ── Share section ───────────────────────────────────────────────────
@@ -412,15 +445,11 @@ ui <- function(request) {
           div(class = "feedback-btn-row mt-2",
             actionButton("btn_feedback_send", tr$feedback_btn,
                          class = "btn btn-primary btn-sm",
-                         icon = icon("paper-plane"))
-          ),
-          div(id = "feedback_confirmation",
-              class = "feedback-confirmation",
-              style = "display:none;",
-              icon("check"), " ", tr$feedback_sent)
+                         icon = icon("paper-plane"),
+                         `data-sent-label` = tr$feedback_sent)
+          )
         ),
 
-        p(class = "small mt-3", style = "color:#2563eb;", tr$ty_close),
         hr(),
         div(class = "thankyou-logo-wrap text-center mb-3",
           tags$img(src = "logo_unitrento.jpg", class = "thankyou-logo",
