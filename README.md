@@ -93,19 +93,47 @@ Responses are stored in a private Google Sheet (6 tabs):
 
 ## Audio Pretest
 
-Before the main survey, a separate Shiny app (`pretest/pretest_app.R`) was used to select the 4 final audio clips, 2 AI-generated and 2 human-made. 20 candidates (10 AI-generated from Suno "Best of" Rock and Pop playlists, 10 human-made from the [mtg-jamendo-dataset](https://github.com/MTG/mtg-jamendo-dataset), made in 2019, were rated by a convenience sample. Clips were selected to maximise discrimination variance while controlling for genre.
+Before the main survey, a separate Shiny app was used to select the 4 final audio clips (2 AI-generated, 2 human-made) from 20 candidates: 10 AI-generated from Suno "Best of" Rock and Pop playlists and 10 human-made from the [mtg-jamendo-dataset](https://github.com/MTG/mtg-jamendo-dataset) (2019). Clips were selected to maximise discrimination variance while controlling for genre.
+
+### Data collection
+
+Two apps were deployed: `pretest_app.R` (IT/FR, 20 clips, n=7 convenience sample) and `pretest_app_en.R` (EN, 10 stratified-random clips per participant, UTM-tracked Reddit sample). Ratings were pooled after quality filtering.
+
+### Results
+
+**N = 162** participants total (7 Italian + 155 English via Reddit: r/sunoai, r/aimusic, direct share). After excluding 1 respondent with >50% *don't know* responses and 2 with fewer than 7 clips listened (connectivity drop), **161 valid participants** remained (Expert subsample: n = 92; Casual subsample: n = 69). Sixteen individual ratings with play_count = 0 were also dropped.
+
+**Gate filter** (N ≥ 30, detection rate 30–70%, non-so ≤ 15%): **18/20 clips pass**. Excluded: `ai_02` (72% correct — ceiling) and `ai_08` (73% correct — ceiling).
+
+**Selected clips** (composite score = 2.0 × z[r(item,D)] + 1.0 × z[Δ expert−casual] + 0.4 × z[SD casual]):
+
+| Cell | Clip | Title | Detection rate |
+|---|---|---|---|
+| AI × Pop | `ai_09` | "addicted" — lane (Suno) | 59% |
+| AI × Rock | `ai_04` | "Mr. Nice Guy" — kysohum (Suno) | 44% |
+| Human × Pop | `hu_06` | "Only Human" — Dayung (Jamendo) | 51% |
+| Human × Rock | `hu_10` | "Microwave" — Major Major (Jamendo) | 52% |
+
+**Sensitivity analysis** (5 weight scenarios): selection is robust in 3/4 cells across all scenarios. Human × Rock changes (hu_10 → hu_03) only under extreme weight inversion (Δ > r), confirming the composite is not sensitive to the exact weight choice for the planned survey clips.
+
+**Self-reported ability vs. actual accuracy**: r = 0.413 — moderate positive correlation; participants who considered themselves more capable were genuinely more accurate, supporting use of the self-ability item as a convergent proxy in the main survey instrument.
+
+![Pretest dashboard](pretest/dashboard.png)
+
+### Files
 
 | File | Content |
 |---|---|
-| `pretest/pretest_app.R` | Shiny app used to collect pretest ratings |
-| `pretest/analysis_pretest.R` | Analysis script for pretest results |
+| `pretest/pretest_app.R` | IT/FR Shiny app — 20-clip full pretest (n = 7) |
+| `pretest/pretest_app_en.R` | EN Shiny app — 10-clip short pretest with UTM tracking (n = 155) |
+| `pretest/analysis_pretest.R` | Analysis script — gate filter, composite score, sensitivity analysis, dashboard |
 | `pretest/clips_metadata.csv` | Full list of 20 candidate clips with source and metadata |
-| `pretest/clip_stats_results.csv` | Detection rates and discrimination scores per clip |
-| `pretest/detection_rate_plot.png` | Visual summary of pretest results |
+| `pretest/clip_stats_results.csv` | Detection rates and discrimination scores per clip (Italian subsample) |
+| `pretest/dashboard.png` | Analysis dashboard (p1–p5: detection rates, D-index, scatter, expert vs. casual, ranking) |
 | `pretest/sample_tracks.R` | Reproducible sampling script (set.seed(57)) |
 | `pretest/crop_audio.R` | Audio clip trimming script |
 | `pretest/jamendo.py` | Script to query and download candidates from Jamendo API |
-| `pretest/style.css` | CSS for the pretest Shiny app |
+| `pretest/style.css` | CSS for the pretest Shiny apps |
 | `pretest/data/` | Candidate and selected track lists for Jamendo and Suno |
 
 ## Repository Structure

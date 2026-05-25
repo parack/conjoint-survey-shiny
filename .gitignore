@@ -18,6 +18,7 @@ analysis/detection_rate_plot.png
 # Dati grezzi rispondenti (privacy — caricare solo versione anonimizzata)
 survey_results.csv
 analysis/responses_anonymized.csv
+pretest/MID_TEST*.csv
 
 # CSV selected (output degli script di sampling — opzionale tenerli)
 sampling/jamendo_pop_selected.csv
