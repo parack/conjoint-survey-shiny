@@ -14,7 +14,18 @@ server <- function(input, output, session) {
   resp_id  <- paste0("R", format(ts_start_obj, "%Y%m%d%H%M%S"), sample(1000L:9999L, 1L))
   # Tracks the timestamp of the most recent funnel event for per-section duration
   last_funnel_ts <- ts_start_obj
-  message(sprintf("[SURVEY] %s | SESSION_START  | lang=%s | %s", resp_id, .lang, ts_start))
+
+  # ── UTM source tracking ────────────────────────────────────────────────────
+  # Parse ?utm_source=... from URL; sanitize to alphanumeric+underscore+hyphen, max 50 chars.
+  # Missing/invalid → "direct".
+  query <- parseQueryString(isolate(session$clientData$url_search))
+  utm_raw <- query[["utm_source"]]
+  utm_source <- if (is.null(utm_raw) || !nzchar(utm_raw)) "direct"
+                else gsub("[^a-zA-Z0-9_-]", "", substr(utm_raw, 1, 50))
+  if (!nzchar(utm_source)) utm_source <- "direct"
+
+  message(sprintf("[SURVEY] %s | SESSION_START  | lang=%s | utm=%s | %s",
+                  resp_id, .lang, utm_source, ts_start))
 
   rv <- reactiveValues(
     page                = if (.has_lang) "intro" else "lang",
@@ -23,11 +34,21 @@ server <- function(input, output, session) {
     cbc_task            = 1L,
     cbc_choices         = integer(N_TASKS),   # 0 = not yet answered
     audio_order         = sample(1L:4L),      # randomized presentation of 4 clips
+    audio_play_counts   = integer(4),         # # of times each clip (position 1-4) has been played
     d_index             = NA_real_,
     gaais_pos           = NA_real_,
     gaais_neg           = NA_real_,
     cbc_answers_written = FALSE               # guard against duplicate Survey_Answers write
   )
+
+  # Increment per-clip play counter when JS detects an <audio> play event
+  observeEvent(input$audio_play_event, {
+    idx <- input$audio_play_event$idx
+    if (is.null(idx)) return()
+    idx <- suppressWarnings(as.integer(idx))
+    if (is.na(idx) || idx < 1L || idx > 4L) return()
+    rv$audio_play_counts[idx] <- rv$audio_play_counts[idx] + 1L
+  }, ignoreInit = TRUE)
 
   # ── Helpers ────────────────────────────────────────────────────────────────
   # persist = FALSE suppresses the localStorage page update (used on go_to("thankyou")
@@ -64,7 +85,8 @@ server <- function(input, output, session) {
   # ── Funnel tracker → writes one row per navigation event to GSheets ────────
   # duration_sec = seconds elapsed since the previous funnel event (or session
   # start for the first event). Computed at call time, so it captures the time
-  # spent on the section that just ended.
+  # spent on the section that just ended. utm_source is closure-bound at session
+  # start, so every event of a session shares the same value.
   log_funnel <- function(event, detail = "") {
     force(detail)   # evaluate in reactive context BEFORE later::later runs
     ts_now  <- Sys.time()
@@ -74,6 +96,7 @@ server <- function(input, output, session) {
       gs_append("Funnel", data.frame(
         respondent_id = resp_id,
         lang          = .lang,
+        utm_source    = utm_source,
         event         = event,
         detail        = detail,
         ts            = format(ts_now, "%Y-%m-%d %H:%M:%S"),
@@ -82,6 +105,10 @@ server <- function(input, output, session) {
       ))
     }, delay = 0)
   }
+
+  # Log session_start immediately so every visitor has at least one Funnel row.
+  # Dropouts are detectable as session_start without a subsequent "completed".
+  log_funnel("session_start", sprintf("lang=%s", .lang))
 
   # ── Format a price in the session language ─────────────────────────────────
   fmt_price <- function(price) {
@@ -284,7 +311,7 @@ server <- function(input, output, session) {
           controls = NA,
           preload  = "none",
           style    = "width:100%; margin: 0.5rem 0 1rem;",
-          tags$source(src = clips$file[i], type = "audio/mpeg"),
+          tags$source(src = paste0(clips$file[i], "?v=2"), type = "audio/mpeg"),
           tr$audio_msg
         ),
         # Single flex-wrap group: 4 scored + 1 noscore — wraps cleanly on mobile
@@ -404,6 +431,10 @@ server <- function(input, output, session) {
         as.data.frame(t(AUDIO_CLIPS$type[rv$audio_order])),
         paste0("audio_clip", 1L:4L, "_type")
       )
+      audio_play_partial <- setNames(
+        as.data.frame(t(as.integer(rv$audio_play_counts))),
+        paste0("audio_clip", 1L:4L, "_play_count")
+      )
       gaais_r <- sapply(GAAIS_ITEMS$code, function(code) as.integer(input[[paste0("gaais_", code)]]))
       gaais_partial <- setNames(as.data.frame(t(gaais_r)), paste0("gaais_", GAAIS_ITEMS$code))
       cbc_partial <- setNames(as.data.frame(t(rv$cbc_choices)), paste0("choice_", seq_len(N_TASKS)))
@@ -412,9 +443,10 @@ server <- function(input, output, session) {
         as.data.frame(matrix("", nrow = 1, ncol = nrow(PROXY_ITEMS))),
         PROXY_ITEMS$code
       )
+      proxy6_empty <- data.frame(proxy_p6 = "", proxy_p6_raw = "",
+                                  stringsAsFactors = FALSE)
       dsp_empty <- data.frame(
         churn_intent = "", switching_past = "", switching_reason = "",
-        proxy_p6 = "", proxy_p6_raw = "",
         dsp_user = "", dsp_current = "", dsp_tier = "",
         stringsAsFactors = FALSE
       )
@@ -422,9 +454,9 @@ server <- function(input, output, session) {
         data.frame(respondent_id = resp_id, lang = .lang,
                    ts = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
                    stringsAsFactors = FALSE),
-        audio_partial, audio_type_partial,
+        audio_partial, audio_type_partial, audio_play_partial,
         data.frame(d_index = di, gaais_pos = gpos, gaais_neg = gneg),
-        gaais_partial, proxy_empty, cbc_partial, dsp_empty
+        gaais_partial, proxy_empty, proxy6_empty, cbc_partial, dsp_empty
       )
       audio_row[] <- lapply(audio_row, function(x) { x[is.na(x)] <- ""; x })
       later::later(function() gs_append("Partial", audio_row), delay = 0)
@@ -468,6 +500,12 @@ server <- function(input, output, session) {
     rv$cbc_choices[t] <- as.integer(choice)
 
     log_evt("CBC_TASK", sprintf("%d/%d choice=%d", t, N_TASKS, as.integer(choice)))
+    # Funnel checkpoint at CBC midpoint (after task 6 of 12) — enables
+    # detection of straightlining or speeding in the second half by comparing
+    # duration_sec of cbc_half (sections 1–6) vs cbc_done (sections 7–12).
+    if (t == as.integer(N_TASKS %/% 2L)) {
+      log_funnel("cbc_half", sprintf("%d/%d", t, N_TASKS))
+    }
     if (t < N_TASKS) {
       rv$cbc_task <- t + 1L
       session$sendCustomMessage("persistState", list(cbc_task = t + 1L))
@@ -526,18 +564,23 @@ server <- function(input, output, session) {
             as.data.frame(matrix("", nrow = 1, ncol = 4L)),
             paste0("audio_clip", 1L:4L, "_type")
           )
+          audio_play_partial <- setNames(
+            as.data.frame(matrix("", nrow = 1, ncol = 4L)),
+            paste0("audio_clip", 1L:4L, "_play_count")
+          )
           gaais_r <- sapply(GAAIS_ITEMS$code, function(code) as.integer(input[[paste0("gaais_", code)]]))
           gaais_partial <- setNames(as.data.frame(t(gaais_r)), paste0("gaais_", GAAIS_ITEMS$code))
           cbc_partial <- setNames(as.data.frame(t(rv$cbc_choices)), paste0("choice_", seq_len(N_TASKS)))
           gpos <- rv$gaais_pos; gneg <- rv$gaais_neg
-          # Build ALL 49 columns in correct order — sheet_append aligns by position
+          # Build ALL columns in correct order — sheet_append aligns by position
           proxy_empty <- setNames(
             as.data.frame(matrix("", nrow = 1, ncol = nrow(PROXY_ITEMS))),
             PROXY_ITEMS$code
           )
+          proxy6_empty <- data.frame(proxy_p6 = "", proxy_p6_raw = "",
+                                      stringsAsFactors = FALSE)
           dsp_empty <- data.frame(
             churn_intent = "", switching_past = "", switching_reason = "",
-            proxy_p6 = "", proxy_p6_raw = "",
             dsp_user = "", dsp_current = "", dsp_tier = "",
             stringsAsFactors = FALSE
           )
@@ -545,9 +588,9 @@ server <- function(input, output, session) {
             data.frame(respondent_id = resp_id, lang = .lang,
                        ts = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
                        stringsAsFactors = FALSE),
-            audio_partial, audio_type_partial,
+            audio_partial, audio_type_partial, audio_play_partial,
             data.frame(d_index = "", gaais_pos = gpos, gaais_neg = gneg),
-            gaais_partial, proxy_empty, cbc_partial, dsp_empty
+            gaais_partial, proxy_empty, proxy6_empty, cbc_partial, dsp_empty
           )
           cbc_row[] <- lapply(cbc_row, function(x) { x[is.na(x)] <- ""; x })
           later::later(function() gs_append("Partial", cbc_row), delay = 0)
@@ -606,6 +649,10 @@ server <- function(input, output, session) {
         as.data.frame(t(AUDIO_CLIPS$type[rv$audio_order])),
         paste0("audio_clip", 1L:4L, "_type")
       )
+      audio_play_partial <- setNames(
+        as.data.frame(t(as.integer(rv$audio_play_counts))),
+        paste0("audio_clip", 1L:4L, "_play_count")
+      )
       gaais_r <- sapply(GAAIS_ITEMS$code, function(code) as.integer(input[[paste0("gaais_", code)]]))
       gaais_partial <- setNames(as.data.frame(t(gaais_r)), paste0("gaais_", GAAIS_ITEMS$code))
       proxy_r <- sapply(PROXY_ITEMS$code, function(code) as.integer(input[[code]]))
@@ -615,15 +662,10 @@ server <- function(input, output, session) {
       partial_row <- cbind(
         data.frame(respondent_id = resp_id, lang = .lang, ts = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
                    stringsAsFactors = FALSE),
-        audio_partial, audio_type_partial,
+        audio_partial, audio_type_partial, audio_play_partial,
         data.frame(d_index = rv$d_index, gaais_pos = rv$gaais_pos, gaais_neg = rv$gaais_neg),
-        gaais_partial, proxy_partial, cbc_partial,
+        gaais_partial, proxy_partial,
         data.frame(
-          churn_intent    = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) as.integer(input$churn_intent) else NA_integer_,
-          switching_past  = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$switching_past   else "",
-          switching_reason= if (isTRUE(input$dsp_user %in% c("yes", "yes_free")) &&
-                                isTRUE(input$switching_past == "yes_switched"))
-                              input$switching_reason else "",
           proxy_p6 = {
             sel <- input$ai_tools_acceptable
             count <- if (is.null(sel) || length(sel) == 0) 0L
@@ -634,6 +676,15 @@ server <- function(input, output, session) {
             sel <- input$ai_tools_acceptable
             if (is.null(sel) || length(sel) == 0) "" else paste(sel, collapse = ",")
           },
+          stringsAsFactors = FALSE
+        ),
+        cbc_partial,
+        data.frame(
+          churn_intent    = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) as.integer(input$churn_intent) else NA_integer_,
+          switching_past  = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$switching_past   else "",
+          switching_reason= if (isTRUE(input$dsp_user %in% c("yes", "yes_free")) &&
+                                isTRUE(input$switching_past == "yes_switched"))
+                              input$switching_reason else "",
           dsp_user        = input$dsp_user,
           dsp_current     = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$dsp_current else "",
           dsp_tier        = switch(input$dsp_user, yes = "paid", yes_free = "free", ""),
@@ -665,6 +716,10 @@ server <- function(input, output, session) {
       as.data.frame(t(AUDIO_CLIPS$type[rv$audio_order])),
       paste0("audio_clip", 1L:4L, "_type")
     )
+    audio_play_df <- setNames(
+      as.data.frame(t(as.integer(rv$audio_play_counts))),
+      paste0("audio_clip", 1L:4L, "_play_count")
+    )
 
     # ── Collect GAAIS raw responses ──────────────────────────────────────────
     gaais_raw <- sapply(GAAIS_ITEMS$code, function(code) as.integer(input[[paste0("gaais_", code)]]))
@@ -682,16 +737,12 @@ server <- function(input, output, session) {
       data.frame(respondent_id = resp_id, lang = .lang, stringsAsFactors = FALSE),
       audio_df,
       audio_type_df,
+      audio_play_df,
       data.frame(d_index = rv$d_index),
       gaais_df,
       data.frame(gaais_pos = rv$gaais_pos, gaais_neg = rv$gaais_neg),
       proxy_df,
       data.frame(
-        churn_intent     = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) as.integer(input$churn_intent) else NA_integer_,
-        switching_past   = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$switching_past   else "",
-        switching_reason = if (isTRUE(input$dsp_user %in% c("yes", "yes_free")) &&
-                               isTRUE(input$switching_past == "yes_switched"))
-                             input$switching_reason else "",
         proxy_p6 = {
           sel <- input$ai_tools_acceptable
           count <- if (is.null(sel) || length(sel) == 0) 0L
@@ -702,6 +753,14 @@ server <- function(input, output, session) {
           sel <- input$ai_tools_acceptable
           if (is.null(sel) || length(sel) == 0) "" else paste(sel, collapse = ",")
         },
+        stringsAsFactors = FALSE
+      ),
+      data.frame(
+        churn_intent     = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) as.integer(input$churn_intent) else NA_integer_,
+        switching_past   = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$switching_past   else "",
+        switching_reason = if (isTRUE(input$dsp_user %in% c("yes", "yes_free")) &&
+                               isTRUE(input$switching_past == "yes_switched"))
+                             input$switching_reason else "",
         dsp_user         = input$dsp_user,
         dsp_current      = if (isTRUE(input$dsp_user %in% c("yes", "yes_free"))) input$dsp_current else "",
         dsp_tier         = switch(input$dsp_user, yes = "paid", yes_free = "free", ""),
@@ -733,11 +792,42 @@ server <- function(input, output, session) {
       gs_append("Respondents", data.frame(
         respondent_id      = resp_id,
         lang               = .lang,
+        utm_source         = utm_source,
         timestamp_start    = ts_start,
         timestamp_complete = ts_complete,
         completed          = "TRUE",
         stringsAsFactors   = FALSE
       ))
     }, delay = 0)
+  })
+
+  # ── Feedback form on thank-you page ──────────────────────────────────────
+  # User can leave an optional free-text comment after completion. Submission
+  # appends a row to the Feedback tab and shows a confirmation; the textarea
+  # and button are then disabled to prevent multiple submissions.
+  observeEvent(input$btn_feedback_send, {
+    txt <- input$feedback_text
+    if (is.null(txt) || !nzchar(trimws(txt))) return()
+    # Sanitize: trim, cap at 2000 chars
+    txt <- substr(trimws(txt), 1L, 2000L)
+    later::later(function() {
+      gs_append("Feedback", data.frame(
+        respondent_id = resp_id,
+        lang          = .lang,
+        utm_source    = utm_source,
+        ts            = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
+        feedback_text = txt,
+        stringsAsFactors = FALSE
+      ))
+    }, delay = 0)
+    log_evt("FEEDBACK", sprintf("len=%d", nchar(txt)))
+    runjs("(function(){
+      var c = document.getElementById('feedback_confirmation');
+      if (c) c.style.display = 'block';
+      var b = document.getElementById('btn_feedback_send');
+      if (b) b.disabled = true;
+      var t = document.getElementById('feedback_text');
+      if (t) t.disabled = true;
+    })()")
   })
 }

@@ -296,7 +296,11 @@ TR <- list(
     ty_share_copy  = "Copia link",
     ty_share_copied = "Copiato!",
     ty_share_email = "Invia per e-mail",
-    ty_share_wa    = "Condividi su WhatsApp"
+    ty_share_wa    = "Condividi su WhatsApp",
+    feedback_h           = "Lascia un commento (opzionale)",
+    feedback_placeholder = "Suggerimenti, problemi tecnici, riflessioni...",
+    feedback_btn         = "Invia commento",
+    feedback_sent        = "Grazie per il Suo feedback!"
   ),
 
   # ══════════════════════════════════════════════════════════════════════════
@@ -591,7 +595,11 @@ TR <- list(
     ty_share_copy   = "Copy link",
     ty_share_copied = "Copied!",
     ty_share_email  = "Share by e-mail",
-    ty_share_wa     = "Share on WhatsApp"
+    ty_share_wa     = "Share on WhatsApp",
+    feedback_h           = "Leave a comment (optional)",
+    feedback_placeholder = "Suggestions, technical issues, reflections...",
+    feedback_btn         = "Send comment",
+    feedback_sent        = "Thanks for your feedback!"
   ),
 
   # ══════════════════════════════════════════════════════════════════════════
@@ -887,6 +895,10 @@ TR <- list(
     ty_share_copy   = "Copier le lien",
     ty_share_copied = "Copié !",
     ty_share_email  = "Partager par e-mail",
-    ty_share_wa     = "Partager sur WhatsApp"
+    ty_share_wa     = "Partager sur WhatsApp",
+    feedback_h           = "Laissez un commentaire (facultatif)",
+    feedback_placeholder = "Suggestions, problèmes techniques, réflexions...",
+    feedback_btn         = "Envoyer le commentaire",
+    feedback_sent        = "Merci pour votre commentaire !"
   )
 )

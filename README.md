@@ -76,16 +76,17 @@ This is conceptually parallel to the convergent validity check between the CBC c
 
 ## Data Collection
 
-Responses are stored in a private Google Sheet (6 tabs):
+Responses are stored in a private Google Sheet (7 tabs):
 
 | Tab | Content |
 |---|---|
-| `Respondents` | respondent_id, language, timestamps, completion flag |
-| `Demography` | audio ratings, D-index, GAAIS items + subscales (pos/neg), proxy items (P1–P6: P1–P5 Likert 1–5, P6 numeric 1–5 rescaled from the AI-tools acceptance count, with `proxy_p6_raw` holding the comma-separated granular selection), churn intent, switching_past, switching_reason, DSP platform, tier (derived from dsp_user), demographics |
+| `Respondents` | respondent_id, language, `utm_source` (URL traffic-source tag, default `direct`), timestamps, completion flag (only completed sessions). |
+| `Demography` | audio ratings + types + `audio_clip<i>_play_count` (number of times the user clicked play on each clip; detects unreliable D-index ratings from respondents who never listened), D-index, GAAIS items + subscales (pos/neg), proxy items (P1–P6: P1–P5 Likert 1–5, P6 numeric 1–5 rescaled from the AI-tools acceptance count, with `proxy_p6_raw` holding the comma-separated granular selection), churn intent, switching_past, switching_reason, DSP platform, tier (derived from dsp_user), demographics |
 | `Survey_Answers` | choice_1 … choice_12 |
 | `Choices` | long format — one row per alternative per task (a1_labeling, a2_promotion, a3_control, a4_price) |
-| `Funnel` | one row per navigation event — step-by-step dropout tracking (event, detail, timestamp, `duration_sec` = seconds spent in the section that just ended, computed against the previous event for the same respondent) |
-| `Partial` | three intermediate snapshots for abandonment recovery: **post-CBC** (GAAIS + CBC choices; audio not yet collected), **post-audio** (+ audio ratings + D-index; proxy empty), **post-proxy** (all except demographics). Analysis rule: `slice_max(ts)` per `respondent_id` |
+| `Funnel` | one row per navigation event — step-by-step dropout tracking. Every session logs a `session_start` event immediately on app load, then one event per completed section (`consent_ok`, `gaais_done`, `framing_ok`, `cbc_half` at task 6/12, `cbc_done` at task 12/12, `audio_done`, `proxy_done`, `completed`). The `cbc_half` checkpoint enables detection of straightlining or speeding in the second half of the CBC by comparing `duration_sec` of `cbc_half` (tasks 1–6) vs `cbc_done` (tasks 7–12). Sessions with `session_start` but no `completed` are dropouts; the last logged event identifies the section that was *not* completed. Columns: respondent_id, lang, `utm_source`, event, detail, ts, `duration_sec` (seconds spent in the section that just ended, computed against the previous event for the same respondent; for `session_start`, equals 0 by convention). |
+| `Partial` | three intermediate snapshots for abandonment recovery: **post-CBC** (GAAIS + CBC choices; audio not yet collected), **post-audio** (+ audio ratings + types + play_counts + D-index; proxy empty), **post-proxy** (all except demographics). Analysis rule: `slice_max(ts)` per `respondent_id` |
+| `Feedback` | optional free-text comments submitted from the thank-you page (respondent_id, lang, utm_source, ts, feedback_text). One row per submission; cap 2000 chars |
 
 **DSP usage variables**: `dsp_user` distinguishes paid subscribers (`yes`), free-tier users (`yes_free`), and non-users (`no`). `dsp_tier` (`paid`/`free`) is derived server-side from `dsp_user` — not collected as a separate question. `switching_past`, `switching_reason`, `churn_intent` are collected conditionally on `dsp_user ∈ {yes, yes_free}`.
 

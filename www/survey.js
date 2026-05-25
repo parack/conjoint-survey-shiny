@@ -207,6 +207,22 @@ $(document).on('change', 'input[name="dsp_user"]', function() {
   _persist({answers: s.answers});
 });
 
+// ── Audio play tracking: increment play_count when user starts a clip ──────
+// Uses {priority:'event'} so every play retriggers the Shiny observer, even on
+// repeat play of the same clip. The server accumulates per-clip counts.
+document.addEventListener('play', function(e) {
+  var t = e.target;
+  if (!t || !t.tagName || t.tagName.toLowerCase() !== 'audio') return;
+  var m = (t.id || '').match(/^audio_player_(\d+)$/);
+  if (!m) return;
+  var idx = parseInt(m[1], 10);
+  if (window.Shiny && Shiny.setInputValue) {
+    Shiny.setInputValue('audio_play_event',
+                        {idx: idx, ts: Date.now()},
+                        {priority: 'event'});
+  }
+}, true);  // capture phase so events from inside Shiny <audio> are caught
+
 // ── AI tools checkbox (P6): toggle item-answered class based on any selection ─
 $(document).on('change', '.ai-tools-check input[type="checkbox"]', function() {
   var item = $(this).closest('.gaais-item');

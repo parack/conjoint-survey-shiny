@@ -1067,6 +1067,36 @@ input[type="checkbox"]{ accent-color: #2563eb !important; }
   margin: 1rem 0;
   text-align: left;
 }
+
+/* ── Feedback section (thank-you page) ──────────────────────────────────── */
+.feedback-section {
+  background: #f8f9fa;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin: 1rem 0;
+  text-align: left;
+}
+.feedback-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+.feedback-textarea {
+  font-size: 0.92rem;
+  resize: vertical;
+}
+.feedback-btn-row {
+  text-align: right;
+}
+.feedback-confirmation {
+  color: #166534;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 0.65rem;
+  text-align: center;
+}
 .share-title {
   font-size: 0.95rem;
   font-weight: 600;

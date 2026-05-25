@@ -116,8 +116,8 @@ ui <- function(request) {
       tags$title("AI Music Governance — CBC Survey"),
       tags$link(rel = "icon", type = "image/png", href = "favicon.png"),
       tags$link(rel = "shortcut icon", href = "favicon.png"),
-      tags$link(rel = "stylesheet", href = "style.css?v=33"),
-      tags$script(src = "survey.js?v=5")
+      tags$link(rel = "stylesheet", href = "style.css?v=34"),
+      tags$script(src = "survey.js?v=6")
     ),
 
     # ── Progress bar ──────────────────────────────────────────────────────────
@@ -383,7 +383,7 @@ ui <- function(request) {
           div(class = "share-url-row",
             tags$input(type = "text", id = "share_url_box", readOnly = TRUE,
                        class = "form-control form-control-sm share-url-input",
-                       value = "https://parlor.shinyapps.io/AI_music_governance_cbc_survey/"),
+                       value = "https://parlor.shinyapps.io/AI_music_governance_cbc_survey/?utm_source=share_link"),
             tags$button(type = "button", id = "btn_copy_link",
                         class = "btn btn-outline-secondary btn-sm share-copy-btn",
                         onclick = "copySurveyLink(this)",
@@ -393,13 +393,31 @@ ui <- function(request) {
           ),
           div(class = "share-btn-row mt-2",
             tags$a(class = "btn btn-share-wa btn-sm",
-                   href = "https://api.whatsapp.com/send?text=https%3A%2F%2Fparlor.shinyapps.io%2FAI_music_governance_cbc_survey%2F",
+                   href = "https://api.whatsapp.com/send?text=https%3A%2F%2Fparlor.shinyapps.io%2FAI_music_governance_cbc_survey%2F%3Futm_source%3Dshare_wa",
                    target = "_blank", rel = "noopener",
                    icon("whatsapp"), " ", tr$ty_share_wa),
             tags$a(class = "btn btn-share-email btn-sm",
-                   href = paste0("mailto:?body=https%3A%2F%2Fparlor.shinyapps.io%2FAI_music_governance_cbc_survey%2F"),
+                   href = paste0("mailto:?body=https%3A%2F%2Fparlor.shinyapps.io%2FAI_music_governance_cbc_survey%2F%3Futm_source%3Dshare_email"),
                    icon("envelope"), " ", tr$ty_share_email)
           )
+        ),
+
+        # ── Feedback section ────────────────────────────────────────────────
+        div(class = "feedback-section mt-3",
+          h6(class = "feedback-title", icon("comment-dots"), " ", tr$feedback_h),
+          tags$textarea(id = "feedback_text",
+                        class = "form-control feedback-textarea",
+                        rows = 3,
+                        placeholder = tr$feedback_placeholder),
+          div(class = "feedback-btn-row mt-2",
+            actionButton("btn_feedback_send", tr$feedback_btn,
+                         class = "btn btn-primary btn-sm",
+                         icon = icon("paper-plane"))
+          ),
+          div(id = "feedback_confirmation",
+              class = "feedback-confirmation",
+              style = "display:none;",
+              icon("check"), " ", tr$feedback_sent)
         ),
 
         p(class = "small mt-3", style = "color:#2563eb;", tr$ty_close),

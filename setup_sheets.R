@@ -10,6 +10,7 @@ headers <- list(
   Respondents = data.frame(
     respondent_id      = character(),
     lang               = character(),
+    utm_source         = character(),
     timestamp_start    = character(),
     timestamp_complete = character(),
     completed          = character(),
@@ -33,27 +34,44 @@ headers <- list(
   ),
 
   Demography = {
-    audio_cols    <- paste0(rep(c("audio_clip","audio_clip"), each=4), 1:4,
-                            rep(c("_rating","_type"), each=4))
+    audio_cols    <- c(
+      paste0("audio_clip", 1:4, "_rating"),
+      paste0("audio_clip", 1:4, "_type"),
+      paste0("audio_clip", 1:4, "_play_count")
+    )
     gaais_cols    <- paste0("gaais_", GAAIS_ITEMS$code)
     proxy_cols    <- PROXY_ITEMS$code   # proxy_p1 … proxy_p6
+    proxy6_cols   <- c("proxy_p6","proxy_p6_raw")
     other_cols    <- c("churn_intent","switching_past","switching_reason",
-                       "proxy_p6","proxy_p6_raw",
                        "dsp_user","dsp_current","dsp_tier",
                        "age","gender","role","country")
     all_cols      <- c("respondent_id", "lang", audio_cols, "d_index",
                        gaais_cols, "gaais_pos","gaais_neg",
-                       proxy_cols, other_cols)
+                       proxy_cols, proxy6_cols, other_cols)
     setNames(as.data.frame(matrix(character(0), ncol = length(all_cols))), all_cols)
   },
 
+  # ── Feedback: free-text comments left by respondents on the thank-you page ──
+  Feedback = data.frame(
+    respondent_id = character(),
+    lang          = character(),
+    utm_source    = character(),
+    ts            = character(),
+    feedback_text = character(),
+    stringsAsFactors = FALSE
+  ),
+
   # ── Funnel: one row per navigation event (step-by-step dropout tracking) ──
+  # The very first event of every session is `session_start`, logged immediately
+  # at app load. Dropouts are detectable as session_start without a subsequent
+  # `completed` event. utm_source carries the URL traffic-source tag.
   # duration_sec = seconds spent in the section that just ended (= time since
   # the previous funnel event for the same respondent, or since session start
   # for the first event).
   Funnel = data.frame(
     respondent_id = character(),
     lang          = character(),
+    utm_source    = character(),
     event         = character(),
     detail        = character(),
     ts            = character(),
@@ -64,16 +82,17 @@ headers <- list(
   # ── Partial: snapshot after proxy section (survives abandonment at demo) ──
   Partial = {
     audio_cols  <- c(paste0("audio_clip", 1:4, "_rating"),
-                     paste0("audio_clip", 1:4, "_type"))
+                     paste0("audio_clip", 1:4, "_type"),
+                     paste0("audio_clip", 1:4, "_play_count"))
     gaais_cols  <- paste0("gaais_", GAAIS_ITEMS$code)
     proxy_cols  <- PROXY_ITEMS$code
     choice_cols <- paste0("choice_", seq_len(N_TASKS))
+    proxy6_cols <- c("proxy_p6","proxy_p6_raw")
     dsp_cols    <- c("churn_intent","switching_past","switching_reason",
-                     "proxy_p6","proxy_p6_raw",
                      "dsp_user","dsp_current","dsp_tier")
     all_cols    <- c("respondent_id","lang","ts",
                      audio_cols, "d_index","gaais_pos","gaais_neg",
-                     gaais_cols, proxy_cols, choice_cols, dsp_cols)
+                     gaais_cols, proxy_cols, proxy6_cols, choice_cols, dsp_cols)
     setNames(as.data.frame(matrix(character(0), ncol = length(all_cols))), all_cols)
   }
 )
