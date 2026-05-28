@@ -21,10 +21,15 @@ ui <- function(request) {
   }
 
   # ── selectInput helper with leading placeholder ────────────────────────────
-  sel <- function(inputId, label, opts, selected = "") {
+  # searchable = FALSE (default) → native <select> picker on mobile (no virtual
+  # keyboard, native OS wheel/sheet picker). Suitable for short option lists.
+  # searchable = TRUE → selectize.js with type-ahead search (useful when the
+  # option list is long, e.g. country with ~200 entries).
+  sel <- function(inputId, label, opts, selected = "", searchable = FALSE) {
     selectInput(inputId, label,
       choices  = c(setNames("", tr$sel_placeholder), opts),
-      selected = selected)
+      selected = selected,
+      selectize = searchable)
   }
 
   # ── Pre-compute conditional pages (avoids if/else inside page_fluid args) ──
@@ -119,24 +124,29 @@ ui <- function(request) {
 
       # ── Open Graph (WhatsApp / Telegram / Facebook / LinkedIn previews) ──
       tags$meta(property = "og:type",        content = "website"),
+      tags$meta(property = "og:site_name",   content = "AI Music Governance Survey"),
       tags$meta(property = "og:url",         content = "https://parlor.shinyapps.io/AI_music_governance_cbc_survey/"),
-      tags$meta(property = "og:title",       content = "AI nello streaming musicale: la sua opinione conta"),
-      tags$meta(property = "og:description", content = "Sondaggio anonimo (~10 min) — tesi UniTrento sull'AI nello streaming."),
-      tags$meta(property = "og:image",       content = "https://parlor.shinyapps.io/AI_music_governance_cbc_survey/preview.png?v=1"),
+      tags$meta(property = "og:title",       content = "AI music in streaming: what would you prefer?"),
+      tags$meta(property = "og:description", content = "Anonymous survey (~10 min) — master's thesis, University of Trento."),
+      tags$meta(property = "og:image",            content = "https://raw.githubusercontent.com/parack/ai-music-governance-cbc/main/www/preview.png"),
+      tags$meta(property = "og:image:secure_url", content = "https://raw.githubusercontent.com/parack/ai-music-governance-cbc/main/www/preview.png"),
+      tags$meta(property = "og:image:type",   content = "image/png"),
       tags$meta(property = "og:image:width",  content = "1200"),
       tags$meta(property = "og:image:height", content = "630"),
-      tags$meta(property = "og:locale",      content = "it_IT"),
-      tags$meta(property = "og:locale:alternate", content = "en_US"),
+      tags$meta(property = "og:image:alt",    content = "AI in music streaming — anonymous research survey, University of Trento"),
+      tags$meta(property = "og:locale",      content = "en_US"),
+      tags$meta(property = "og:locale:alternate", content = "it_IT"),
       tags$meta(property = "og:locale:alternate", content = "fr_FR"),
 
       # ── Twitter Card (X, alcuni client di chat) ───────────────────────────
       tags$meta(name = "twitter:card",        content = "summary_large_image"),
-      tags$meta(name = "twitter:title",       content = "AI nello streaming musicale: la sua opinione conta"),
-      tags$meta(name = "twitter:description", content = "Sondaggio anonimo (~10 min) — tesi UniTrento sull'AI nello streaming."),
-      tags$meta(name = "twitter:image",       content = "https://parlor.shinyapps.io/AI_music_governance_cbc_survey/preview.png?v=1"),
+      tags$meta(name = "twitter:title",       content = "AI music in streaming: what would you prefer?"),
+      tags$meta(name = "twitter:description", content = "Anonymous survey (~10 min) — master's thesis, University of Trento."),
+      tags$meta(name = "twitter:image",       content = "https://raw.githubusercontent.com/parack/ai-music-governance-cbc/main/www/preview.png"),
+      tags$meta(name = "twitter:image:alt",   content = "AI in music streaming — anonymous research survey, University of Trento"),
 
       tags$link(rel = "stylesheet", href = "style.css?v=37"),
-      tags$script(src = "survey.js?v=8")
+      tags$script(src = "survey.js?v=10")
     ),
 
     # ── Progress bar ──────────────────────────────────────────────────────────
@@ -390,7 +400,7 @@ ui <- function(request) {
           column(6, sel("demo_gender", tr$gender_lbl, tr$gender_opts))
         ),
         fluidRow(
-          column(6, sel("demo_country", tr$country_lbl, tr$country_opts)),
+          column(6, sel("demo_country", tr$country_lbl, tr$country_opts, searchable = TRUE)),
           column(6, sel("demo_role",    tr$role_lbl,    tr$role_opts))
         ),
         div(class = "submit-section mt-3",
